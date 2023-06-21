@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.26)
+set(SG_PROJECT_NAME "Shooter Game")
+set(SG_BINARY_NAME "shooter_game")
+set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
+set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+project(${SG_PROJECT_NAME})
+
+file(GLOB_RECURSE CPP_FILES "${SOURCE_DIR}/*.cpp")
+add_executable(${SG_BINARY_NAME} ${CPP_FILES} include/TestClass.cpp include/TestClass.h)
+target_include_directories(${SG_BINARY_NAME} PRIVATE ${INCLUDE_DIR})
+add_subdirectory(${INCLUDE_DIR})
