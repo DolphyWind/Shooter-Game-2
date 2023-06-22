@@ -3,7 +3,6 @@
 #include <iostream>
 #include <box2d/box2d.h>
 #include <fmt/format.h>
-#include <clip.h>
 
 int main()
 {
