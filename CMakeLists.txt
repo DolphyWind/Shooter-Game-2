@@ -11,21 +11,21 @@ project(${SG_PROJECT_NAME})
 file(GLOB_RECURSE CPP_FILES "${SOURCE_DIR}/*.cpp")
 add_executable(${SG_BINARY_NAME} ${CPP_FILES})
 
+include(FetchContent)
+set(BUILD_SHARED_LIBS OFF)
 # Fetch and configure SFML
 FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG        2.5.1
 )
-FetchContent_MakeAvailable(SFML)
-
 # Fetch and configure SFML dependencies
 FetchContent_GetProperties(SFML)
 if(NOT SFML_POPULATED)
     FetchContent_Populate(SFML)
     add_subdirectory(${sfml_SOURCE_DIR} ${sfml_BINARY_DIR})
 endif()
-
+FetchContent_MakeAvailable(SFML)
 
 target_include_directories(${SG_BINARY_NAME} PRIVATE ${INCLUDE_DIR})
 target_include_directories(${SG_BINARY_NAME} PRIVATE ${SOURCE_DIR})
