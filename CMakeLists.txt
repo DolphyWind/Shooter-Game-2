@@ -5,6 +5,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+
+project(${SG_PROJECT_NAME})
+
+file(GLOB_RECURSE CPP_FILES "${SOURCE_DIR}/*.cpp")
+add_executable(${SG_BINARY_NAME} ${CPP_FILES})
+
 include(FetchContent)
 
 set(BUILD_SHARED_LIBS OFF)
@@ -22,13 +28,26 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(TGUI)
 
-project(${SG_PROJECT_NAME})
+FETCHCONTENT_DECLARE(
+        CLIP
+        GIT_REPOSITORY https://github.com/dacap/clip.git
+        GIT_TAG v1.5
+)
+FETCHCONTENT_MAKEAVAILABLE(CLIP)
 
-file(GLOB_RECURSE CPP_FILES "${SOURCE_DIR}/*.cpp")
-add_executable(${SG_BINARY_NAME} ${CPP_FILES})
-add_subdirectory(${INCLUDE_DIR})
+FETCHCONTENT_DECLARE(
+        BOX2D
+        GIT_REPOSITORY https://github.com/erincatto/box2d
+        GIT_TAG v2.4.1
+)
+FETCHCONTENT_MAKEAVAILABLE(BOX2D)
+
 target_include_directories(${SG_BINARY_NAME} PRIVATE ${INCLUDE_DIR})
 target_include_directories(${SG_BINARY_NAME} PRIVATE ${SOURCE_DIR})
 
+
 target_link_libraries(${SG_BINARY_NAME} PRIVATE sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 target_link_libraries(${SG_BINARY_NAME} PRIVATE tgui)
+# target_link_libraries(${SG_BINARY_NAME} PRIVATE ${Boost_LIBRARIES})
+#target_link_libraries(${SG_BINARY_NAME} PRIVATE thor)
+target_link_libraries(${SG_BINARY_NAME} PRIVATE fmt::fmt)
