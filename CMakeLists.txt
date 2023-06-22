@@ -11,52 +11,27 @@ project(${SG_PROJECT_NAME})
 file(GLOB_RECURSE CPP_FILES "${SOURCE_DIR}/*.cpp")
 add_executable(${SG_BINARY_NAME} ${CPP_FILES})
 
-include(FetchContent)
-
-set(BUILD_SHARED_LIBS OFF)
-# FetchContent_Declare(
-#         SFML
-#         GIT_REPOSITORY https://github.com/SFML/SFML.git
-#         GIT_TAG 2.5.1
-# )
-# FetchContent_MakeAvailable(SFML)
-
-# FetchContent_Declare(
-#         TGUI
-#         GIT_REPOSITORY https://github.com/texus/TGUI.git
-#         GIT_TAG 0.9
-# )
-FetchContent_MakeAvailable(FMT)
-
-FETCHCONTENT_DECLARE(
-        FMT
-        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-        GIT_TAG 10.0.0
+# Fetch and configure SFML
+FetchContent_Declare(
+    SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG        2.5.1
 )
-FETCHCONTENT_MAKEAVAILABLE(FMT)
+FetchContent_MakeAvailable(SFML)
 
-FetchContent_MakeAvailable(TGUI)
+# Fetch and configure SFML dependencies
+FetchContent_GetProperties(SFML)
+if(NOT SFML_POPULATED)
+    FetchContent_Populate(SFML)
+    add_subdirectory(${sfml_SOURCE_DIR} ${sfml_BINARY_DIR})
+endif()
 
-FETCHCONTENT_DECLARE(
-        CLIP
-        GIT_REPOSITORY https://github.com/dacap/clip.git
-        GIT_TAG v1.5
-)
-FETCHCONTENT_MAKEAVAILABLE(CLIP)
-
-# FETCHCONTENT_DECLARE(
-#         BOX2D
-#         GIT_REPOSITORY https://github.com/erincatto/box2d
-#         GIT_TAG v2.4.1
-# )
-# FETCHCONTENT_MAKEAVAILABLE(BOX2D)
 
 target_include_directories(${SG_BINARY_NAME} PRIVATE ${INCLUDE_DIR})
 target_include_directories(${SG_BINARY_NAME} PRIVATE ${SOURCE_DIR})
 
-
-# target_link_libraries(${SG_BINARY_NAME} PRIVATE sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
+target_link_libraries(${SG_BINARY_NAME} PRIVATE sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
 # target_link_libraries(${SG_BINARY_NAME} PRIVATE tgui)
 # target_link_libraries(${SG_BINARY_NAME} PRIVATE ${Boost_LIBRARIES})
-#target_link_libraries(${SG_BINARY_NAME} PRIVATE thor)
-target_link_libraries(${SG_BINARY_NAME} PRIVATE fmt::fmt)
+# target_link_libraries(${SG_BINARY_NAME} PRIVATE thor)
+# target_link_libraries(${SG_BINARY_NAME} PRIVATE fmt::fmt)
