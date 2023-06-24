@@ -8,30 +8,17 @@ set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
 project(${SG_PROJECT_NAME})
 
+include(FetchContent)
+set(BUILD_SHARED_LIBS OFF)
+FetchContent_Declare(
+ SFML
+ GIT_REPOSITORY https://github.com/SFML/SFML.git
+ GIT_TAG 2.5.1
+)
+FetchContent_MakeAvailable(SFML)
+
 file(GLOB_RECURSE CPP_FILES "${SOURCE_DIR}/*.cpp")
 add_executable(${SG_BINARY_NAME} ${CPP_FILES})
 
-include(FetchContent)
-set(BUILD_SHARED_LIBS OFF)
-# Fetch and configure SFML
-FetchContent_Declare(
-    SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG        2.5.1
-)
-# Fetch and configure SFML dependencies
-FetchContent_GetProperties(SFML)
-if(NOT SFML_POPULATED)
-    FetchContent_Populate(SFML)
-    add_subdirectory(${sfml_SOURCE_DIR} ${sfml_BINARY_DIR})
-endif()
-FetchContent_MakeAvailable(SFML)
-
 target_include_directories(${SG_BINARY_NAME} PRIVATE ${INCLUDE_DIR})
-target_include_directories(${SG_BINARY_NAME} PRIVATE ${SOURCE_DIR})
-
-target_link_libraries(${SG_BINARY_NAME} PRIVATE sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
-# target_link_libraries(${SG_BINARY_NAME} PRIVATE tgui)
-# target_link_libraries(${SG_BINARY_NAME} PRIVATE ${Boost_LIBRARIES})
-# target_link_libraries(${SG_BINARY_NAME} PRIVATE thor)
-# target_link_libraries(${SG_BINARY_NAME} PRIVATE fmt::fmt)
+target_link_libraries(${SG_BINARY_NAME} sfml-graphics sfml-system sfml-audio sfml-window sfml-network)
