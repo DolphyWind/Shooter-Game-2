@@ -3,9 +3,10 @@
 #include <fmt/core.h>
 #include <clip/clip.h>
 #include <pprint/pprint.hpp>
+#include <box2d/box2d.h>
 #include <iostream>
 
-int main()
+int main(int argc, char** argv)
 {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     tgui::GuiSFML gui(window);
