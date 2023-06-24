@@ -22,9 +22,9 @@ jobs:
       with:
         submodules: recursive
     - name: Install boost
-    uses: MarkusJx/install-boost@v2.4.1
-    id: install-boost
-    with:
+      uses: MarkusJx/install-boost@v2.4.1
+      id: install-boost
+      with:
         boost_version: 1.81.0
     - name: Install libraries
       run: sudo apt-get update && sudo apt-get install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev

@@ -6,11 +6,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 project(${SG_PROJECT_NAME})
 
 include(FetchContent)
-# set(FETCHCONTENT_QUIET FALSE)
+set(FETCHCONTENT_QUIET FALSE)
 set(BUILD_SHARED_LIBS OFF)
 
 function(fetch_library library_name repo_url git_tag)
@@ -28,6 +29,8 @@ fetch_library(SFML https://github.com/SFML/SFML.git 2.5.1)
 fetch_library(TGUI https://github.com/texus/TGUI.git 0.9)
 fetch_library(FMT https://github.com/fmtlib/fmt.git a0b8a92e3d1532361c2f7feb63babc5c18d00ef2)
 fetch_library(BOX2D https://github.com/erincatto/box2d.git 411acc32eb6d4f2e96fc70ddbdf01fe5f9b16230)
+fetch_library(THOR https://github.com/Bromeon/Thor.git 3e320cb52606f0b44fd9d2bb272b3cb6d01d7f20)
+fetch_library(IMGUI https://github.com/ocornut/imgui.git 5319d1cffafd5045c4742892c38c9e5cfa23d195)
 find_package(Boost REQUIRED)
 # FetchContent_Declare(
 #     boost
@@ -49,3 +52,4 @@ target_link_libraries(${SG_BINARY_NAME} tgui)
 target_link_libraries(${SG_BINARY_NAME} fmt)
 target_link_libraries(${SG_BINARY_NAME} clip)
 target_link_libraries(${SG_BINARY_NAME} box2d)
+target_link_libraries(${SG_BINARY_NAME} thor)
