@@ -9,6 +9,9 @@
 
 int main(int argc, char** argv)
 {
+    CURL* curl = NULL;
+    curl = curl_easy_init();
+    curl_easy_cleanup(curl);
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     tgui::GuiSFML gui(window);
     tgui::Button::Ptr testButton = tgui::Button::create("Click Me!");
