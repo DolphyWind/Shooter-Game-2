@@ -5,6 +5,7 @@
 #include <pprint/pprint.hpp>
 #include <box2d/box2d.h>
 #include <iostream>
+#include <curl/curl.h>
 
 int main(int argc, char** argv)
 {
