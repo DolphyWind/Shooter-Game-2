@@ -28,6 +28,7 @@ int main(int argc, char** argv)
                 window.close();
             }
         });
+        messageBox->setPosition("(parent.width - width) / 2", "(parent.height - height) / 2");
 
         gui.add(messageBox);
         pressed = true;

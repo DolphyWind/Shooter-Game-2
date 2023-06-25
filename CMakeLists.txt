@@ -27,7 +27,7 @@ function(fetch_library library_name repo_url git_tag)
 endfunction(fetch_library)
 
 fetch_library(SFML https://github.com/SFML/SFML.git 2.5.1)
-set(SFML_DIR ${SFML_BINARY_DIR})
+#set(SFML_DIR ${SFML_SOURCE_DIR})
 
 fetch_library(TGUI https://github.com/texus/TGUI.git 0.9)
 fetch_library(FMT https://github.com/fmtlib/fmt.git a0b8a92e3d1532361c2f7feb63babc5c18d00ef2)
