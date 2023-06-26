@@ -7,6 +7,7 @@
 #include <iostream>
 #include <curl/curl.h>
 #include <SQLiteCpp/SQLiteCpp.h>
+#include <effolkronium/random.hpp>
 
 int main(int argc, char** argv)
 {
