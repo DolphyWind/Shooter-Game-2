@@ -28,7 +28,7 @@ jobs:
       id: cache-restore
       uses: actions/cache/restore@v3
       with:
-        path: ${GITHUB_WORKSPACE}/build/_deps/
+        path: ${{ github.workspace }}/build/_deps/
         key: ${{ runner.os }}
 
     - name: Configure CMake
@@ -44,7 +44,7 @@ jobs:
       id: cache-deps
       uses: actions/cache/save@v3
       with:
-        path: ${GITHUB_WORKSPACE}/build/_deps/
+        path: ${{ github.workspace }}/build/_deps/
         key: ${{ steps.cache-restore.outputs.cache-primary-key }}
 
     - name: Test
