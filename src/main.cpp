@@ -9,11 +9,16 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <effolkronium/random.hpp>
 
+using Random = effolkronium::random_static;
+
 int main(int argc, char** argv)
 {
     CURL* curl = NULL;
     curl = curl_easy_init();
     curl_easy_cleanup(curl);
+
+    std::cout << Random::get<Random::common>(std::unordered_map<std::string, int>{{"A", 1}, {"B", 2}})->first << std::endl;
+
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     tgui::GuiSFML gui(window);
     tgui::Button::Ptr testButton = tgui::Button::create("Click Me!");
