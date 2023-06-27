@@ -30,6 +30,8 @@ jobs:
       with:
         path: ${{ github.workspace }}/build/_deps/
         key: ${{ runner.os }}-${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -46,7 +48,6 @@ jobs:
       with:
         path: ${{ github.workspace }}/build/_deps/
         key: ${{ steps.cache-restore.outputs.cache-primary-key }}
-        restore-keys: ${{ runner.os }}
 
     - name: Test
       working-directory: ${{github.workspace}}/build
