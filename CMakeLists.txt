@@ -18,23 +18,34 @@ set(BUILD_CURL_EXE OFF)
 
 function(fetch_library library_name repo_url git_tag)
     FetchContent_Declare(
-    ${library_name}
-    GIT_REPOSITORY ${repo_url}
-    GIT_TAG ${git_tag}
-    GIT_PROGRESS TRUE
-    USES_TERMINAL_DOWNLOAD TRUE
-   )
-   FetchContent_MakeAvailable(${library_name})
+        ${library_name}
+        GIT_REPOSITORY ${repo_url}
+        GIT_TAG ${git_tag}
+        GIT_PROGRESS TRUE
+        USES_TERMINAL_DOWNLOAD TRUE
+    )
+
+    set(IMGUI_SFML_FIND_SFML OFF)
+    set(THOR_SHARED_LIBS OFF)
+    FetchContent_MakeAvailable(${library_name})
 endfunction(fetch_library)
 
+set(IMGUI_DIR ${INCLUDE_DIR}/imgui)
+
+
 fetch_library(SFML https://github.com/SFML/SFML.git 2.5.1)
+set(SFML_DIR ${SFML_BINARY_DIR})
+set(SFML_STATIC_LIBRARIES TRUE)
+
 fetch_library(TGUI https://github.com/texus/TGUI.git 0.9)
 fetch_library(FMT https://github.com/fmtlib/fmt.git a0b8a92e3d1532361c2f7feb63babc5c18d00ef2)
 fetch_library(BOX2D https://github.com/erincatto/box2d.git 411acc32eb6d4f2e96fc70ddbdf01fe5f9b16230)
 fetch_library(SQLITECPP https://github.com/SRombauts/SQLiteCpp.git 4cb0bf68b75b2f8b749ec5dc77f152f8aa62ec0e)
+fetch_library(IMGUISFML https://github.com/SFML/imgui-sfml.git 15753d56403a7aeb1cae12fd930cfb1d2eac5e74)
+fetch_library(THOR https://github.com/Bromeon/Thor 3e320cb52606f0b44fd9d2bb272b3cb6d01d7f20)
+fetch_library(SFEX https://github.com/DolphyWind/SFML-Extended 525cdfc6f8e41dd29e5e715040b98278505bdec9)
 
 # set(IMGUI_DIR ${INCLUDE_DIR}/imgui)
-# fetch_library(IMGUISFML https://github.com/SFML/imgui-sfml.git 15753d56403a7aeb1cae12fd930cfb1d2eac5e74)
 find_package(Boost REQUIRED)
 find_package(CURL REQUIRED)
 
@@ -57,6 +68,9 @@ add_dependencies(${SG_BINARY_NAME} glfw)
 add_dependencies(${SG_BINARY_NAME} imgui)
 add_dependencies(${SG_BINARY_NAME} sajson)
 add_dependencies(${SG_BINARY_NAME} SQLiteCpp)
+add_dependencies(${SG_BINARY_NAME} ImGui-SFML)
+add_dependencies(${SG_BINARY_NAME} SFEX)
+add_dependencies(${SG_BINARY_NAME} thor)
 
 include_directories(${SG_BINARY_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 include_directories(${SG_BINARY_NAME} PRIVATE ${CURL_SOURCE_DIR}/include)
@@ -68,3 +82,6 @@ target_link_libraries(${SG_BINARY_NAME} clip)
 target_link_libraries(${SG_BINARY_NAME} box2d)
 target_link_libraries(${SG_BINARY_NAME} curl)
 target_link_libraries(${SG_BINARY_NAME} SQLiteCpp)
+target_link_libraries(${SG_BINARY_NAME} ImGui-SFML)
+target_link_libraries(${SG_BINARY_NAME} SFEX)
+target_link_libraries(${SG_BINARY_NAME} thor)
