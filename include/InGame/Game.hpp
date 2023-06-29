@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFEX/SFEX.hpp>
+#include <InGame/Scenes/MainMenuScene.hpp>
 
 namespace sg
 {
@@ -15,7 +16,10 @@ private:
 
     const sfex::Vec2 m_windowSize;
     const std::string m_windowTitle;
+    float m_deltaTime;
     
+    sfex::SceneManager m_defaultSceneManager;
+    ExtendedScene* m_currentScene;
 
 public:
     Game();
@@ -27,8 +31,14 @@ public:
     void render();
     void run();
 
+    void switchScene(const std::string& sceneName);
+
     void setMaxFPS(sf::Uint16 maxFPS);
-    sf::Uint16 getMaxFPS();
+    sf::Uint16 getMaxFPS() const;
+
+    sf::RenderWindow& getRenderWindow();
+    float getDeltaTime() const;
+    ExtendedScene* getCurrentScene() const;
 };
 
 
