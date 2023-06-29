@@ -1,3 +1,1 @@
-set(CLIP_EXAMPLES OFF CACHE BOOL INTERNAL)
-set(CLIP_TESTS OFF CACHE BOOL INTERNAL)
-add_subdirectory(clip)
+add_subdirectory(thirdparty)

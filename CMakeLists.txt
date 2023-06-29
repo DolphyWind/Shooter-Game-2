@@ -30,7 +30,7 @@ function(fetch_library library_name repo_url git_tag)
     FetchContent_MakeAvailable(${library_name})
 endfunction(fetch_library)
 
-set(IMGUI_DIR ${INCLUDE_DIR}/imgui)
+set(IMGUI_DIR ${INCLUDE_DIR}/thirdparty/imgui)
 
 
 fetch_library(SFML https://github.com/SFML/SFML.git 2.5.1)
