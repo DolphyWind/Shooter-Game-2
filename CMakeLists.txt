@@ -16,6 +16,8 @@ set(FETCHCONTENT_QUIET FALSE)
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_CURL_EXE OFF)
 
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
+
 function(fetch_library library_name repo_url git_tag)
     FetchContent_Declare(
         ${library_name}

@@ -16,6 +16,7 @@ private:
 
     const sfex::Vec2 m_windowSize;
     const std::string m_windowTitle;
+    const sfex::Vec2u m_minWindowSize;
     float m_deltaTime;
     
     sfex::SceneManager m_defaultSceneManager;
@@ -39,6 +40,7 @@ public:
     sf::RenderWindow& getRenderWindow();
     float getDeltaTime() const;
     ExtendedScene* getCurrentScene() const;
+    const std::string& getWindowTitle() const;
 };
 
 

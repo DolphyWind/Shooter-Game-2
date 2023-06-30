@@ -5,7 +5,8 @@ namespace sg
 
 
 Game::Game():
-    m_FPS(0), m_windowSize(1280, 720), m_windowTitle("Shooter Game 2"), m_currentScene(nullptr)
+    m_FPS(0), m_windowSize(1280, 720), m_windowTitle("Shooter Game 2"), m_currentScene(nullptr),
+    m_minWindowSize(575, 775)
 {
     m_window.create(sf::VideoMode(m_windowSize.x, m_windowSize.y), m_windowTitle);
     m_defaultSceneManager.insert({"main_menu", std::make_shared<MainMenuScene>(this)});
@@ -28,6 +29,11 @@ void Game::handleEvents()
         else if(m_event.type == sf::Event::Resized)
         {
             sfex::Vec2 newSize = {m_event.size.width, m_event.size.height};
+            // if(newSize.x < m_minWindowSize.x) newSize.x = m_minWindowSize.x;
+            // if(newSize.y < m_minWindowSize.y) newSize.y = m_minWindowSize.y;
+            
+            // m_window.setSize(newSize);
+
             const sf::View& currentView = m_window.getView();
             m_window.setView(sf::View(currentView.getCenter(), newSize));
         }
@@ -47,7 +53,7 @@ void Game::lateUpdate(float deltaTime)
 
 void Game::render()
 {
-    m_window.clear();
+    m_window.clear(getCurrentScene()->getBackgroundColor());
     m_defaultSceneManager.draw(getRenderWindow());
     m_window.display();
 }
@@ -122,6 +128,11 @@ float Game::getDeltaTime() const
 ExtendedScene* Game::getCurrentScene() const
 {
     return m_currentScene;
+}
+
+const std::string& Game::getWindowTitle() const
+{
+    return m_windowTitle;
 }
 
 

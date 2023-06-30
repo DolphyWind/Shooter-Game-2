@@ -8,6 +8,7 @@ namespace sg
 class ExtendedScene : public sfex::Scene
 {
 private:
+    sfex::Color m_backgroundColor;
 public:
 
     virtual void pollEvent(const sf::Event &e);
@@ -18,6 +19,9 @@ public:
 
     virtual void draw(sf::RenderTarget &target);
     virtual void destroy();
+
+    void setBackgroundColor(const sfex::Color& color);
+    sfex::Color getBackgroundColor();
 };
 
 

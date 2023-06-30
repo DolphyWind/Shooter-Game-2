@@ -35,5 +35,15 @@ void ExtendedScene::destroy()
     sfex::Scene::destroy();
 }
 
+void ExtendedScene::setBackgroundColor(const sfex::Color& color)
+{
+    m_backgroundColor = color;
+}
+
+sfex::Color ExtendedScene::getBackgroundColor()
+{
+    return m_backgroundColor;
+}
+
 
 }
