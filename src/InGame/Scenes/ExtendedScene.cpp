@@ -1,8 +1,13 @@
 #include <InGame/Scenes/ExtendedScene.hpp>
+#include <InGame/Game.hpp>
 
 namespace sg
 {
 
+ExtendedScene::ExtendedScene(Game* parent)
+{
+    m_parent = parent;
+}
 
 void ExtendedScene::pollEvent(const sf::Event& e)
 {
@@ -43,6 +48,11 @@ void ExtendedScene::setBackgroundColor(const sfex::Color& color)
 sfex::Color ExtendedScene::getBackgroundColor()
 {
     return m_backgroundColor;
+}
+
+Game* ExtendedScene::getParent()
+{
+    return m_parent;
 }
 
 

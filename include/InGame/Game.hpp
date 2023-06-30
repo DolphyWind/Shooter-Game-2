@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFEX/SFEX.hpp>
 #include <InGame/Scenes/MainMenuScene.hpp>
+#include <InGame/Scenes/AboutScene.hpp>
+#include <OsSpecific/WindowFunctionalities.hpp>
 
 namespace sg
 {
@@ -22,6 +24,8 @@ private:
     sfex::SceneManager m_defaultSceneManager;
     ExtendedScene* m_currentScene;
 
+    TGUIFontManager m_fontManager;
+
 public:
     Game();
     ~Game();
@@ -41,6 +45,7 @@ public:
     float getDeltaTime() const;
     ExtendedScene* getCurrentScene() const;
     const std::string& getWindowTitle() const;
+    TGUIFontManager& getFontManager();
 };
 
 

@@ -6,22 +6,13 @@ namespace sg
 
 
 MainMenuScene::MainMenuScene(Game* parent):
-    m_parent(parent), m_gui(parent->getRenderWindow()), m_fontFilename("assets/fonts/chunk_five_ex.ttf"),
-    m_gradientPeriod(2.0f)
+    ExtendedScene(parent), m_gui(parent->getRenderWindow()), m_gradientPeriod(2.0f)
 {
-    m_chunkfiveFontSFML = std::make_shared<tgui::BackendFontSFML>();
-    if (!m_chunkfiveFontSFML->loadFromFile(m_fontFilename))
-    {
-        std::cerr << "Font couldn't be loaded!" << std::endl;
-        m_parent->getRenderWindow().close();
-        return;
-    }
-    m_chunkFiveFont = tgui::Font(m_chunkfiveFontSFML, m_fontFilename);
     m_titleGradient.setKey(0, Random::getRandomColor());
     m_titleGradient.setKey(m_gradientPeriod, Random::getRandomColor());
 
-    m_titleLabel = tgui::Label::create(m_parent->getWindowTitle());
-    m_titleLabel->getRenderer()->setFont(m_chunkFiveFont);
+    m_titleLabel = tgui::Label::create(getParent()->getWindowTitle());
+    m_titleLabel->getRenderer()->setFont(getParent()->getFontManager()["chunk_five_ex"].tguiFontData);
     m_titleLabel->setTextSize(42);
     m_titleLabel->getRenderer()->setTextColor(m_titleGradient(0));
     m_titleLabel->setPosition("(parent.width - width) / 2", "5%");
@@ -37,10 +28,11 @@ MainMenuScene::MainMenuScene(Game* parent):
     
     makeMenuButton(m_aboutButton, "About");
     m_aboutButton->setPosition(fmt::format("Settings.x + Settings.width + ({} / 2)", MainMenuScene::buttonGap).c_str(), "Settings.y");
-    
+    m_aboutButton->onPress(&Game::switchScene, getParent(), "about_menu");
+
     makeMenuButton(m_quitButton, "Quit");
     m_quitButton->setPosition("Settings.x + (About.x + About.width - Settings.x - width) / 2", fmt::format("Settings.y + Settings.height + {}", MainMenuScene::buttonGap).c_str());
-    m_quitButton->onPress(&sf::RenderWindow::close, std::ref(m_parent->getRenderWindow()));
+    m_quitButton->onPress(&sf::RenderWindow::close, std::ref(getParent()->getRenderWindow()));
 
     m_gui.add(m_titleLabel);
     m_gui.add(m_playButton);
@@ -60,14 +52,13 @@ MainMenuScene::~MainMenuScene()
 void MainMenuScene::makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::String& buttonStr)
 {
     static sfex::Color buttonColor = sfex::Color::fromHex(0x232CFFFF);
-    static sfex::Vec2 buttonSize = {220, 65};
     static unsigned int charSize = 22;
     static unsigned int borderRadius = 5;
 
     buttonPtr = tgui::Button::create(buttonStr);
     buttonPtr->setWidgetName(buttonStr);
     buttonPtr->getRenderer()->setRoundedBorderRadius(borderRadius);
-    buttonPtr->getRenderer()->setFont(m_chunkFiveFont);
+    buttonPtr->getRenderer()->setFont(getParent()->getFontManager()["chunk_five_ex"].tguiFontData);
     buttonPtr->getRenderer()->setTextColor(sfex::Color::Black);
     buttonPtr->getRenderer()->setBackgroundColor(buttonColor);
     buttonPtr->getRenderer()->setBackgroundColorHover(
@@ -76,10 +67,11 @@ void MainMenuScene::makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::Str
     buttonPtr->getRenderer()->setBackgroundColorDown(
         sfex::Math::lerp(buttonColor, sfex::Color::Black, 0.4)
     );
-    buttonPtr->setSize(buttonSize.x, buttonSize.y);
+    buttonPtr->setSize("17%","9%");
     buttonPtr->setTextSize(charSize);
     buttonPtr->getRenderer()->setBorders(tgui::Borders(2));
     buttonPtr->getRenderer()->setBorderColor(sfex::Color::Black);
+    buttonPtr->setMouseCursor(tgui::Cursor::Type::Hand);
 }
 
 void MainMenuScene::pollEvent(const sf::Event& e)
@@ -94,7 +86,7 @@ void MainMenuScene::start()
 
 void MainMenuScene::update()
 {
-    float deltaTime = m_parent->getDeltaTime();
+    float deltaTime = getParent()->getDeltaTime();
     m_totalGradientTime += deltaTime;
 
     if(m_totalGradientTime >= m_gradientPeriod)
@@ -108,7 +100,7 @@ void MainMenuScene::update()
 
 void MainMenuScene::lateUpdate()
 {
-    float deltaTime = m_parent->getDeltaTime();
+    float deltaTime = getParent()->getDeltaTime();
 }
 
 void MainMenuScene::draw(sf::RenderTarget& target)
@@ -118,7 +110,7 @@ void MainMenuScene::draw(sf::RenderTarget& target)
 
 void MainMenuScene::destroy()
 {
-
+    m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
 }
 
 

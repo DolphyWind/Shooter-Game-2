@@ -6,10 +6,18 @@ namespace sg
 
 Game::Game():
     m_FPS(0), m_windowSize(1280, 720), m_windowTitle("Shooter Game 2"), m_currentScene(nullptr),
-    m_minWindowSize(575, 775)
+    m_minWindowSize(1024, 576)
 {
+    if (!m_fontManager.loadFromFile("chunk_five_ex", "assets/fonts/chunk_five_ex.ttf"))
+    {
+        std::cerr << "Font couldn't be loaded!" << std::endl;
+        return;
+    }
+
     m_window.create(sf::VideoMode(m_windowSize.x, m_windowSize.y), m_windowTitle);
-    m_defaultSceneManager.insert({"main_menu", std::make_shared<MainMenuScene>(this)});
+    WindowFunctionalities::setMinimumSize(m_window, m_minWindowSize);
+    m_defaultSceneManager.insert( {"main_menu", std::make_shared<MainMenuScene>(this)} );
+    m_defaultSceneManager.insert( {"about_menu", std::make_shared<AboutScene>(this)} );
     switchScene("main_menu");
 }
 
@@ -29,11 +37,7 @@ void Game::handleEvents()
         else if(m_event.type == sf::Event::Resized)
         {
             sfex::Vec2 newSize = {m_event.size.width, m_event.size.height};
-            // if(newSize.x < m_minWindowSize.x) newSize.x = m_minWindowSize.x;
-            // if(newSize.y < m_minWindowSize.y) newSize.y = m_minWindowSize.y;
             
-            // m_window.setSize(newSize);
-
             const sf::View& currentView = m_window.getView();
             m_window.setView(sf::View(currentView.getCenter(), newSize));
         }
@@ -101,6 +105,7 @@ void Game::run()
 void Game::switchScene(const std::string& sceneName)
 {
     m_defaultSceneManager.setActiveScene(sceneName);
+    
     m_currentScene = dynamic_cast<ExtendedScene*>(m_defaultSceneManager.getActiveScene().value_or(nullptr).get());
 }
 
@@ -133,6 +138,11 @@ ExtendedScene* Game::getCurrentScene() const
 const std::string& Game::getWindowTitle() const
 {
     return m_windowTitle;
+}
+
+TGUIFontManager& Game::getFontManager()
+{
+    return m_fontManager;
 }
 
 

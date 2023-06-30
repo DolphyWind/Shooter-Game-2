@@ -4,6 +4,7 @@
 #include <InGame/Scenes/ExtendedScene.hpp>
 #include <Random/Random.hpp>
 #include <fmt/core.h>
+#include <Global.hpp>
 
 namespace sg
 {
@@ -14,12 +15,7 @@ class MainMenuScene : public ExtendedScene
 {
 private:
     tgui::GuiSFML m_gui;
-    Game* m_parent;
-
-    const std::string m_fontFilename;
-    std::shared_ptr<tgui::BackendFontSFML> m_chunkfiveFontSFML;
-    tgui::Font m_chunkFiveFont;
-
+    
     static constexpr float buttonGap = 10.0;
     sfex::Gradient<sfex::Color> m_titleGradient;
     const float m_gradientPeriod;
