@@ -54,7 +54,7 @@ find_package(CURL REQUIRED)
 add_subdirectory(include)
 
 file(GLOB_RECURSE CPP_FILES "${SOURCE_DIR}/*.cpp")
-add_executable(${SG_BINARY_NAME} ${CPP_FILES})
+add_executable(${SG_BINARY_NAME} src/temp.cpp)#${CPP_FILES})
 
 add_dependencies(${SG_BINARY_NAME} sfml-system)
 add_dependencies(${SG_BINARY_NAME} sfml-graphics)
