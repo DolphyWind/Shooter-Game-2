@@ -1,4 +1,5 @@
 #include <InGame/Scenes/AboutScene.hpp>
+#include <InGame/Game.hpp>
 
 namespace sg
 {
@@ -6,7 +7,7 @@ namespace sg
 AboutScene::AboutScene(Game* parent):
     ExtendedScene(parent)
 {
-    setBackgroundColor(sfex::Color::White);
+    setBackgroundColor(sfex::Color::Cyan);
 }
 
 AboutScene::~AboutScene()
@@ -26,7 +27,7 @@ void AboutScene::start()
 
 void AboutScene::update()
 {
-
+    
 }
 
 void AboutScene::lateUpdate()
@@ -41,7 +42,7 @@ void AboutScene::draw(sf::RenderTarget& target)
 
 void AboutScene::destroy()
 {
-
+    // m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
 }
 
 }

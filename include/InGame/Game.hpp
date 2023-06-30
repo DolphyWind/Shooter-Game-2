@@ -3,7 +3,9 @@
 #include <SFEX/SFEX.hpp>
 #include <InGame/Scenes/MainMenuScene.hpp>
 #include <InGame/Scenes/AboutScene.hpp>
+#include <InGame/Scenes/DebugScene.hpp>
 #include <OsSpecific/WindowFunctionalities.hpp>
+#include <imgui-SFML.h>
 
 namespace sg
 {

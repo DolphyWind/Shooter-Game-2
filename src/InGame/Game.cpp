@@ -18,12 +18,14 @@ Game::Game():
     WindowFunctionalities::setMinimumSize(m_window, m_minWindowSize);
     m_defaultSceneManager.insert( {"main_menu", std::make_shared<MainMenuScene>(this)} );
     m_defaultSceneManager.insert( {"about_menu", std::make_shared<AboutScene>(this)} );
+    m_defaultSceneManager.insert( {"debug_menu", std::make_shared<DebugScene>(this)} );
     switchScene("main_menu");
+
 }
 
 Game::~Game()
 {
-    m_window.close();
+    if(m_window.isOpen()) m_window.close();
 }
 
 void Game::handleEvents()
@@ -36,11 +38,12 @@ void Game::handleEvents()
         }
         else if(m_event.type == sf::Event::Resized)
         {
-            sfex::Vec2 newSize = {m_event.size.width, m_event.size.height};
+            sfex::Vec2u newSize = {m_event.size.width, m_event.size.height};
             
             const sf::View& currentView = m_window.getView();
             m_window.setView(sf::View(currentView.getCenter(), newSize));
         }
+        ImGui::SFML::ProcessEvent(m_window, m_event);
         m_defaultSceneManager.pollEvent(m_event);
     }
 }
@@ -57,8 +60,10 @@ void Game::lateUpdate(float deltaTime)
 
 void Game::render()
 {
+    ImGui::EndFrame();
     m_window.clear(getCurrentScene()->getBackgroundColor());
     m_defaultSceneManager.draw(getRenderWindow());
+    ImGui::SFML::Render(m_window);
     m_window.display();
 }
 
@@ -66,6 +71,7 @@ void Game::run()
 {
     sf::Clock frameClock;
     float total_time = 0.0f;
+    ImGui::SFML::Init(m_window);
     
     if(!m_FPS)
     {
@@ -74,6 +80,8 @@ void Game::run()
             handleEvents();
 
             m_deltaTime = total_time = frameClock.restart().asSeconds();
+            ImGui::SFML::Update(m_window, sf::seconds(m_deltaTime));
+    
             update(total_time);
             lateUpdate(total_time);
 
@@ -92,6 +100,7 @@ void Game::run()
             total_time += frameClock.restart().asSeconds();
             while(total_time >= frameTime)
             {
+                ImGui::SFML::Update(m_window, sf::seconds(frameTime));
                 update(frameTime);
                 lateUpdate(frameTime);
                 total_time -= frameTime;
@@ -100,12 +109,13 @@ void Game::run()
             render();
         }
     }
+
+    ImGui::SFML::Shutdown();
 }
 
 void Game::switchScene(const std::string& sceneName)
 {
-    m_defaultSceneManager.setActiveScene(sceneName);
-    
+    m_defaultSceneManager.setActiveScene(sceneName);    
     m_currentScene = dynamic_cast<ExtendedScene*>(m_defaultSceneManager.getActiveScene().value_or(nullptr).get());
 }
 

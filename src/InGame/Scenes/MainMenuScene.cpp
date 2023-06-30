@@ -81,7 +81,7 @@ void MainMenuScene::pollEvent(const sf::Event& e)
 
 void MainMenuScene::start()
 {
-    
+    m_f3Clock.restart();
 }
 
 void MainMenuScene::update()
@@ -101,6 +101,15 @@ void MainMenuScene::update()
 void MainMenuScene::lateUpdate()
 {
     float deltaTime = getParent()->getDeltaTime();
+
+    if(!sfex::Keyboard::getKey(sfex::Keyboard::Key::F3))
+    {
+        m_f3Clock.restart();
+    }
+    if(m_f3Clock.getElapsedTime().asSeconds() > Global::f3Time)
+    {
+        getParent()->switchScene("debug_menu");
+    }
 }
 
 void MainMenuScene::draw(sf::RenderTarget& target)

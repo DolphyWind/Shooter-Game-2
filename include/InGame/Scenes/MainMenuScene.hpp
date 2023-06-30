@@ -28,6 +28,8 @@ private:
     tgui::Button::Ptr m_aboutButton;
     tgui::Button::Ptr m_quitButton;
 
+    sf::Clock m_f3Clock;
+
     void makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::String& buttonStr);
 public:
     MainMenuScene(Game* parent);

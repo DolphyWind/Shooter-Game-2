@@ -11,7 +11,7 @@ namespace sg
 class Global : public sfex::StaticClass
 {
 public:
-    
+    static constexpr float f3Time = 3.0;
 };
 
 
