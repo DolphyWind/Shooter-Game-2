@@ -50,7 +50,7 @@ void DebugScene::draw(sf::RenderTarget &target)
 
 void DebugScene::destroy()
 {
-    m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
+    //m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
 }
 
 }
