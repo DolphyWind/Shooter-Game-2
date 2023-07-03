@@ -16,11 +16,14 @@ Game::Game():
 
     m_window.create(sf::VideoMode(m_windowSize.x, m_windowSize.y), m_windowTitle);
     WindowFunctionalities::setMinimumSize(m_window, m_minWindowSize);
+    m_gameGui.setTarget(m_window);
+    
     m_defaultSceneManager.insert( {"main_menu", std::make_shared<MainMenuScene>(this)} );
     m_defaultSceneManager.insert( {"about_menu", std::make_shared<AboutScene>(this)} );
     m_defaultSceneManager.insert( {"debug_menu", std::make_shared<DebugScene>(this)} );
-    switchScene("main_menu");
+    
 
+    switchScene("main_menu");
 }
 
 Game::~Game()
@@ -45,6 +48,7 @@ void Game::handleEvents()
         }
         ImGui::SFML::ProcessEvent(m_window, m_event);
         m_defaultSceneManager.pollEvent(m_event);
+        m_gameGui.handleEvent(m_event);
     }
 }
 
@@ -63,7 +67,8 @@ void Game::render()
     ImGui::EndFrame();
     m_window.clear(getCurrentScene()->getBackgroundColor());
     m_defaultSceneManager.draw(getRenderWindow());
-    ImGui::SFML::Render(m_window);
+    // ImGui::SFML::Render(m_window);
+    m_gameGui.draw();
     m_window.display();
 }
 
@@ -117,6 +122,7 @@ void Game::switchScene(const std::string& sceneName)
 {
     m_defaultSceneManager.setActiveScene(sceneName);    
     m_currentScene = dynamic_cast<ExtendedScene*>(m_defaultSceneManager.getActiveScene().value_or(nullptr).get());
+    m_window.setView(m_window.getView());
 }
 
 void Game::setMaxFPS(sf::Uint16 maxFPS)
@@ -155,5 +161,9 @@ TGUIFontManager& Game::getFontManager()
     return m_fontManager;
 }
 
+tgui::GuiSFML* Game::getGUI()
+{
+    return &m_gameGui;
+}
 
 }

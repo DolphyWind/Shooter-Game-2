@@ -34,4 +34,5 @@
 [Bb]uild/
 .idea/
 cmake-*/
-.cache
+.cache/
+.vscode/

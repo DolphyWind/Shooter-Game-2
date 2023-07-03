@@ -9,10 +9,12 @@ class Game;
 class DebugScene : public ExtendedScene
 {
 private:
-    tgui::GuiSFML m_gui;
     tgui::Label::Ptr m_welcomeLabel;
 
     sf::Clock m_f3Clock;
+    sfex::Color m_pickedColor;
+    float m_colors[4];
+    tgui::ColorPicker::Ptr m_colorPicker;
 public:
     DebugScene(Game* parent);
 

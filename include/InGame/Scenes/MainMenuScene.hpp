@@ -5,6 +5,7 @@
 #include <Random/Random.hpp>
 #include <fmt/core.h>
 #include <Global.hpp>
+#include <InGame/Rendering/MovingGradient.hpp>
 
 namespace sg
 {
@@ -14,13 +15,10 @@ class Game;
 class MainMenuScene : public ExtendedScene
 {
 private:
-    tgui::GuiSFML m_gui;
+    MovingGradient m_titleGradient;
     
     static constexpr float buttonGap = 10.0;
-    sfex::Gradient<sfex::Color> m_titleGradient;
-    const float m_gradientPeriod;
-    float m_totalGradientTime;
-    
+
     tgui::Label::Ptr m_titleLabel;
     tgui::Button::Ptr m_playButton;
     tgui::Button::Ptr m_mapMakerButton;

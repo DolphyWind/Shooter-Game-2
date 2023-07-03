@@ -6,15 +6,12 @@ namespace sg
 
 
 MainMenuScene::MainMenuScene(Game* parent):
-    ExtendedScene(parent), m_gui(parent->getRenderWindow()), m_gradientPeriod(2.0f)
+    ExtendedScene(parent), m_titleGradient(2.0)
 {
-    m_titleGradient.setKey(0, Random::getRandomColor());
-    m_titleGradient.setKey(m_gradientPeriod, Random::getRandomColor());
-
     m_titleLabel = tgui::Label::create(getParent()->getWindowTitle());
     m_titleLabel->getRenderer()->setFont(getParent()->getFontManager()["chunk_five_ex"].tguiFontData);
     m_titleLabel->setTextSize(42);
-    m_titleLabel->getRenderer()->setTextColor(m_titleGradient(0));
+    m_titleLabel->getRenderer()->setTextColor(m_titleGradient.getCurrentColor());
     m_titleLabel->setPosition("(parent.width - width) / 2", "5%");
 
     makeMenuButton(m_playButton, "Play");
@@ -34,13 +31,6 @@ MainMenuScene::MainMenuScene(Game* parent):
     m_quitButton->setPosition("Settings.x + (About.x + About.width - Settings.x - width) / 2", fmt::format("Settings.y + Settings.height + {}", MainMenuScene::buttonGap).c_str());
     m_quitButton->onPress(&sf::RenderWindow::close, std::ref(getParent()->getRenderWindow()));
 
-    m_gui.add(m_titleLabel);
-    m_gui.add(m_playButton);
-    m_gui.add(m_mapMakerButton);
-    m_gui.add(m_settingsButton);
-    m_gui.add(m_aboutButton);
-    m_gui.add(m_quitButton);
-
     setBackgroundColor(sfex::Color::fromHex(0x5AD9EFFF));
 }
 
@@ -51,24 +41,20 @@ MainMenuScene::~MainMenuScene()
 
 void MainMenuScene::makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::String& buttonStr)
 {
-    static sfex::Color buttonColor = sfex::Color::fromHex(0x232CFFFF);
-    static unsigned int charSize = 22;
-    static unsigned int borderRadius = 5;
-
     buttonPtr = tgui::Button::create(buttonStr);
     buttonPtr->setWidgetName(buttonStr);
-    buttonPtr->getRenderer()->setRoundedBorderRadius(borderRadius);
+    buttonPtr->getRenderer()->setRoundedBorderRadius(Global::menuButtonBorderRadius);
     buttonPtr->getRenderer()->setFont(getParent()->getFontManager()["chunk_five_ex"].tguiFontData);
     buttonPtr->getRenderer()->setTextColor(sfex::Color::Black);
-    buttonPtr->getRenderer()->setBackgroundColor(buttonColor);
+    buttonPtr->getRenderer()->setBackgroundColor(Global::menuButtonColor);
     buttonPtr->getRenderer()->setBackgroundColorHover(
-        sfex::Math::lerp(buttonColor, sfex::Color::Black, 0.2)
+        sfex::Math::lerp(Global::menuButtonColor, sfex::Color::Black, 0.2)
     );
     buttonPtr->getRenderer()->setBackgroundColorDown(
-        sfex::Math::lerp(buttonColor, sfex::Color::Black, 0.4)
+        sfex::Math::lerp(Global::menuButtonColor, sfex::Color::Black, 0.4)
     );
     buttonPtr->setSize("17%","9%");
-    buttonPtr->setTextSize(charSize);
+    buttonPtr->setTextSize(Global::menuButtonCharSize);
     buttonPtr->getRenderer()->setBorders(tgui::Borders(2));
     buttonPtr->getRenderer()->setBorderColor(sfex::Color::Black);
     buttonPtr->setMouseCursor(tgui::Cursor::Type::Hand);
@@ -76,26 +62,27 @@ void MainMenuScene::makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::Str
 
 void MainMenuScene::pollEvent(const sf::Event& e)
 {
-    m_gui.handleEvent(e);
+    
 }
 
 void MainMenuScene::start()
 {
     m_f3Clock.restart();
+
+    getParent()->getGUI()->add(m_titleLabel);
+    getParent()->getGUI()->add(m_playButton);
+    getParent()->getGUI()->add(m_mapMakerButton);
+    getParent()->getGUI()->add(m_settingsButton);
+    getParent()->getGUI()->add(m_aboutButton);
+    getParent()->getGUI()->add(m_quitButton);
 }
 
 void MainMenuScene::update()
 {
     float deltaTime = getParent()->getDeltaTime();
-    m_totalGradientTime += deltaTime;
+    m_titleGradient.update(deltaTime);
 
-    if(m_totalGradientTime >= m_gradientPeriod)
-    {
-        m_titleGradient.setKey(0, m_titleGradient.evaluate(m_gradientPeriod));
-        m_titleGradient.setKey(m_gradientPeriod, Random::getRandomColor());
-        m_totalGradientTime = 0;
-    }
-    m_titleLabel->getRenderer()->setTextColor(m_titleGradient(m_totalGradientTime));
+    m_titleLabel->getRenderer()->setTextColor(m_titleGradient.getCurrentColor());
 }
 
 void MainMenuScene::lateUpdate()
@@ -114,12 +101,19 @@ void MainMenuScene::lateUpdate()
 
 void MainMenuScene::draw(sf::RenderTarget& target)
 {
-    m_gui.draw();
+    
 }
 
 void MainMenuScene::destroy()
 {
     // m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
+
+    getParent()->getGUI()->remove(m_titleLabel);
+    getParent()->getGUI()->remove(m_playButton);
+    getParent()->getGUI()->remove(m_mapMakerButton);
+    getParent()->getGUI()->remove(m_settingsButton);
+    getParent()->getGUI()->remove(m_aboutButton);
+    getParent()->getGUI()->remove(m_quitButton);
 }
 
 

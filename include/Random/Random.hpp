@@ -3,8 +3,9 @@
 #include <SFEX/General/StaticClass.hpp>
 #include <SFEX/Graphics/Color.hpp>
 #include <limits>
+#include <Global.hpp>
 
-using RandomGenerator = effolkronium::random_static;
+using RandomGenerator = StaticRandom;
 
 namespace sg
 {

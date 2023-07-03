@@ -1,18 +1,22 @@
-#include <type_traits>
-#include <TGUI/TGUI.hpp>
+#pragma once
+#include <thirdparty/effolkronium/random.hpp>
+#include <SFEX/General/StaticClass.hpp>
 #include <SFEX/SFEX.hpp>
-#include <unordered_map>
-#include <ResourceManagement/TGUIFontManager.hpp>
+
+using StaticRandom = effolkronium::random_static;
+using LocalRandom = effolkronium::random_local;
+using ThreadLocalRandom = effolkronium::random_thread_local;
 
 namespace sg
 {
 
-
 class Global : public sfex::StaticClass
 {
 public:
-    static constexpr float f3Time = 3.0;
+    static constexpr float f3Time = 2.0;
+    static const sfex::Color menuButtonColor;
+    static constexpr unsigned int menuButtonCharSize = 22;
+    static constexpr unsigned int menuButtonBorderRadius = 5;
 };
-
 
 }

@@ -6,6 +6,7 @@
 #include <InGame/Scenes/DebugScene.hpp>
 #include <OsSpecific/WindowFunctionalities.hpp>
 #include <imgui-SFML.h>
+#include <ResourceManagement/TGUIFontManager.hpp>
 
 namespace sg
 {
@@ -25,7 +26,8 @@ private:
     
     sfex::SceneManager m_defaultSceneManager;
     ExtendedScene* m_currentScene;
-
+    
+    tgui::GuiSFML m_gameGui;
     TGUIFontManager m_fontManager;
 
 public:
@@ -48,6 +50,7 @@ public:
     ExtendedScene* getCurrentScene() const;
     const std::string& getWindowTitle() const;
     TGUIFontManager& getFontManager();
+    tgui::GuiSFML* getGUI();
 };
 
 

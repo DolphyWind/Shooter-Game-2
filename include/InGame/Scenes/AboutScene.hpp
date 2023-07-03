@@ -1,5 +1,7 @@
 #pragma once
+#include "InGame/Rendering/MovingGradient.hpp"
 #include <InGame/Scenes/ExtendedScene.hpp>
+#include <TGUI/TGUI.hpp>
 #include <thirdparty/imgui/imgui.h>
 #include <imgui-SFML.h>
 
@@ -10,6 +12,13 @@ class Game;
 class AboutScene : public ExtendedScene
 {
 private:
+    MovingGradient m_aboutGradient;
+    
+    tgui::Label::Ptr m_titleLabel;
+    tgui::Label::Ptr m_aboutDescription;
+    tgui::Label::Ptr m_developerDescription;
+
+    tgui::Button::Ptr m_backButton;
 public:
     AboutScene(Game* parent);
     ~AboutScene();

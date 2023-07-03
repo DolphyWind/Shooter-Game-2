@@ -15,6 +15,10 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET FALSE)
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_CURL_EXE OFF)
+set(IMGUI_SFML_FIND_SFML OFF)
+set(THOR_SHARED_LIBS OFF)
+set(IMGUI_DIR ${INCLUDE_DIR}/thirdparty/imgui)
+set(SFML_STATIC_LIBRARIES TRUE)
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 
@@ -27,14 +31,8 @@ function(fetch_library library_name repo_url git_tag)
         USES_TERMINAL_DOWNLOAD TRUE
     )
 
-    set(IMGUI_SFML_FIND_SFML OFF)
-    set(THOR_SHARED_LIBS OFF)
     FetchContent_MakeAvailable(${library_name})
 endfunction(fetch_library)
-
-set(IMGUI_DIR ${INCLUDE_DIR}/thirdparty/imgui)
-
-set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
 fetch_library(TGUI https://github.com/texus/TGUI.git 0.9)
