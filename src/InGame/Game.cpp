@@ -64,10 +64,8 @@ void Game::lateUpdate(float deltaTime)
 
 void Game::render()
 {
-    ImGui::EndFrame();
     m_window.clear(getCurrentScene()->getBackgroundColor());
     m_defaultSceneManager.draw(getRenderWindow());
-    // ImGui::SFML::Render(m_window);
     m_gameGui.draw();
     m_window.display();
 }
