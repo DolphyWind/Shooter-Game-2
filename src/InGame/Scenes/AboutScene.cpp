@@ -13,6 +13,9 @@ AboutScene::AboutScene(Game* parent):
     m_titleLabel->setTextSize(42);
     m_titleLabel->getRenderer()->setTextColor(m_aboutGradient.getCurrentColor());
     m_titleLabel->setPosition("(parent.width - width) / 2", "5%");
+    m_titleLabel->getRenderer()->setTextOutlineColor(sfex::Color::Black);
+    m_titleLabel->getRenderer()->setTextOutlineThickness(1);
+
 
     m_aboutDescription = tgui::Label::create("Shooter game is a multiplayer and moddable game\n"
                                                    "write creative stuff here"
@@ -31,7 +34,7 @@ AboutScene::AboutScene(Game* parent):
     m_developerDescription->setTextSize(18);
     m_developerDescription->getRenderer()->setFont(getParent()->getFontManager()["chunk_five_ex"].tguiFontData);
     m_developerDescription->getRenderer()->setTextColor(sfex::Color::Black);
-    m_developerDescription->setPosition("7%", "about_desc.y + 250");
+    m_developerDescription->setPosition("7%", "about_desc.y + 300");
 
     m_backButton = tgui::Button::create("Back");
     m_backButton->setWidgetName("back_button");

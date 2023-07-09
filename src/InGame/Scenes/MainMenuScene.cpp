@@ -13,6 +13,8 @@ MainMenuScene::MainMenuScene(Game* parent):
     m_titleLabel->setTextSize(42);
     m_titleLabel->getRenderer()->setTextColor(m_titleGradient.getCurrentColor());
     m_titleLabel->setPosition("(parent.width - width) / 2", "5%");
+    m_titleLabel->getRenderer()->setTextOutlineColor(sfex::Color::Black);
+    m_titleLabel->getRenderer()->setTextOutlineThickness(1);
 
     makeMenuButton(m_playButton, "Play");
     m_playButton->setPosition(fmt::format("(parent.width) / 2 - width - {}", MainMenuScene::buttonGap).c_str(), "65%");
