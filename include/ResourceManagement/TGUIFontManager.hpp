@@ -1,5 +1,6 @@
 #pragma once
 #include <SFEX/SFEX.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <memory>
 

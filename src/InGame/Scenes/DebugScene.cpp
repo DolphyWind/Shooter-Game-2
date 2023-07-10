@@ -24,11 +24,20 @@ void DebugScene::start()
     m_f3Clock.restart();
 
     getParent()->getGUI()->add(m_welcomeLabel);
+    MessageBoxWindow testMsgbox({300, 150}, "Test message", "Hello World!", {"Ok"});
+    std::cout << testMsgbox.show() << std::endl;
 }
 
 void DebugScene::update()
 {
-    
+    if(!sfex::Keyboard::getKey(sfex::Keyboard::Key::F3))
+    {
+        m_f3Clock.restart();
+    }
+    if(sfex::Keyboard::getKey(sfex::Keyboard::Key::F3) && m_f3Clock.getElapsedTime().asSeconds() > Global::f3Time)
+    {
+        getParent()->switchScene("main_menu");
+    }
 }
 
 void DebugScene::lateUpdate()

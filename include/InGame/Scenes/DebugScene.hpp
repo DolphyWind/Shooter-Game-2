@@ -1,6 +1,7 @@
 #pragma once
 #include <InGame/Scenes/ExtendedScene.hpp>
 #include <TGUI/TGUI.hpp>
+#include <InGame/Rendering/MessageBoxWindow.hpp>
 
 namespace sg
 {

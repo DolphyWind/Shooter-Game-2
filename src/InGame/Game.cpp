@@ -159,7 +159,7 @@ TGUIFontManager& Game::getFontManager()
     return m_fontManager;
 }
 
-tgui::GuiSFML* Game::getGUI()
+tgui::Gui* Game::getGUI()
 {
     return &m_gameGui;
 }

@@ -27,13 +27,13 @@ TGUIFontManager::~TGUIFontManager()
 
 bool TGUIFontManager::loadFromFile(const std::string& key, const std::string& filename)
 {
-    std::unique_ptr<tgui::BackendFontSFML> backendFont = std::make_unique<tgui::BackendFontSFML>();
+    tgui::BackendFontSFML* backendFont = new tgui::BackendFontSFML();
     (*this)[key] = TGUIFontData();
     (*this)[key].filename = filename;
     bool is_successfull = backendFont->loadFromFile(filename);
     if(!is_successfull) return false;
 
-    (*this)[key] = TGUIFontData(filename, backendFont.release());
+    (*this)[key] = TGUIFontData(filename, backendFont);
 
     return true;
 }
