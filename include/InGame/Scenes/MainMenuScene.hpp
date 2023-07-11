@@ -1,7 +1,6 @@
 #pragma once
 // #include <TGUI/Backends/SFML.hpp>
 #include <SFEX/SFEX.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <InGame/Scenes/ExtendedScene.hpp>
 #include <Random/Random.hpp>

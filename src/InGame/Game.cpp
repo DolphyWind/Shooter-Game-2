@@ -8,9 +8,9 @@ Game::Game():
     m_FPS(0), m_windowSize(1280, 720), m_windowTitle("Shooter Game 2"), m_currentScene(nullptr),
     m_minWindowSize(1024, 576)
 {
-    if (!m_fontManager.loadFromFile("chunk_five_ex", "assets/fonts/chunk_five_ex.ttf"))
+    if (m_fontManager.loadFromFile("chunk_five_ex", "assets/fonts/chunk_five_ex.ttf"))
     {
-        std::cerr << "Font couldn't be loaded!" << std::endl;
+        MessageBoxWindow({350, 165}, "Error!", "Cannot open \"assets/fonts/chunk_five_ex.ttf\"", {"Ok"}).show();
         return;
     }
 
@@ -159,7 +159,7 @@ TGUIFontManager& Game::getFontManager()
     return m_fontManager;
 }
 
-tgui::Gui* Game::getGUI()
+tgui::GuiSFML* Game::getGUI()
 {
     return &m_gameGui;
 }

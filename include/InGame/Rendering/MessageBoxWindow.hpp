@@ -1,7 +1,6 @@
 #pragma once
 // #include <TGUI/Backends/SFML.hpp>
 #include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <fmt/core.h>
 #include <TGUI/TGUI.hpp>
 #include <SFEX/SFEX.hpp>
@@ -18,7 +17,7 @@ public:
     void handleButtonPress(const tgui::String& buttonText);
 private:
     sf::RenderWindow m_window;
-    tgui::Gui m_gui;
+    tgui::GuiSFML m_gui;
     tgui::MessageBox::Ptr m_messageBox;
     float m_titlebarHeight;
     tgui::String m_buttonString;

@@ -1,5 +1,5 @@
 #pragma once
-#include "InGame/Rendering/MovingGradient.hpp"
+#include <InGame/Rendering/MovingGradient.hpp>
 #include <InGame/Scenes/ExtendedScene.hpp>
 #include <TGUI/TGUI.hpp>
 #include <thirdparty/imgui/imgui.h>

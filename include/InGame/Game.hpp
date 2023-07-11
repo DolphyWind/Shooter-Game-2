@@ -1,5 +1,4 @@
 #pragma once
-// #include <TGUI/Backends/SFML.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFEX/SFEX.hpp>
 #include <InGame/Scenes/MainMenuScene.hpp>
@@ -28,7 +27,7 @@ private:
     sfex::SceneManager m_defaultSceneManager;
     ExtendedScene* m_currentScene;
     
-    tgui::Gui m_gameGui;
+    tgui::GuiSFML m_gameGui;
     TGUIFontManager m_fontManager;
 
 public:
@@ -51,7 +50,7 @@ public:
     ExtendedScene* getCurrentScene() const;
     const std::string& getWindowTitle() const;
     TGUIFontManager& getFontManager();
-    tgui::Gui* getGUI();
+    tgui::GuiSFML* getGUI();
 };
 
 

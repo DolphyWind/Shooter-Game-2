@@ -24,8 +24,6 @@ void DebugScene::start()
     m_f3Clock.restart();
 
     getParent()->getGUI()->add(m_welcomeLabel);
-    MessageBoxWindow testMsgbox({300, 150}, "Test message", "Hello World!", {"Ok"});
-    std::cout << testMsgbox.show() << std::endl;
 }
 
 void DebugScene::update()
