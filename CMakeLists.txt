@@ -6,10 +6,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -g")
-add_definitions(-DSFML_STATIC)
-
 project(${SG_PROJECT_NAME})
+
+
+add_definitions(-DSFML_STATIC)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    message(STATUS "Detected compiler: GCC")
+    add_compile_options(-fPIC -g)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    message(STATUS "Detected compiler: Clang")
+    add_compile_options(-fPIC -g)
+    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    message(STATUS "Detected compiler: MSVC")
+    add_compile_options("/MT" "/Z7" "/EHsc")
+else ()
+    message(WARNING "Unsupported compiler: ${CMAKE_CXX_COMPILER_ID}")
+endif ()
+
+
 
 include(FetchContent)
 set(FETCHCONTENT_QUIET FALSE)
@@ -19,7 +33,7 @@ set(IMGUI_SFML_FIND_SFML OFF)
 set(THOR_SHARED_LIBS OFF)
 set(IMGUI_DIR ${INCLUDE_DIR}/thirdparty/imgui)
 set(SFML_STATIC_LIBRARIES TRUE)
-# set(TGUI_BACKEND SFML_GRAPHICS)
+set(TGUI_BUILD_GUI_BUILDER FALSE)
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 
@@ -37,7 +51,6 @@ endfunction(fetch_library)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
 fetch_library(TGUI https://github.com/texus/TGUI.git 0.9)
-# fetch_library(TGUI https://github.com/texus/TGUI.git deafffeeba7ec07124146f1846d25fd5947bc865)
 fetch_library(FMT https://github.com/fmtlib/fmt.git a0b8a92e3d1532361c2f7feb63babc5c18d00ef2)
 fetch_library(BOX2D https://github.com/erincatto/box2d.git 411acc32eb6d4f2e96fc70ddbdf01fe5f9b16230)
 fetch_library(IMGUISFML https://github.com/SFML/imgui-sfml.git 15753d56403a7aeb1cae12fd930cfb1d2eac5e74)
