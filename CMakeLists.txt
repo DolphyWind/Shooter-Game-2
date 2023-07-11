@@ -58,7 +58,11 @@ fetch_library(THOR https://github.com/Bromeon/Thor 3e320cb52606f0b44fd9d2bb272b3
 fetch_library(SFEX https://github.com/DolphyWind/SFML-Extended a0e1e03448bb9baa315f50ae8ddf6e77c47cb1b3)
 
 find_package(Boost REQUIRED)
-find_package(CURL CONFIG REQUIRED)
+if(WIN32)
+    find_package(CURL CONFIG REQUIRED)
+else()
+    find_package(CURL REQUIRED)
+endif(WIN32)
 
 add_subdirectory(include)
 
