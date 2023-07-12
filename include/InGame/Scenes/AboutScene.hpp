@@ -14,6 +14,7 @@ class AboutScene : public ExtendedScene
 private:
     MovingGradient m_aboutGradient;
     
+    tgui::Panel::Ptr m_backgroundPanel;
     tgui::Label::Ptr m_titleLabel;
     tgui::Label::Ptr m_aboutDescription;
     tgui::Label::Ptr m_developerDescription;

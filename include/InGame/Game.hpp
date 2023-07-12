@@ -20,7 +20,7 @@ private:
     sf::Uint16 m_FPS;
     sf::Event m_event;
 
-    const sfex::Vec2 m_windowSize;
+    const sfex::Vec2 m_initialWindowSize;
     const std::string m_windowTitle;
     const sfex::Vec2u m_minWindowSize;
     float m_deltaTime;
@@ -31,7 +31,9 @@ private:
     tgui::GuiSFML m_gameGui;
     TGUIFontManager m_fontManager;
 
-    sf::Vector2i m_lastPosition;
+    const float m_targetAspectRatio;
+    sf::Vector2i m_lastWindowPosition;
+    sfex::Vec2u m_viewportSize;
 
 public:
     Game();
@@ -48,12 +50,17 @@ public:
     void setMaxFPS(sf::Uint16 maxFPS);
     sf::Uint16 getMaxFPS() const;
 
+    void makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::String& text);
+
     sf::RenderWindow& getRenderWindow();
     float getDeltaTime() const;
     ExtendedScene* getCurrentScene() const;
     const std::string& getWindowTitle() const;
     TGUIFontManager& getFontManager();
     tgui::GuiSFML* getGUI();
+    sfex::Vec2 getInitialWindowSize() const;
+    sfex::Vec2u getViewportSize() const;
+    float getScalePercentage() const;
 };
 
 

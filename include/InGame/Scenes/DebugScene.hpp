@@ -10,8 +10,8 @@ class Game;
 class DebugScene : public ExtendedScene
 {
 private:
+    tgui::Panel::Ptr m_backgroundPanel;
     tgui::Label::Ptr m_welcomeLabel;
-
     sf::Clock m_f3Clock;
 public:
     DebugScene(Game* parent);

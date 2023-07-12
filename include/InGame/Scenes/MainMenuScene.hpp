@@ -20,6 +20,7 @@ private:
     
     static constexpr float buttonGap = 10.0;
 
+    tgui::Panel::Ptr m_backgroundPanel;
     tgui::Label::Ptr m_titleLabel;
     tgui::Button::Ptr m_playButton;
     tgui::Button::Ptr m_mapMakerButton;
@@ -29,7 +30,6 @@ private:
 
     sf::Clock m_f3Clock;
 
-    void makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::String& buttonStr);
 public:
     MainMenuScene(Game* parent);
     ~MainMenuScene();

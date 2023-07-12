@@ -15,8 +15,9 @@ class Global : public sfex::StaticClass
 public:
     static constexpr float f3Time = 2.0;
     static const sfex::Color menuButtonColor;
-    static constexpr unsigned int menuButtonCharSize = 22;
+    static constexpr unsigned int menuButtonTextSize = 22;
     static constexpr unsigned int menuButtonBorderRadius = 5;
+    static constexpr unsigned int titleTextSize = 42;
 };
 
 }

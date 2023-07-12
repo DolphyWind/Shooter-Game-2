@@ -7,23 +7,32 @@ namespace sg
 DebugScene::DebugScene(Game* parent):
     ExtendedScene(parent)
 {
-    setBackgroundColor(sfex::Color::Cyan);
+    setBackgroundColor(sfex::Color::Black);
     m_welcomeLabel = tgui::Label::create("Welcome to the debug menu!\n"
     "Various test will go here\n"
     );
     m_welcomeLabel->getRenderer()->setTextColor(sfex::Color::Black);
+
+    m_backgroundPanel = tgui::Panel::create();
+    m_backgroundPanel->getRenderer()->setBackgroundColor(sfex::Color::Cyan);
 }
 
 void DebugScene::pollEvent(const sf::Event &e)
 {
-    
+    if(e.type == sf::Event::Resized)
+    {
+        // Scale text accordingly when the size changes
+        float scale_percentage = getParent()->getScalePercentage();
+        m_welcomeLabel->setTextSize(18 * scale_percentage);
+    }
 }
 
 void DebugScene::start()
 {
     m_f3Clock.restart();
-
-    getParent()->getGUI()->add(m_welcomeLabel);
+    tgui::GuiSFML* gui = getParent()->getGUI();
+    gui->add(m_backgroundPanel);
+    gui->add(m_welcomeLabel);
 }
 
 void DebugScene::update()
@@ -51,7 +60,7 @@ void DebugScene::draw(sf::RenderTarget &target)
 void DebugScene::destroy()
 {
     //m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
-    getParent()->getGUI()->remove(m_welcomeLabel);
+    getParent()->getGUI()->removeAllWidgets();
 }
 
 }

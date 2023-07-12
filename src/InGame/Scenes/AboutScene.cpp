@@ -7,7 +7,11 @@ namespace sg
 AboutScene::AboutScene(Game* parent):
     ExtendedScene(parent), m_aboutGradient(2.0)
 {
-    setBackgroundColor(sfex::Color::fromHex(0x5AD9EFFF));
+    setBackgroundColor(sfex::Color::Black);
+
+    m_backgroundPanel = tgui::Panel::create();
+    m_backgroundPanel->getRenderer()->setBackgroundColor(sfex::Color::fromHex(0x5AD9EFFF));
+
     m_titleLabel = tgui::Label::create("About");
     m_titleLabel->getRenderer()->setFont(getParent()->getFontManager()["chunk_five_ex"].tguiFontData);
     m_titleLabel->setTextSize(42);
@@ -36,23 +40,7 @@ AboutScene::AboutScene(Game* parent):
     m_developerDescription->getRenderer()->setTextColor(sfex::Color::Black);
     m_developerDescription->setPosition("7%", "about_desc.y + 300");
 
-    m_backButton = tgui::Button::create("Back");
-    m_backButton->setWidgetName("back_button");
-    m_backButton->getRenderer()->setRoundedBorderRadius(5);
-    m_backButton->getRenderer()->setFont(getParent()->getFontManager()["chunk_five_ex"].tguiFontData);
-    m_backButton->getRenderer()->setTextColor(sfex::Color::Black);
-    m_backButton->getRenderer()->setBackgroundColor(Global::menuButtonColor);
-    m_backButton->getRenderer()->setBackgroundColorHover(
-        sfex::Math::lerp(Global::menuButtonColor, sfex::Color::Black, 0.2)
-    );
-    m_backButton->getRenderer()->setBackgroundColorDown(
-        sfex::Math::lerp(Global::menuButtonColor, sfex::Color::Black, 0.4)
-    );
-    m_backButton->setSize("17%","9%");
-    m_backButton->setTextSize(Global::menuButtonCharSize);
-    m_backButton->getRenderer()->setBorders(tgui::Borders(2));
-    m_backButton->getRenderer()->setBorderColor(sfex::Color::Black);
-    m_backButton->setMouseCursor(tgui::Cursor::Type::Hand);
+    getParent()->makeMenuButton(m_backButton, "Back");
     m_backButton->setPosition("(parent.width - width) / 2", "parent.height - height - 5%");
     m_backButton->onClick([this](){
         getParent()->switchScene("main_menu");
@@ -66,15 +54,25 @@ AboutScene::~AboutScene()
 
 void AboutScene::pollEvent(const sf::Event& e)
 {
-    
+    if(e.type == sf::Event::Resized)
+    {
+        // Scale text accordingly when the size changes
+        float scale_percentage = getParent()->getScalePercentage();
+        m_titleLabel->setTextSize(Global::titleTextSize * scale_percentage);
+        m_aboutDescription->setTextSize(25 * scale_percentage);
+        m_developerDescription->setTextSize(18 * scale_percentage);
+        m_backButton->setTextSize(Global::menuButtonTextSize * scale_percentage);
+    }
 }
 
 void AboutScene::start()
 {
-    getParent()->getGUI()->add(m_titleLabel);
-    getParent()->getGUI()->add(m_aboutDescription);
-    getParent()->getGUI()->add(m_developerDescription);
-    getParent()->getGUI()->add(m_backButton);
+    tgui::GuiSFML* gui = getParent()->getGUI();
+    gui->add(m_backgroundPanel);
+    gui->add(m_titleLabel);
+    gui->add(m_aboutDescription);
+    gui->add(m_developerDescription);
+    gui->add(m_backButton);
 }
 
 void AboutScene::update()
@@ -98,10 +96,7 @@ void AboutScene::draw(sf::RenderTarget& target)
 void AboutScene::destroy()
 {
     // m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
-    getParent()->getGUI()->remove(m_titleLabel);
-    getParent()->getGUI()->remove(m_aboutDescription);
-    getParent()->getGUI()->remove(m_developerDescription);
-    getParent()->getGUI()->remove(m_backButton);
+    getParent()->getGUI()->removeAllWidgets();
 }
 
 }
