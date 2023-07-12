@@ -16,6 +16,7 @@ Game::Game():
 
     m_window.create(sf::VideoMode(m_windowSize.x, m_windowSize.y), m_windowTitle);
     WindowFunctionalities::setMinimumSize(m_window, m_minWindowSize);
+    m_lastPosition = m_window.getPosition();
     m_gameGui.setTarget(m_window);
     
     m_defaultSceneManager.insert( {"main_menu", std::make_shared<MainMenuScene>(this)} );
@@ -41,13 +42,34 @@ void Game::handleEvents()
         else if(m_event.type == sf::Event::Resized)
         {
             sfex::Vec2u newSize = {m_event.size.width, m_event.size.height};
-            
+
+#if defined(SG_OS_WINDOWS)
+            bool newSizeLessThanMinimum = false;
+
+            if(newSize.x < m_minWindowSize.x)
+            {
+                newSize.x = m_minWindowSize.x;
+                newSizeLessThanMinimum = true;
+            }
+            if(newSize.y < m_minWindowSize.y)
+            {
+                newSize.y = m_minWindowSize.y;
+                newSizeLessThanMinimum = true;
+            }
+
+            if(newSizeLessThanMinimum)
+            {
+                m_window.setSize(newSize);
+                m_window.setPosition(m_lastPosition);
+            }
+#endif
             const sf::View& currentView = m_window.getView();
             m_window.setView(sf::View(currentView.getCenter(), newSize));
         }
         ImGui::SFML::ProcessEvent(m_window, m_event);
         m_defaultSceneManager.pollEvent(m_event);
         m_gameGui.handleEvent(m_event);
+        m_lastPosition = m_window.getPosition();
     }
 }
 

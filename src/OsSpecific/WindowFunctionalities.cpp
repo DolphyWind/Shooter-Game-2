@@ -21,11 +21,10 @@ void WindowFunctionalities::setMinimumSize(sf::RenderWindow &window, const sfex:
     XSetNormalHints(window_display, windowHandle, size_hints);
     XCloseDisplay(display);
 #elif defined (SG_OS_WINDOWS)
-    MINMAXINFO minMaxInfo = {0};
-    minMaxInfo.ptMinTrackSize.x = windowSize.x;   // Set minimum width
-    minMaxInfo.ptMinTrackSize.y = windowSize.y;   // Set minimum height
-    SendMessage(windowHandle, WM_GETMINMAXINFO, 0, (LPARAM)&minMaxInfo);
-
+    // AFAIK Windows does not have a function that sets the minimum size of the window.
+    // I tried a lot of ways to implment it but none of them worked. So it is implemented
+    // in Game::handleEvents by checking size and resizing accurdingly. It is not one to one
+    // but it is OK
 #elif defined (SG_OS_APPLE)
 #endif
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <OsSpecific/Config.hpp>
 #include <SFEX/SFEX.hpp>
 #if defined (SG_OS_WINDOWS)

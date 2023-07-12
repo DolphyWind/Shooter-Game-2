@@ -7,6 +7,7 @@
 #include <OsSpecific/WindowFunctionalities.hpp>
 #include <imgui-SFML.h>
 #include <ResourceManagement/TGUIFontManager.hpp>
+#include <OsSpecific/Config.hpp>
 
 namespace sg
 {
@@ -29,6 +30,8 @@ private:
     
     tgui::GuiSFML m_gameGui;
     TGUIFontManager m_fontManager;
+
+    sf::Vector2i m_lastPosition;
 
 public:
     Game();
