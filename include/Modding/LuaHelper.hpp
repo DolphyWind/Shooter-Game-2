@@ -1,0 +1,17 @@
+#pragma once
+#include <lua.hpp>
+#include <string>
+
+class LuaHelper
+{
+public:
+
+    static void push(lua_State* L, int val);
+    static void push(lua_State* L, double val);
+    static void push(lua_State* L, float val);
+    static void push(lua_State* L, bool val);
+    static void push(lua_State* L, const std::string& val);
+    static void push(lua_State* L, const char* val);
+    static void push(lua_State* L, void* val);
+
+};

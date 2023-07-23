@@ -100,6 +100,7 @@ target_link_libraries(${SG_BINARY_NAME} ImGui-SFML)
 target_link_libraries(${SG_BINARY_NAME} SFEX)
 target_link_libraries(${SG_BINARY_NAME} thor)
 target_link_libraries(${SG_BINARY_NAME} Boost::boost)
+target_link_libraries(${SG_BINARY_NAME} "${CMAKE_SOURCE_DIR}/lib/liblua.a")
 
 # Os-Specific Linking
 if(WIN32)
