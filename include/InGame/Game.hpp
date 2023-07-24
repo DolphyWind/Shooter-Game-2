@@ -8,6 +8,7 @@
 #include <imgui-SFML.h>
 #include <ResourceManagement/TGUIFontManager.hpp>
 #include <OsSpecific/Config.hpp>
+#include <InGame/Version.hpp>
 
 namespace sg
 {
@@ -34,6 +35,8 @@ private:
     const float m_targetAspectRatio;
     sf::Vector2i m_lastWindowPosition;
     sfex::Vec2u m_viewportSize;
+    
+    Version m_gameVersion;
 
 public:
     Game();

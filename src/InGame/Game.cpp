@@ -6,7 +6,7 @@ namespace sg
 
 Game::Game():
     m_FPS(0), m_initialWindowSize(1280, 720), m_windowTitle("Shooter Game 2"), m_currentScene(nullptr),
-    m_minWindowSize(1024, 576), m_targetAspectRatio(16.0f / 9.0f)
+    m_minWindowSize(1024, 576), m_targetAspectRatio(16.0f / 9.0f), m_gameVersion(0, 1, 0)
 {
     if (!m_fontManager.loadFromFile("chunk_five_ex", "assets/fonts/chunk_five_ex.ttf"))
     {
