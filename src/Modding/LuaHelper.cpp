@@ -34,3 +34,8 @@ void LuaHelper::push(lua_State* L, void* val)
 {
     lua_pushlightuserdata(L, val);
 }
+
+void LuaHelper::push(lua_State* L, lua_CFunction val)
+{
+    lua_pushcfunction(L, val);
+}
