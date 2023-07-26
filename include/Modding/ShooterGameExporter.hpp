@@ -10,9 +10,7 @@ class ShooterGameExporter
 {
 public:
     ShooterGameExporter() = delete;
-    static void init();
     static void exportTo(lua_State* L);
 private:
-    static std::vector<LuaExporter> subExporters;
-    static LuaExporter sg_exporter;
+    static std::vector<LuaExporter> luaExporters;
 };
