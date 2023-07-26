@@ -1,0 +1,18 @@
+#pragma once
+#include <iostream>
+#include <SFEX/Numeric/Vector2.hpp>
+#include <lua.hpp>
+#include <cassert>
+#include <vector>
+
+class LuaExporter;
+class ShooterGameExporter
+{
+public:
+    ShooterGameExporter() = delete;
+    static void init();
+    static void exportTo(lua_State* L);
+private:
+    static std::vector<LuaExporter> subExporters;
+    static LuaExporter sg_exporter;
+};

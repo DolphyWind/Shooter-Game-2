@@ -1,8 +1,6 @@
 #include <InGame/Scenes/AboutScene.hpp>
 #include <InGame/Game.hpp>
 
-namespace sg
-{
 
 AboutScene::AboutScene(Game* parent):
     ExtendedScene(parent), m_aboutGradient(2.0)
@@ -97,6 +95,4 @@ void AboutScene::destroy()
 {
     // m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
     getParent()->getGUI()->removeAllWidgets();
-}
-
 }

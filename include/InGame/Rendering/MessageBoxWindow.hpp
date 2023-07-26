@@ -5,8 +5,6 @@
 #include <TGUI/TGUI.hpp>
 #include <SFEX/SFEX.hpp>
 
-namespace sg
-{
 
 class MessageBoxWindow
 {
@@ -22,5 +20,3 @@ private:
     float m_titlebarHeight;
     tgui::String m_buttonString;
 };
-
-}

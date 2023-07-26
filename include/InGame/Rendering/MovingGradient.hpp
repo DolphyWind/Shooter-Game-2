@@ -4,8 +4,6 @@
 #include <SFEX/Graphics/Color.hpp>
 #include <Random/Random.hpp>
 
-namespace sg
-{
 
 class MovingGradient
 {
@@ -19,5 +17,3 @@ public:
     sfex::Color getCurrentColor();
     void update(float deltaTime);
 };
-
-}

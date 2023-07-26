@@ -7,15 +7,9 @@
 
 using RandomGenerator = StaticRandom;
 
-namespace sg
-{
-
 
 class Random : public sfex::StaticClass
 {
 public:
     static sfex::Color getRandomColor(bool randomAlpha=false);
 };
-
-
-}

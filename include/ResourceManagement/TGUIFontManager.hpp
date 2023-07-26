@@ -3,8 +3,6 @@
 #include <TGUI/TGUI.hpp>
 #include <memory>
 
-namespace sg
-{
 
 struct TGUIFontData
 {
@@ -25,5 +23,3 @@ public:
 
     bool loadFromFile(const std::string& key, const std::string& filename);
 };
-
-}

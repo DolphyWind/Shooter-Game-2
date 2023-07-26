@@ -1,7 +1,5 @@
 #include <InGame/Version.hpp>
 
-namespace sg
-{
 
 Version::Version(std::uint8_t major, std::uint8_t minor, std::uint8_t patch):
     m_major(major), m_minor(minor), m_patch(patch)
@@ -124,6 +122,4 @@ bool Version::operator>(const Version& rhs) const
 std::ostream& operator<<(std::ostream& o, const Version& ver)
 {
     return (o << ver.toString());
-}
-
 }

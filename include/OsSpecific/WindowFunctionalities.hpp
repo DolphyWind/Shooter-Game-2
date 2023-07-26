@@ -12,9 +12,6 @@
 // Include apple stuff
 #endif
 
-namespace sg
-{
-
 
 class WindowFunctionalities : public sfex::StaticClass
 {
@@ -22,6 +19,3 @@ public:
     static void setMinimumSize(sf::RenderWindow& window, const sfex::Vec2u& windowSize);
 
 };
-
-
-}

@@ -1,9 +1,6 @@
 #include <InGame/Scenes/ExtendedScene.hpp>
 #include <InGame/Game.hpp>
 
-namespace sg
-{
-
 ExtendedScene::ExtendedScene(Game* parent)
 {
     m_parent = parent;
@@ -53,7 +50,4 @@ sfex::Color ExtendedScene::getBackgroundColor()
 Game* ExtendedScene::getParent()
 {
     return m_parent;
-}
-
-
 }

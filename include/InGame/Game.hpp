@@ -10,9 +10,6 @@
 #include <OsSpecific/Config.hpp>
 #include <InGame/Version.hpp>
 
-namespace sg
-{
-
 
 class Game
 {
@@ -64,7 +61,4 @@ public:
     sfex::Vec2 getInitialWindowSize() const;
     sfex::Vec2u getViewportSize() const;
     float getScalePercentage() const;
-};
-
-
 };

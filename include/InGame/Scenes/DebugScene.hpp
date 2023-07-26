@@ -3,8 +3,6 @@
 #include <TGUI/TGUI.hpp>
 #include <InGame/Rendering/MessageBoxWindow.hpp>
 
-namespace sg
-{
 
 class Game;
 class DebugScene : public ExtendedScene
@@ -26,5 +24,3 @@ public:
     virtual void destroy() override;
 
 };
-
-}

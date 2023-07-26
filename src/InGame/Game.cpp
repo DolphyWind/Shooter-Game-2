@@ -1,8 +1,5 @@
 #include <InGame/Game.hpp>
 
-namespace sg
-{
-
 
 Game::Game():
     m_FPS(0), m_initialWindowSize(1280, 720), m_windowTitle("Shooter Game 2"), m_currentScene(nullptr),
@@ -262,6 +259,4 @@ float Game::getScalePercentage() const
 {
     // UI scaling factor
     return std::sqrt((getViewportSize().x * getViewportSize().y) / (getInitialWindowSize().x * getInitialWindowSize().y));
-}
-
 }

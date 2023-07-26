@@ -5,8 +5,6 @@
 #include <thirdparty/imgui/imgui.h>
 #include <imgui-SFML.h>
 
-namespace sg
-{
 
 class Game;
 class AboutScene : public ExtendedScene
@@ -33,6 +31,3 @@ public:
     virtual void draw(sf::RenderTarget &target) override;
     virtual void destroy() override;
 };
-
-
-}

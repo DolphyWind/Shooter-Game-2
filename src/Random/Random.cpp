@@ -1,8 +1,5 @@
 #include <Random/Random.hpp>
 
-namespace sg
-{
-
 sfex::Color Random::getRandomColor(bool randomAlpha)
 {
     sfex::Color out;
@@ -20,6 +17,4 @@ sfex::Color Random::getRandomColor(bool randomAlpha)
     }
 
     return out;
-}
-
 }

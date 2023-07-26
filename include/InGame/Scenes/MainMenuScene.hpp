@@ -8,8 +8,6 @@
 #include <Global.hpp>
 #include <InGame/Rendering/MovingGradient.hpp>
 
-namespace sg
-{
 
 class Game;
 
@@ -41,6 +39,3 @@ public:
     virtual void draw(sf::RenderTarget& target) override;
     virtual void destroy() override;
 };
-
-
-}

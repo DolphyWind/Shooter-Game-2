@@ -1,8 +1,6 @@
 #include <InGame/Scenes/DebugScene.hpp>
 #include <InGame/Game.hpp>
 
-namespace sg
-{
 
 DebugScene::DebugScene(Game* parent):
     ExtendedScene(parent)
@@ -61,6 +59,4 @@ void DebugScene::destroy()
 {
     //m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
     getParent()->getGUI()->removeAllWidgets();
-}
-
 }

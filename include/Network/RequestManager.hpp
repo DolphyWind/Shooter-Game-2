@@ -4,8 +4,6 @@
 #include <optional>
 #include <iostream>
 
-namespace sg
-{
 
 // Simple response object containing response data, response code and response success state.
 // If the response is unsuccessfull, the error would be print out to data and response_code will set to zero.
@@ -30,6 +28,3 @@ public:
     static void init();
     static Response get(const std::string& url);
 };
-
-
-} // namespace sg

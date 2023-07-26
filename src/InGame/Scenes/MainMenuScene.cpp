@@ -1,9 +1,6 @@
 #include <InGame/Scenes/MainMenuScene.hpp>
 #include <InGame/Game.hpp>
 
-namespace sg
-{
-
 
 MainMenuScene::MainMenuScene(Game* parent):
     ExtendedScene(parent), m_titleGradient(2.0)
@@ -107,7 +104,4 @@ void MainMenuScene::destroy()
     // m_gui.setOverrideMouseCursor(tgui::Cursor::Type::Arrow);
 
     getParent()->getGUI()->removeAllWidgets();
-}
-
-
 }

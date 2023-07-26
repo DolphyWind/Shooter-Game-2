@@ -1,7 +1,5 @@
 #include <InGame/Rendering/MovingGradient.hpp>
 
-namespace sg
-{
 
 MovingGradient::MovingGradient(float gradientPeriod):
     m_gradient(), m_gradientPeriod(gradientPeriod), m_gradientTimer(0)
@@ -24,6 +22,4 @@ void MovingGradient::update(float deltaTime)
 sfex::Color MovingGradient::getCurrentColor()
 {
     return m_gradient(m_gradientTimer);
-}
-
 }

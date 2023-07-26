@@ -7,8 +7,6 @@ using StaticRandom = effolkronium::random_static;
 using LocalRandom = effolkronium::random_local;
 using ThreadLocalRandom = effolkronium::random_thread_local;
 
-namespace sg
-{
 
 class Global : public sfex::StaticClass
 {
@@ -19,5 +17,3 @@ public:
     static constexpr unsigned int menuButtonBorderRadius = 5;
     static constexpr unsigned int titleTextSize = 42;
 };
-
-}

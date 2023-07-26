@@ -1,8 +1,5 @@
 #include <Network/RequestManager.hpp>
 
-namespace sg
-{
-
 CURL* RequestManager::curl = NULL;
 
 RequestManager::RequestManager()
@@ -61,6 +58,4 @@ Response RequestManager::get(const std::string &url)
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
 
     return Response{out, response_code, true};
-}
-
 }

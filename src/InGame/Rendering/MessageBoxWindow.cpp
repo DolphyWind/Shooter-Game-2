@@ -1,7 +1,5 @@
 #include <InGame/Rendering/MessageBoxWindow.hpp>
 
-namespace sg
-{
 
 MessageBoxWindow::MessageBoxWindow(const sfex::Vec2u& windowSize, const tgui::String& title, const tgui::String& message, const std::vector<tgui::String>& buttons):
     m_window(sf::VideoMode(windowSize.x, windowSize.y), title.toStdString()), m_gui(m_window)
@@ -54,6 +52,4 @@ void MessageBoxWindow::handleButtonPress(const tgui::String& buttonText)
 {
     m_buttonString = std::move(buttonText);
     m_window.close();
-}
-
 }

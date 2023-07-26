@@ -1,8 +1,5 @@
 #include <ResourceManagement/TGUIFontManager.hpp>
 
-namespace sg
-{
-
 TGUIFontData::TGUIFontData()
 {
     
@@ -36,6 +33,4 @@ bool TGUIFontManager::loadFromFile(const std::string& key, const std::string& fi
     (*this)[key] = TGUIFontData(filename, backendFont);
 
     return true;
-}
-
 }

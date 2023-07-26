@@ -4,8 +4,6 @@
 #include <string_view>
 #include <iostream>
 
-namespace sg 
-{
 
 /// @brief A class for holding version information such as v1.0.0
 class Version
@@ -48,5 +46,3 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& o, const Version& ver);
-
-}

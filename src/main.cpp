@@ -1,8 +1,13 @@
 #include <InGame/Game.hpp>
+#include <Modding/ShooterGameExporter.hpp>
+#include <Network/RequestManager.hpp>
 
 int main(int argc, char** argv)
 {
-    sg::Game game;
+    ShooterGameExporter::init();
+    RequestManager::init();
+
+    Game game;
     game.setMaxFPS(120);
     game.run();
     

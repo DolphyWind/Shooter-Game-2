@@ -1,8 +1,6 @@
 #pragma once
 #include <SFEX/SFEX.hpp>
 
-namespace sg
-{
 
 class Game;
 class ExtendedScene : public sfex::Scene
@@ -26,6 +24,3 @@ public:
     sfex::Color getBackgroundColor();
     Game* getParent();
 };
-
-
-}

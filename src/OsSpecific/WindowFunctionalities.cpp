@@ -1,7 +1,5 @@
 #include <OsSpecific/WindowFunctionalities.hpp>
 
-namespace sg
-{
 
 void WindowFunctionalities::setMinimumSize(sf::RenderWindow &window, const sfex::Vec2u &windowSize)
 {
@@ -27,6 +25,4 @@ void WindowFunctionalities::setMinimumSize(sf::RenderWindow &window, const sfex:
     // but it is OK
 #elif defined (SG_OS_APPLE)
 #endif
-}
-
 }
