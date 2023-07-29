@@ -36,6 +36,8 @@ set(SFML_STATIC_LIBRARIES TRUE)
 set(TGUI_BUILD_GUI_BUILDER FALSE)
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
+set(BUILD_SHARED_LIBS OFF)
+set(THOR_SHARED_LIBS FALSE CACHE BOOL "Build shared libraries (use shared SFML librares)")
 
 function(fetch_library library_name repo_url git_tag)
     FetchContent_Declare(
@@ -45,7 +47,6 @@ function(fetch_library library_name repo_url git_tag)
         GIT_PROGRESS TRUE
         USES_TERMINAL_DOWNLOAD TRUE
     )
-
     FetchContent_MakeAvailable(${library_name})
 endfunction(fetch_library)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
