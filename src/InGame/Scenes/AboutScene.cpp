@@ -50,7 +50,7 @@ AboutScene::~AboutScene()
 
 }
 
-void AboutScene::pollEvent(const sf::Event& e)
+void AboutScene::handleEvent(const sf::Event& e)
 {
     if(e.type == sf::Event::Resized)
     {
@@ -73,15 +73,13 @@ void AboutScene::start()
     gui->add(m_backButton);
 }
 
-void AboutScene::update()
+void AboutScene::update(const sf::Time& deltaTime)
 {
-    float deltaTime = getParent()->getDeltaTime();
-
-    m_aboutGradient.update(deltaTime);
+    m_aboutGradient.update(deltaTime.asSeconds());
     m_titleLabel->getRenderer()->setTextColor(m_aboutGradient.getCurrentColor());
 }
 
-void AboutScene::lateUpdate()
+void AboutScene::lateUpdate(const sf::Time& deltaTime)
 {
 
 }

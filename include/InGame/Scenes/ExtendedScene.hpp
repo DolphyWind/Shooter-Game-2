@@ -11,11 +11,11 @@ private:
 public:
     ExtendedScene(Game* parent);
 
-    virtual void pollEvent(const sf::Event &e) override;
+    virtual void handleEvent(const sf::Event &e) override;
     virtual void start() override;
 
-    virtual void update() override;
-    virtual void lateUpdate();
+    virtual void update(const sf::Time& deltaTime) override;
+    virtual void lateUpdate(const sf::Time& deltaTime);
 
     virtual void draw(sf::RenderTarget &target) override;
     virtual void destroy() override;

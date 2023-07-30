@@ -43,7 +43,7 @@ MainMenuScene::~MainMenuScene()
 
 }
 
-void MainMenuScene::pollEvent(const sf::Event& e)
+void MainMenuScene::handleEvent(const sf::Event& e)
 {
     if(e.type == sf::Event::Resized)
     {
@@ -72,18 +72,15 @@ void MainMenuScene::start()
     gui->add(m_quitButton);
 }
 
-void MainMenuScene::update()
+void MainMenuScene::update(const sf::Time& deltaTime)
 {
-    float deltaTime = getParent()->getDeltaTime();
-    m_titleGradient.update(deltaTime);
+    m_titleGradient.update(deltaTime.asSeconds());
 
     m_titleLabel->getRenderer()->setTextColor(m_titleGradient.getCurrentColor());
 }
 
-void MainMenuScene::lateUpdate()
+void MainMenuScene::lateUpdate(const sf::Time& deltaTime)
 {
-    float deltaTime = getParent()->getDeltaTime();
-
     if(!sfex::Keyboard::getKey(sfex::Keyboard::Key::F3))
     {
         m_f3Clock.restart();

@@ -21,7 +21,7 @@ private:
     const sfex::Vec2 m_initialWindowSize;
     const std::string m_windowTitle;
     const sfex::Vec2u m_minWindowSize;
-    float m_deltaTime;
+    sf::Time m_deltaTime;
     
     sfex::SceneManager m_defaultSceneManager;
     ExtendedScene* m_currentScene;
@@ -40,8 +40,8 @@ public:
     ~Game();
 
     void handleEvents();
-    void update(float deltaTime);
-    void lateUpdate(float deltaTime);
+    void update(const sf::Time& deltaTime);
+    void lateUpdate(const sf::Time& deltaTime);
     void render();
     void run();
 
@@ -53,7 +53,6 @@ public:
     void makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::String& text);
 
     sf::RenderWindow& getRenderWindow();
-    float getDeltaTime() const;
     ExtendedScene* getCurrentScene() const;
     const std::string& getWindowTitle() const;
     TGUIFontManager& getFontManager();

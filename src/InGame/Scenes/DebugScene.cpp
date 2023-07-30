@@ -15,7 +15,7 @@ DebugScene::DebugScene(Game* parent):
     m_backgroundPanel->getRenderer()->setBackgroundColor(sfex::Color::Cyan);
 }
 
-void DebugScene::pollEvent(const sf::Event &e)
+void DebugScene::handleEvent(const sf::Event &e)
 {
     if(e.type == sf::Event::Resized)
     {
@@ -33,7 +33,7 @@ void DebugScene::start()
     gui->add(m_welcomeLabel);
 }
 
-void DebugScene::update()
+void DebugScene::update(const sf::Time& deltaTime)
 {
     if(!sfex::Keyboard::getKey(sfex::Keyboard::Key::F3))
     {
@@ -45,7 +45,7 @@ void DebugScene::update()
     }
 }
 
-void DebugScene::lateUpdate()
+void DebugScene::lateUpdate(const sf::Time& deltaTime)
 {
 
 }

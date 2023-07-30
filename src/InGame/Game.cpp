@@ -105,20 +105,20 @@ void Game::handleEvents()
 #endif
         }
         ImGui::SFML::ProcessEvent(m_window, m_event);
-        m_defaultSceneManager.pollEvent(m_event);
+        m_defaultSceneManager.handleEvent(m_event);
         m_gameGui.handleEvent(m_event);
         m_lastWindowPosition = m_window.getPosition();
     }
 }
 
-void Game::update(float deltaTime)
+void Game::update(const sf::Time& deltaTime)
 {
-    m_defaultSceneManager.update();
+    m_defaultSceneManager.update(deltaTime);
 }
 
-void Game::lateUpdate(float deltaTime)
+void Game::lateUpdate(const sf::Time& deltaTime)
 {
-    getCurrentScene()->lateUpdate();
+    getCurrentScene()->lateUpdate(deltaTime);
 }
 
 void Game::render()
@@ -132,7 +132,7 @@ void Game::render()
 void Game::run()
 {
     sf::Clock frameClock;
-    float total_time = 0.0f;
+    sf::Time total_time = sf::Time::Zero;
     ImGui::SFML::Init(m_window);
     
     if(!m_FPS)
@@ -141,8 +141,8 @@ void Game::run()
         {
             handleEvents();
 
-            m_deltaTime = total_time = frameClock.restart().asSeconds();
-            ImGui::SFML::Update(m_window, sf::seconds(m_deltaTime));
+            m_deltaTime = total_time = frameClock.restart();
+            ImGui::SFML::Update(m_window, m_deltaTime);
     
             update(total_time);
             lateUpdate(total_time);
@@ -152,17 +152,17 @@ void Game::run()
     }
     else
     {
-        float frameTime = 1/float(m_FPS);
+        sf::Time frameTime = sf::seconds(1/float(m_FPS));
         m_deltaTime = frameTime;
 
         while(m_window.isOpen())
         {
             handleEvents();
 
-            total_time += frameClock.restart().asSeconds();
+            total_time += frameClock.restart();
             while(total_time >= frameTime)
             {
-                ImGui::SFML::Update(m_window, sf::seconds(frameTime));
+                ImGui::SFML::Update(m_window, frameTime);
                 update(frameTime);
                 lateUpdate(frameTime);
                 total_time -= frameTime;
@@ -218,11 +218,6 @@ void Game::makeMenuButton(tgui::Button::Ptr &buttonPtr, const tgui::String& butt
 sf::RenderWindow& Game::getRenderWindow()
 {
     return m_window;
-}
-
-float Game::getDeltaTime() const
-{
-    return m_deltaTime;
 }
 
 ExtendedScene* Game::getCurrentScene() const
