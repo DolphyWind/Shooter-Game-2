@@ -2,15 +2,12 @@
 #include <InGame/Scenes/ExtendedScene.hpp>
 #include <TGUI/TGUI.hpp>
 #include <InGame/Rendering/MessageBoxWindow.hpp>
-
+#include <memory>
+#include <InGame/Entity.hpp>
 
 class Game;
 class DebugScene : public ExtendedScene
 {
-private:
-    tgui::Panel::Ptr m_backgroundPanel;
-    tgui::Label::Ptr m_welcomeLabel;
-    sf::Clock m_f3Clock;
 public:
     DebugScene(Game* parent);
 
@@ -22,5 +19,8 @@ public:
 
     virtual void draw(sf::RenderTarget &target) override;
     virtual void destroy() override;
-
+private:
+    tgui::Label::Ptr m_welcomeLabel;
+    sf::Clock m_f3Clock;
+    std::vector<std::unique_ptr<Entity>> m_entities;
 };
