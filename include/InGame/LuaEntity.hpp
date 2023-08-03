@@ -16,8 +16,8 @@ public:
     virtual void onDestroy() override;
     virtual void render(sf::RenderTarget& target) override;
 
-    virtual void onCollisionEnter(Entity* other) override;
-    virtual void onCollisionStay(Entity* other) override;
+    virtual void onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint) override;
+    virtual void onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint) override;
     virtual void onCollisionExit(Entity* other) override;
 
 private:

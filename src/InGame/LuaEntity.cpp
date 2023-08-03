@@ -19,9 +19,9 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const boost::fil
     m_lateUpdateFunction.load(m_entityLuaState, "lateUpdate", 1, 0);
     m_onDestroyFunction.load(m_entityLuaState, "onDestroy", 0, 0);
     m_renderFunction.load(m_entityLuaState, "render", 1, 0);
-    m_onCollisionEnterFunction.load(m_entityLuaState, "onCollisionEnter", 1, 0);
-    m_onCollisionStayFunction.load(m_entityLuaState, "onCollisionStay", 1, 0);
-    m_onCollisionExitFunction.load(m_entityLuaState, "onCollisionExit", 1, 0);
+    m_onCollisionEnterFunction.load(m_entityLuaState, "onCollisionEnter", 2, 0);
+    m_onCollisionStayFunction.load(m_entityLuaState, "onCollisionStay", 2, 0);
+    m_onCollisionExitFunction.load(m_entityLuaState, "onCollisionExit", 2, 0);
 }
 
 LuaEntity::~LuaEntity()
@@ -54,14 +54,14 @@ void LuaEntity::render(sf::RenderTarget& target)
     m_renderFunction((void*)&target);
 }
 
-void LuaEntity::onCollisionEnter(Entity* other)
+void LuaEntity::onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint)
 {
-    m_onCollisionEnterFunction((void*)other);
+    m_onCollisionEnterFunction((void*)other, (void*)&intersectionPoint);
 }
 
-void LuaEntity::onCollisionStay(Entity* other)
+void LuaEntity::onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint)
 {
-    m_onCollisionStayFunction((void*)other);
+    m_onCollisionStayFunction((void*)other, (void*)&intersectionPoint);
 }
 
 void LuaEntity::onCollisionExit(Entity* other)
