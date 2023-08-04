@@ -106,7 +106,8 @@ bool Player::isPlayer()
 
 void Player::onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint)
 {
-    
+    sfex::Vec2 differenceVector = intersectionPoint - getPosition();
+    move((-differenceVector).normalized() * (m_playerRadius - differenceVector.magnitude()));
 }
 
 void Player::onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint)

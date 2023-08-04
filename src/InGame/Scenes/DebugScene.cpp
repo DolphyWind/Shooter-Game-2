@@ -93,8 +93,10 @@ void DebugScene::checkCollisions()
 {
     for(std::size_t i = 0; i < m_entities.size(); ++i)
     {
-        for(std::size_t j = i + 1; j < m_entities.size(); ++j)
+        for(std::size_t j = 0; j < m_entities.size(); ++j)
         {
+            if(i == j) continue;
+
             auto& e1 = m_entities[i];
             auto& e2 = m_entities[j];
             bool collided = false;
@@ -127,12 +129,12 @@ void DebugScene::checkCollisions()
                 {
                     m_collisionTable[e1.get()].insert(e2.get());
                     e1->onCollisionEnter(e2.get(), intersectionPoint.value());
-                    e2->onCollisionEnter(e1.get(), intersectionPoint.value());
+                    // e2->onCollisionEnter(e1.get(), intersectionPoint.value());
                 }
                 else
                 {
                     e1->onCollisionStay(e2.get(), intersectionPoint.value());
-                    e2->onCollisionStay(e1.get(), intersectionPoint.value());
+                    // e2->onCollisionStay(e1.get(), intersectionPoint.value());
                 }
             }
             else
@@ -141,7 +143,7 @@ void DebugScene::checkCollisions()
                 {
                     m_collisionTable[e1.get()].erase(e2.get());
                     e1->onCollisionExit(e2.get());
-                    e2->onCollisionExit(e1.get());
+                    // e2->onCollisionExit(e1.get());
                 }
             }
         }
