@@ -21,11 +21,14 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const boost::fil
     m_renderFunction.load(m_entityLuaState, "render", 1, 0);
     m_onCollisionEnterFunction.load(m_entityLuaState, "onCollisionEnter", 2, 0);
     m_onCollisionStayFunction.load(m_entityLuaState, "onCollisionStay", 2, 0);
-    m_onCollisionExitFunction.load(m_entityLuaState, "onCollisionExit", 2, 0);
+    m_onCollisionExitFunction.load(m_entityLuaState, "onCollisionExit", 1, 0);
+
+    start();
 }
 
 LuaEntity::~LuaEntity()
 {
+    m_onDestroyFunction();
     lua_close(m_entityLuaState);
 }
 

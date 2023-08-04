@@ -147,6 +147,9 @@ void Game::run()
             update(total_time);
             lateUpdate(total_time);
 
+            sfex::Keyboard::update();
+            sfex::Mouse::update();
+            sfex::Joystick::update();
             render();
         }
     }
@@ -165,6 +168,11 @@ void Game::run()
                 ImGui::SFML::Update(m_window, frameTime);
                 update(frameTime);
                 lateUpdate(frameTime);
+
+                sfex::Keyboard::update();
+                sfex::Mouse::update();
+                sfex::Joystick::update();
+
                 total_time -= frameTime;
             }
 

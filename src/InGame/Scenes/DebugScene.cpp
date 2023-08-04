@@ -42,6 +42,7 @@ void DebugScene::start()
 
     m_entities.push_back(std::make_unique<Player>(getParent(), true));
     m_entities.push_back(std::make_unique<Player>(getParent(), false));
+    m_entities.push_back(std::make_unique<LuaEntity>(getParent(), "entity.lua", "."));
 
     m_entities[0]->setPosition({100, 100});
     m_entities[1]->setPosition({300, 300});
@@ -129,12 +130,10 @@ void DebugScene::checkCollisions()
                 {
                     m_collisionTable[e1.get()].insert(e2.get());
                     e1->onCollisionEnter(e2.get(), intersectionPoint.value());
-                    // e2->onCollisionEnter(e1.get(), intersectionPoint.value());
                 }
                 else
                 {
                     e1->onCollisionStay(e2.get(), intersectionPoint.value());
-                    // e2->onCollisionStay(e1.get(), intersectionPoint.value());
                 }
             }
             else
@@ -143,7 +142,6 @@ void DebugScene::checkCollisions()
                 {
                     m_collisionTable[e1.get()].erase(e2.get());
                     e1->onCollisionExit(e2.get());
-                    // e2->onCollisionExit(e1.get());
                 }
             }
         }

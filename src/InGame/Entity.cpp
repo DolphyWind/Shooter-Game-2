@@ -1,4 +1,5 @@
 #include <InGame/Entity.hpp>
+#include <InGame/Game.hpp>
 
 Entity::Entity(Game* parent):
     m_health(100), m_collider(), m_parent(parent), m_innerLines(), m_outerLines()
@@ -17,7 +18,6 @@ void Entity::setHealth(float newHealth)
     if(m_health <= 0)
     {
         this->onDestroy();
-        // Destroy the object here
     }
 }
 
