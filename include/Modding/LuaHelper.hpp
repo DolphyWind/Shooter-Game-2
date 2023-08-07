@@ -13,6 +13,7 @@ public:
     static void push(lua_State* L, const std::string& val);
     static void push(lua_State* L, const char* val);
     static void push(lua_State* L, void* val);
+    static void push(lua_State* L, void* val, const std::string& metatableName);
     static void push(lua_State* L, lua_CFunction val);
 
     union LuaVariable

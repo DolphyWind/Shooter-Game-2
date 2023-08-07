@@ -356,9 +356,9 @@ LuaExporter ColorExporter::toLuaExporter()
         }
     );
 
-    // For some reaseon in this function all LuaColor::* is set to (0, 0, 0, 0).
+    // For some reaseon in this function all static colors are set to (0, 0, 0, 0).
     // It only happens in this function and nowhere else which makes it really suspicious
-    // I am guessing there is caused by an undefined behaviour somewhere
+    // I am guessing there is an undefined behaviour somewhere in the code
     std::vector<Lua_Color*> public_lua_colors = {
         new Lua_Color(sf::Color::Red),
         new Lua_Color(sf::Color::Green),
@@ -384,6 +384,7 @@ LuaExporter ColorExporter::toLuaExporter()
     exporter.addUserdata("black", public_lua_colors[8], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
     exporter.addUserdata("transparent", public_lua_colors[9], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
 
+    // It is ok to delete them because addUserdata copies the data it got
     for(auto& v : public_lua_colors)
     {
         delete v;

@@ -4,12 +4,14 @@
 #include <Modding/Exporters/ColorExporter.hpp>
 #include <Modding/Exporters/KeyboardExporter.hpp>
 #include <Modding/Exporters/MouseExporter.hpp>
+#include <Modding/Exporters/TransformExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     Vector2Exporter::toLuaExporter(),
     ColorExporter::toLuaExporter(),
     KeyboardExporter::toLuaExporter(),
     MouseExporter::toLuaExporter(),
+    TransformExporter::toLuaExporter(),
 };
 
 void ShooterGameExporter::exportTo(lua_State* L)

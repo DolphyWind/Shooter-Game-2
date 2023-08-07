@@ -35,6 +35,13 @@ void LuaHelper::push(lua_State* L, void* val)
     lua_pushlightuserdata(L, val);
 }
 
+void LuaHelper::push(lua_State* L, void* val, const std::string& metatableName)
+{
+    lua_pushlightuserdata(L, val);
+    luaL_getmetatable(L, metatableName.c_str());
+    lua_setmetatable(L, -2);
+}
+
 void LuaHelper::push(lua_State* L, lua_CFunction val)
 {
     lua_pushcfunction(L, val);

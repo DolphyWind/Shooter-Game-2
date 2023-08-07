@@ -10,9 +10,7 @@ void Vector2Exporter::createVector(lua_State* L, const Lua_Vector2& vec)
     void* data = lua_newuserdata(L, sizeof(Lua_Vector2));
     Lua_Vector2* vecPtr = new (data) Lua_Vector2(vec);
     luaL_getmetatable(L, LUA_VECTOR2_CLASSNAME"_metatable");
-    assert(lua_istable(L, -1));
     lua_setmetatable(L, -2);
-    lua_insert(L, -1);
 }
 
 int Vector2Exporter::__new(lua_State* L)
@@ -35,6 +33,7 @@ int Vector2Exporter::__new(lua_State* L)
         x = luaL_checknumber(L, 1);
         y = luaL_checknumber(L, 2);
     }
+
 
     createVector(L, {x, y});
 
@@ -619,6 +618,7 @@ LuaExporter Vector2Exporter::toLuaExporter()
     exporter.addUserdata("zero", public_lua_vectors[4], sizeof(Lua_Vector2), LUA_VECTOR2_CLASSNAME"_metatable");
     exporter.addUserdata("one", public_lua_vectors[5], sizeof(Lua_Vector2), LUA_VECTOR2_CLASSNAME"_metatable");
 
+    // It is ok to delete them because addUserdata copies the data it got
     for(auto& v : public_lua_vectors)
     {
         delete v;
