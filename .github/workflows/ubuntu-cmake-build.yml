@@ -30,7 +30,7 @@ jobs:
     - uses: actions/set-env@v1
       with:
         env_name: SFML_PATH
-        env_value: ${{DEPS_PATH}}/SFML
+        env_value: ${{ env.DEPS_PATH }}/SFML
     
     - name: Install libraries
       run: sudo apt-get update && sudo apt-get install libx11-dev libxi-dev libxrandr-dev libgl1-mesa-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev libxinerama-dev libxcursor-dev libboost-all-dev libfreetype-dev zlib1g-dev libssl-dev libcurl4-openssl-dev 
@@ -39,26 +39,26 @@ jobs:
       id: cache-restore
       uses: actions/cache/restore@v3
       with:
-        path: ${{ DEPS_PATH }}
+        path: ${{ env.DEPS_PATH }}
         key: ${{ runner.os }}-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}
 
     - name: Install and build SFML 2.5.1 static
       run: |
-        if [ -e "${{ SFML_PATH }}" ]; then
+        if [ -e "${{ env.SFML_PATH }}" ]; then
           echo "SFML Path exists. Skipping SFML build"
         else
-          mkdir -p ${{DEPS_PATH}}
-          git clone https://github.com/SFML/SFML.git -b 2.5.x ${{SFML_PATH}}
-          cmake -B ${{SFML_PATH}}/build -S ${{SFML_PATH}} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
-          cmake --build ${{SFML_PATH}}/build --config="Release"
+          mkdir -p ${{ env.DEPS_PATH }}
+          git clone https://github.com/SFML/SFML.git -b 2.5.x ${{ env.SFML_PATH }}
+          cmake -B ${{ env.SFML_PATH }}/build -S ${{ env.SFML_PATH }} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
+          cmake --build ${{ env.SFML_PATH }}/build --config="Release"
         fi
     
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSFML_ROOT=${{SFML_PATH}}/build
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSFML_ROOT=${{ env.SFML_PATH }}/build
 
     - name: Build
       # Build your program with the given configuration
