@@ -139,6 +139,8 @@ LuaExporter KeyboardExporter::toLuaExporter()
     keyboardExporter.addInteger("F14", sfex::Keyboard::Key::F14);
     keyboardExporter.addInteger("F15", sfex::Keyboard::Key::F15);
     keyboardExporter.addInteger("Pause", sfex::Keyboard::Key::Pause);
-
+    keyboardExporter.addInteger("Dash", sfex::Keyboard::Key::Dash);
+    keyboardExporter.addInteger("Return", sfex::Keyboard::Key::Return);
+    
     return keyboardExporter;
 }

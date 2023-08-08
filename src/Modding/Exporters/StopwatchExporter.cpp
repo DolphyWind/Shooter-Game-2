@@ -1,0 +1,90 @@
+#include <Modding/Exporters/StopwatchExporter.hpp>
+#include <Modding/LuaExporter.hpp>
+
+void StopwatchExporter::createStopwatch(lua_State *L, const Lua_Stopwatch& stopwatch)
+{
+    void* data = lua_newuserdata(L, sizeof(Lua_Stopwatch));
+    Lua_Stopwatch* stopwatchPtr = new (data) Lua_Stopwatch();
+    luaL_getmetatable(L, LUA_STOPWATCH_CLASSNAME"_metatable");
+    lua_setmetatable(L, -2);
+}
+
+int StopwatchExporter::__new(lua_State *L)
+{
+    createStopwatch(L, sfex::Stopwatch());
+    return 1;
+}
+
+int StopwatchExporter::__destroy(lua_State *L)
+{
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( lua_touserdata(L, 1) );
+    stopwatchPtr->~Lua_Stopwatch();
+    return 0;
+}
+
+int StopwatchExporter::__index(lua_State *L)
+{
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( lua_touserdata(L, 1) );
+    std::string indexStr = lua_tostring(L, 2);
+
+    lua_getglobal(L, LUA_STOPWATCH_CLASSNAME);
+    lua_pushstring(L, indexStr.c_str());
+    lua_rawget(L, -2);
+    return 1;
+}
+
+int StopwatchExporter::getElapsedTime(lua_State *L)
+{
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( lua_touserdata(L, 1) );
+    lua_pushnumber(L, stopwatchPtr->getElapsedTime().asSeconds());
+    return 1;
+}
+
+int StopwatchExporter::pause(lua_State *L)
+{
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( lua_touserdata(L, 1) );
+    stopwatchPtr->pause();
+    return 0;
+}
+
+int StopwatchExporter::resume(lua_State *L)
+{
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( lua_touserdata(L, 1) );
+    stopwatchPtr->resume();
+    return 0;
+}
+
+int StopwatchExporter::restart(lua_State *L)
+{
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( lua_touserdata(L, 1) );
+    stopwatchPtr->restart();
+    return 0;
+}
+
+int StopwatchExporter::isPaused(lua_State *L)
+{
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( lua_touserdata(L, 1) );
+    lua_pushboolean(L, stopwatchPtr->isPaused());
+    return 1;
+}
+
+LuaExporter StopwatchExporter::toLuaExporter()
+{
+    LuaExporter exporter(
+        LUA_STOPWATCH_CLASSNAME,
+        StopwatchExporter::__new,
+        {
+            {"getElapsedTime", StopwatchExporter::getElapsedTime},
+            {"pause", StopwatchExporter::pause},
+            {"resume", StopwatchExporter::resume},
+            {"restart", StopwatchExporter::restart},
+            {"isPaused", StopwatchExporter::isPaused},
+        },
+        {
+            {"__gc", StopwatchExporter::__destroy},
+            {"__index", StopwatchExporter::__index},
+        }
+    );
+
+    return exporter;
+}

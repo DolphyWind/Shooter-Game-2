@@ -1,6 +1,5 @@
 #pragma once
-
-#include <SFEX/Numeric/Vector2.hpp>
+#include <SFEX/General/Keyboard.hpp>
 #include <lua.hpp>
 
 #define LUA_KEYBOARD_CLASSNAME "Keyboard"

@@ -1,6 +1,5 @@
 #pragma once
-
-#include <SFEX/Numeric/Vector2.hpp>
+#include <SFEX/General/Mouse.hpp>
 #include <lua.hpp>
 
 #define LUA_MOUSE_CLASSNAME "Mouse"

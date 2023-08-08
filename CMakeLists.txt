@@ -60,7 +60,7 @@ fetch_library(FMT https://github.com/fmtlib/fmt.git a0b8a92e3d1532361c2f7feb63ba
 fetch_library(BOX2D https://github.com/erincatto/box2d.git 411acc32eb6d4f2e96fc70ddbdf01fe5f9b16230)
 fetch_library(IMGUISFML https://github.com/SFML/imgui-sfml.git 15753d56403a7aeb1cae12fd930cfb1d2eac5e74)
 fetch_library(THOR https://github.com/Bromeon/Thor 3e320cb52606f0b44fd9d2bb272b3cb6d01d7f20)
-fetch_library(SFEX https://github.com/DolphyWind/SFML-Extended 5ea69601eb9a1cc9487e0b32ad9907ed09a3b314)
+fetch_library(SFEX https://github.com/DolphyWind/SFML-Extended a46d79bcf74110c2579cd6519ec459f1cffca470)
 
 find_package(Boost REQUIRED)
 if(WIN32)

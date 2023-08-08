@@ -5,6 +5,8 @@
 #include <Modding/Exporters/KeyboardExporter.hpp>
 #include <Modding/Exporters/MouseExporter.hpp>
 #include <Modding/Exporters/TransformExporter.hpp>
+#include <Modding/Exporters/StopwatchExporter.hpp>
+#include <Modding/Exporters/JoystickExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     Vector2Exporter::toLuaExporter(),
@@ -12,6 +14,8 @@ std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     KeyboardExporter::toLuaExporter(),
     MouseExporter::toLuaExporter(),
     TransformExporter::toLuaExporter(),
+    StopwatchExporter::toLuaExporter(),
+    JoystickExporter::toLuaExporter(),
 };
 
 void ShooterGameExporter::exportTo(lua_State* L)
