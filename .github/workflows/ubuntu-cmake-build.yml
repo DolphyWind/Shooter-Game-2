@@ -24,22 +24,6 @@ jobs:
     - name: Install libraries
       run: sudo apt-get update && sudo apt-get install libx11-dev libxi-dev libxrandr-dev libgl1-mesa-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev libxinerama-dev libxcursor-dev libboost-all-dev libfreetype-dev zlib1g-dev libssl-dev libcurl4-openssl-dev 
     
-    - name: Check if SFML path exists
-      run: |
-        if [ ! -d "${{github.workspace}}/build/_deps/SFML" ]; then
-          echo "Path does not exist"
-          touch path_not_exists.txt
-        else
-          echo "Path exists"
-        fi
-    - name: Install and build SFML 2.5.1 static
-      run: |
-        mkdir -p ${{github.workspace}}/build/_deps/
-        git clone https://github.com/SFML/SFML.git -b 2.5.x ${{github.workspace}}/build/_deps/SFML
-        cmake -B ${{github.workspace}}/build/SFML/build -S ${{github.workspace}}/build/SFML -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
-        cmake --build ${{github.workspace}}/build/SFML/build --config="Release"
-      if: success() && always() && !contains(run.outputs, 'Path exists')
-
     - name: Restore cached Dependencies
       id: cache-restore
       uses: actions/cache/restore@v3
@@ -49,6 +33,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}
 
+    - name: Install and build SFML 2.5.1 static
+      run: |
+        if [ -e "${{github.workspace}}/build/_deps/SFML" ]; then
+          echo "SFML Path exists. Skipping SFML build"
+        else
+          mkdir -p ${{github.workspace}}/build/_deps/
+          git clone https://github.com/SFML/SFML.git -b 2.5.x ${{github.workspace}}/build/_deps/SFML
+          cmake -B ${{github.workspace}}/build/SFML/build -S ${{github.workspace}}/build/SFML -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
+          cmake --build ${{github.workspace}}/build/SFML/build --config="Release"
+        fi
+    
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
