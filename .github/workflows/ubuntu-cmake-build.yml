@@ -24,7 +24,7 @@ jobs:
     - name: Set environment variables
       run: |
         echo "DEPS_PATH=${{ github.workspace }}/build/_deps/" >> $GITHUB_ENV
-        echo "SFML_PATH= ${{ env.DEPS_PATH }}/SFML" >> $GITHUB_ENV
+        echo "SFML_PATH= ${{ github.workspace }}/build/_deps/SFML" >> $GITHUB_ENV
       
     - name: Install libraries
       run: sudo apt-get update && sudo apt-get install libx11-dev libxi-dev libxrandr-dev libgl1-mesa-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev libxinerama-dev libxcursor-dev libboost-all-dev libfreetype-dev zlib1g-dev libssl-dev libcurl4-openssl-dev 
