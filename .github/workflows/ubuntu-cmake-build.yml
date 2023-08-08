@@ -68,7 +68,7 @@ jobs:
       id: cache-deps
       uses: actions/cache/save@v3
       with:
-        path: ${{ DEPS_PATH }}
+        path: ${{ env.DEPS_PATH }}
         key: ${{ steps.cache-restore.outputs.cache-primary-key }}
 
     - name: Test
