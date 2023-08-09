@@ -1,6 +1,7 @@
 #include <Modding/Exporters/TransformExporter.hpp>
 #include <Modding/LuaExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
+#include <Modding/Exporters/FloatRectExporter.hpp>
 #include <array>
 #include <iostream>
 #include <Modding/LuaHelper.hpp>
@@ -77,6 +78,12 @@ int TransformExporter::__mul(lua_State *L)
 
 int TransformExporter::__eq(lua_State *L)
 {
+    if(lua_type(L, 1) != lua_type(L, 2))
+    {
+        lua_pushboolean(L, false);
+        return 1;
+    }
+
     Lua_Transform* firstTransform = static_cast<Lua_Transform*>( lua_touserdata(L, 1) );
     Lua_Transform* secondTransform = static_cast<Lua_Transform*>( lua_touserdata(L, 2) );
 
@@ -133,8 +140,10 @@ int TransformExporter::transformPoint(lua_State *L)
 
 int TransformExporter::transformRect(lua_State *L)
 {
-    luaL_error(L, "Not yet implemented!");
-    return 0;
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( lua_touserdata(L, 1) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( lua_touserdata(L, 1) );
+    FloatRectExporter::createFloatRect(L, transformPtr->transformRect(*floatRectPtr));
+    return 1;
 }
 
 int TransformExporter::combine(lua_State *L)

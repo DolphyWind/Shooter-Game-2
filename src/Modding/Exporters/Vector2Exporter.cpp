@@ -233,10 +233,10 @@ int Vector2Exporter::__idiv(lua_State* L)
 
 int Vector2Exporter::__eq(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1) || !lua_isuserdata(L, 2))
+    if(lua_type(L, 1) != lua_type(L, 2))
     {
-        luaL_error(L, "Unsupported binary operation between types %s and %s", lua_typename(L, lua_type(L, 1)), lua_typename(L, lua_type(L, 1)));
-        return 0;
+        lua_pushboolean(L, false);
+        return 1;
     }
 
     Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( lua_touserdata(L, 1) );

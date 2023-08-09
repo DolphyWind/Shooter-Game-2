@@ -4,7 +4,7 @@
 void StopwatchExporter::createStopwatch(lua_State *L, const Lua_Stopwatch& stopwatch)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_Stopwatch));
-    Lua_Stopwatch* stopwatchPtr = new (data) Lua_Stopwatch();
+    Lua_Stopwatch* stopwatchPtr = new (data) Lua_Stopwatch(stopwatch);
     luaL_getmetatable(L, LUA_STOPWATCH_CLASSNAME"_metatable");
     lua_setmetatable(L, -2);
 }
