@@ -21,53 +21,43 @@ jobs:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-    - name: Set environment variables
-      run: |
-        echo "DEPS_PATH=${{ github.workspace }}/build/_deps/" >> $GITHUB_ENV
-        echo "SFML_PATH= ${{ github.workspace }}/build/_deps/SFML" >> $GITHUB_ENV
-      
     - name: Install libraries
       run: sudo apt-get update && sudo apt-get install libx11-dev libxi-dev libxrandr-dev libgl1-mesa-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev libxinerama-dev libxcursor-dev libboost-all-dev libfreetype-dev zlib1g-dev libssl-dev libcurl4-openssl-dev 
+    
+    - name: Install and build SFML 2.5.1 static
+      run: |
+        mkdir -p ${{github.workspace}}/build
+        git clone https://github.com/SFML/SFML.git -b 2.5.x ${{github.workspace}}/build/SFML
+        cmake -B ${{github.workspace}}/build/SFML/build -S ${{github.workspace}}/build/SFML -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
+        cmake --build ${{github.workspace}}/build/SFML/build --config="Release"
 
     - name: Restore cached Dependencies
       id: cache-restore
       uses: actions/cache/restore@v3
       with:
-        path: ${{ env.DEPS_PATH }}
+        path: ${{ github.workspace }}/build/_deps/
         key: ${{ runner.os }}-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}
 
-    - name: Install and build SFML 2.5.1 static
-      run: |
-        if [ -e "${{ env.SFML_PATH }}" ]; then
-          echo "SFML Path exists. Skipping SFML build"
-        else
-          mkdir -p ${{ env.DEPS_PATH }}
-          git clone https://github.com/SFML/SFML.git -b 2.5.x ${{ env.SFML_PATH }}
-          cmake -B ${{ env.SFML_PATH }}/build -S ${{ env.SFML_PATH }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_SHARED_LIBS=OFF
-          cmake --build ${{ env.SFML_PATH }}/build --config="${{env.BUILD_TYPE}}"
-        fi
-    
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{ github.workspace }}/build -S ${{ github.workspace }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DSFML_ROOT=${{ env.SFML_PATH }}/build
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSFML_ROOT=${{github.workspace}}/build/SFML/build
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{ github.workspace }}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Cache Dependencies
       id: cache-deps
       uses: actions/cache/save@v3
       with:
-        path: ${{ env.DEPS_PATH }}
+        path: ${{ github.workspace }}/build/_deps/
         key: ${{ steps.cache-restore.outputs.cache-primary-key }}
 
     - name: Test
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{ env.BUILD_TYPE }}
-
+      run: ctest -C ${{env.BUILD_TYPE}}
