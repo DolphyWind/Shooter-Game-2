@@ -3,6 +3,7 @@
 #include <lua.hpp>
 
 #define LUA_STOPWATCH_CLASSNAME "Stopwatch"
+#define LUA_STOPWATCH_METATABLENAME LUA_STOPWATCH_CLASSNAME"_metatable"
 typedef sfex::Stopwatch Lua_Stopwatch;
 
 class LuaExporter;

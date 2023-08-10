@@ -3,6 +3,7 @@
 #include <lua.hpp>
 
 #define LUA_TRANSFORM_CLASSNAME "Transform"
+#define LUA_TRANSFORM_METATABLENAME LUA_TRANSFORM_CLASSNAME"_metatable"
 typedef sf::Transform Lua_Transform;
 
 class LuaExporter;

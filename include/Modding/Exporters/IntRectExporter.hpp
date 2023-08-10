@@ -3,6 +3,7 @@
 #include <lua.hpp>
 
 #define LUA_INTRECT_CLASSNAME "IntRect"
+#define LUA_INTRECT_METATABLENAME LUA_INTRECT_CLASSNAME"_metatable"
 typedef sf::IntRect Lua_IntRect;
 
 class LuaExporter;

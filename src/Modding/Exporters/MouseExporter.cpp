@@ -39,7 +39,7 @@ int MouseExporter::setPosition(lua_State *L)
     // TODO: Add support for setting position relative to window
     if(lua_isuserdata(L, 1))
     {
-        Lua_Vector2* newPos = static_cast<Lua_Vector2*>(lua_touserdata(L, 1));
+        Lua_Vector2* newPos = static_cast<Lua_Vector2*>(luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME));
         sfex::Mouse::setPosition(*newPos);
     }
     return 0;

@@ -4,6 +4,7 @@
 #include <lua.hpp>
 
 #define LUA_IMAGE_CLASSNAME "Image"
+#define LUA_IMAGE_METATABLENAME LUA_IMAGE_CLASSNAME"_metatable"
 typedef sf::Image Lua_Image;
 
 class LuaExporter;

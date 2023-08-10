@@ -3,6 +3,7 @@
 #include <lua.hpp>
 
 #define LUA_VECTOR2_CLASSNAME "Vector2"
+#define LUA_VECTOR2_METATABLENAME LUA_VECTOR2_CLASSNAME"_metatable"
 typedef sfex::Vector2<lua_Number> Lua_Vector2;
 
 class LuaExporter;

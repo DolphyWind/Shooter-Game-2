@@ -3,6 +3,7 @@
 #include <lua.hpp>
 
 #define LUA_COLOR_CLASSNAME "Color"
+#define LUA_COLOR_METATABLENAME LUA_COLOR_CLASSNAME"_metatable"
 typedef sfex::Color Lua_Color;
 
 class LuaExporter;

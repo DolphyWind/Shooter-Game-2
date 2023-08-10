@@ -9,7 +9,7 @@ void ColorExporter::createColor(lua_State* L, const sfex::Color& color)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_Color));
     new (data) Lua_Color(color);
-    luaL_getmetatable(L, LUA_COLOR_CLASSNAME"_metatable");
+    luaL_getmetatable(L, LUA_COLOR_METATABLENAME);
     lua_setmetatable(L, -2);
 }
 
@@ -20,13 +20,13 @@ int ColorExporter::__new(lua_State *L)
     {
         if(lua_isuserdata(L, 1))
         {
-            Lua_Color* colorPtr = static_cast<Lua_Color*>(lua_touserdata(L, -1));
+            Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
             createColor(L, *colorPtr);
             return 1;
         }
         else if(lua_isinteger(L, 1))
         {
-            lua_Integer hex = lua_tointeger(L, 1);
+            lua_Integer hex = luaL_checkinteger(L, 1);
             createColor(L, Lua_Color(hex));
             return 1;
         }
@@ -35,9 +35,9 @@ int ColorExporter::__new(lua_State *L)
     }
     else if(arg_count == 3 || arg_count == 4)
     {
-        lua_Number r_num = lua_tonumber(L, 1);
-        lua_Number g_num = lua_tonumber(L, 2);
-        lua_Number b_num = lua_tonumber(L, 3);
+        lua_Number r_num = luaL_checknumber(L, 1);
+        lua_Number g_num = luaL_checknumber(L, 2);
+        lua_Number b_num = luaL_checknumber(L, 3);
     
         r_num = std::clamp(r_num, lua_Number(0.0), lua_Number(255.0));
         g_num = std::clamp(g_num, lua_Number(0.0), lua_Number(255.0));
@@ -51,7 +51,7 @@ int ColorExporter::__new(lua_State *L)
         lua_Number a_num;
         if(arg_count == 4)
         {
-            a_num = lua_tonumber(L, 4);
+            a_num = luaL_checknumber(L, 4);
             a_num = std::clamp(a_num, lua_Number(0), lua_Number(255));
             a = static_cast<sf::Uint8>(a_num);
         }
@@ -60,21 +60,21 @@ int ColorExporter::__new(lua_State *L)
         return 1;
     }
     
-    luaL_error(L, "Invalid amount of arguments!");
-    return 0;
+    createColor(L, Lua_Color());
+    return 1;
 }
 
 int ColorExporter::__destroy(lua_State* L)
 {
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
     colorPtr->~Lua_Color();
     return 0;
 }
 
 int ColorExporter::__index(lua_State* L)
 {
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
-    std::string indexStr = lua_tostring(L, 2);
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
+    std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "r")
     {
@@ -155,8 +155,8 @@ int ColorExporter::__index(lua_State* L)
 
 int ColorExporter::__newindex(lua_State *L)
 {
-    Lua_Color* colorPtr = static_cast<Lua_Color*>(lua_touserdata(L, 1));
-    std::string indexStr = lua_tostring(L, 2);
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
+    std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "r")
     {
@@ -193,7 +193,7 @@ int ColorExporter::__newindex(lua_State *L)
 
 int ColorExporter::__toString(lua_State *L)
 {
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
     std::stringstream ss;
     ss << (*colorPtr);
     lua_pushstring(L, ss.str().c_str());
@@ -208,8 +208,8 @@ int ColorExporter::__add(lua_State *L)
         return 0;
     }
 
-    Lua_Color* firstItem = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
-    Lua_Color* secondItem = static_cast<Lua_Color*>( lua_touserdata(L, 2) );
+    Lua_Color* firstItem = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
+    Lua_Color* secondItem = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
     
     createColor(L, (*firstItem) + (*secondItem));
     return 1;
@@ -224,8 +224,8 @@ int ColorExporter::__sub(lua_State *L)
         return 0;
     }
 
-    Lua_Color* firstItem = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
-    Lua_Color* secondItem = static_cast<Lua_Color*>( lua_touserdata(L, 2) );
+    Lua_Color* firstItem = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
+    Lua_Color* secondItem = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
     
     createColor(L, (*firstItem) - (*secondItem));
     return 1;
@@ -238,13 +238,13 @@ int ColorExporter::__mul(lua_State* L)
 
     if(lua_isuserdata(L, 1) && lua_isnumber(L, 2))
     {
-        colorPtr = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
-        scalar = lua_tonumber(L, 2);
+        colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
+        scalar = luaL_checknumber(L, 2);
     }
     else if(lua_isnumber(L, 1) && lua_isuserdata(L, 2))
     {
-        scalar = lua_tonumber(L, 1);
-        colorPtr = static_cast<Lua_Color*>( lua_touserdata(L, 2) );
+        scalar = luaL_checknumber(L, 1);
+        colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
     }
     else
     {
@@ -267,8 +267,8 @@ int ColorExporter::__div(lua_State* L)
     Lua_Color* colorPtr;
     lua_Number divider;
 
-    colorPtr = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
-    divider = lua_tonumber(L, 2);
+    colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
+    divider = luaL_checknumber(L, 2);
 
     createColor(L, (*colorPtr) / float(divider));
     return 1;
@@ -282,8 +282,8 @@ int ColorExporter::__eq(lua_State* L)
         return 1;
     }
 
-    Lua_Color* firstItem = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
-    Lua_Color* secondItem = static_cast<Lua_Color*>( lua_touserdata(L, 2) );
+    Lua_Color* firstItem = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
+    Lua_Color* secondItem = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
 
     lua_pushboolean(L, ((*firstItem) == (*secondItem)) );
     return 1;
@@ -297,7 +297,7 @@ int ColorExporter::toHex(lua_State *L)
         return 0;
     }
 
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
     lua_Integer result = colorPtr->toHex();
     lua_pushinteger(L, result);
     return 1;
@@ -311,7 +311,7 @@ int ColorExporter::toGrayscale(lua_State *L)
         return 0;
     }
 
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
     createColor(L, colorPtr->toGrayscale());
     return 1;
 }
@@ -324,8 +324,8 @@ int ColorExporter::mixColors(lua_State *L)
         return 0;
     }
 
-    Lua_Color* firstPtr = static_cast<Lua_Color*>( lua_touserdata(L, 1) );
-    Lua_Color* secondPtr = static_cast<Lua_Color*>( lua_touserdata(L, 2) );
+    Lua_Color* firstPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 1, LUA_COLOR_METATABLENAME) );
+    Lua_Color* secondPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
 
     createColor(L, sfex::Color::mixColors(*firstPtr, *secondPtr));
     return 1;

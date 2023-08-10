@@ -3,6 +3,7 @@
 #include <lua.hpp>
 
 #define LUA_FLOATRECT_CLASSNAME "FloatRect"
+#define LUA_FLOATRECT_METATABLENAME LUA_FLOATRECT_CLASSNAME"_metatable"
 typedef sf::FloatRect Lua_FloatRect;
 
 class LuaExporter;
