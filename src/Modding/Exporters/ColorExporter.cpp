@@ -8,11 +8,9 @@
 void ColorExporter::createColor(lua_State* L, const sfex::Color& color)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_Color));
-    Lua_Color* vecPtr = new (data) Lua_Color(color);
+    new (data) Lua_Color(color);
     luaL_getmetatable(L, LUA_COLOR_CLASSNAME"_metatable");
-    assert(lua_istable(L, -1));
     lua_setmetatable(L, -2);
-    lua_insert(L, -1);
 }
 
 int ColorExporter::__new(lua_State *L)

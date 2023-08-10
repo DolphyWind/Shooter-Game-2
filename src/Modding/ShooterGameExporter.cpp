@@ -9,6 +9,7 @@
 #include <Modding/Exporters/JoystickExporter.hpp>
 #include <Modding/Exporters/FloatRectExporter.hpp>
 #include <Modding/Exporters/IntRectExporter.hpp>
+#include <Modding/Exporters/ImageExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     Vector2Exporter::toLuaExporter(),
@@ -20,6 +21,7 @@ std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     JoystickExporter::toLuaExporter(),
     FloatRectExporter::toLuaExporter(),
     IntRectExporter::toLuaExporter(),
+    ImageExporter::toLuaExporter(),
 };
 
 void ShooterGameExporter::exportTo(lua_State* L)

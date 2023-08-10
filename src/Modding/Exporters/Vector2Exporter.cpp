@@ -8,7 +8,7 @@
 void Vector2Exporter::createVector(lua_State* L, const Lua_Vector2& vec)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_Vector2));
-    Lua_Vector2* vecPtr = new (data) Lua_Vector2(vec);
+    new (data) Lua_Vector2(vec);
     luaL_getmetatable(L, LUA_VECTOR2_CLASSNAME"_metatable");
     lua_setmetatable(L, -2);
 }

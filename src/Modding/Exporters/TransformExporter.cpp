@@ -9,7 +9,7 @@
 void TransformExporter::createTransform(lua_State *L, const Lua_Transform &transform)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_Transform));
-    Lua_Transform* transformPtr = new (data) Lua_Transform(transform);
+    new (data) Lua_Transform(transform);
     luaL_getmetatable(L, LUA_TRANSFORM_CLASSNAME"_metatable");
     lua_setmetatable(L, -2);
 }

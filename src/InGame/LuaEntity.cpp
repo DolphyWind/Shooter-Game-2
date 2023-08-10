@@ -1,11 +1,14 @@
 #include <InGame/LuaEntity.hpp>
 #include <Modding/ShooterGameExporter.hpp>
 
-LuaEntity::LuaEntity(Game* parent, const std::string& filename, const boost::filesystem::path& assetsFolderPath):
+LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath):
     Entity(parent), m_assetsFolderPath(assetsFolderPath)
 {
     m_entityLuaState = luaL_newstate();
     luaL_openlibs(m_entityLuaState);
+    lua_pushstring(m_entityLuaState, assetsFolderPath.c_str());
+    lua_setglobal(m_entityLuaState, ASSETS_VARNAME);
+    
     ShooterGameExporter::exportTo(m_entityLuaState);
 
     int status = luaL_dofile(m_entityLuaState, filename.c_str());

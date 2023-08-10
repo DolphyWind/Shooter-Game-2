@@ -5,7 +5,7 @@
 void IntRectExporter::createIntRect(lua_State *L, const Lua_IntRect& intRect)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_IntRect));
-    Lua_IntRect* intRectPtr = new (data) Lua_IntRect(intRect);
+    new (data) Lua_IntRect(intRect);
     luaL_getmetatable(L, LUA_INTRECT_CLASSNAME"_metatable");
     lua_setmetatable(L, -2);
 }

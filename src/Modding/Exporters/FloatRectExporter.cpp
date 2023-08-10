@@ -5,7 +5,7 @@
 void FloatRectExporter::createFloatRect(lua_State *L, const Lua_FloatRect& floatRect)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_FloatRect));
-    Lua_FloatRect* floatRectPtr = new (data) Lua_FloatRect(floatRect);
+    new (data) Lua_FloatRect(floatRect);
     luaL_getmetatable(L, LUA_FLOATRECT_CLASSNAME"_metatable");
     lua_setmetatable(L, -2);
 }

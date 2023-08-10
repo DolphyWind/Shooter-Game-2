@@ -2,12 +2,13 @@
 #include <InGame/Entity.hpp>
 #include <Modding/LuaFunction.hpp>
 #include <boost/filesystem.hpp>
+#include <filesystem>
 
 struct lua_State;
 class LuaEntity : public Entity
 {
 public:
-    LuaEntity(Game* parent, const std::string& filename, const boost::filesystem::path& assetsFolderPath);
+    LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath);
     virtual ~LuaEntity();
 
     virtual void start() override;
