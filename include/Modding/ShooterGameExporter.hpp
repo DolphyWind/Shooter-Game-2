@@ -4,7 +4,7 @@
 #include <lua.hpp>
 #include <cassert>
 #include <vector>
-#define ASSETS_VARNAME "ASSETS_FOLDER_PATH"
+#define ASSETSPATH_VARNAME "ASSETS_FOLDER_PATH"
 
 class LuaExporter;
 class ShooterGameExporter

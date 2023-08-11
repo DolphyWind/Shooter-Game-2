@@ -59,7 +59,7 @@ int ImageExporter::create(lua_State *L)
 int ImageExporter::loadFromFile(lua_State *L)
 {
     Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
-    lua_getglobal(L, ASSETS_VARNAME);
+    lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path total_path( luaL_checkstring(L, -1) );
     lua_pop(L, 1);
     total_path /= luaL_checkstring(L, 2);
@@ -72,7 +72,7 @@ int ImageExporter::loadFromFile(lua_State *L)
 int ImageExporter::saveToFile(lua_State *L)
 {
     Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
-    lua_getglobal(L, ASSETS_VARNAME);
+    lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path total_path( luaL_checkstring(L, -1) );
     lua_pop(L, 1);
     total_path /= luaL_checkstring(L, 2);

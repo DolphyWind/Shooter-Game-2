@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <memory>
 #include <new>
-#define ASSETS_VARNAME "ASSETS_FOLDER_PATH"
+#define ASSETSPATH_VARNAME "ASSETS_FOLDER_PATH"
 
 /// @brief Exports a class to lua using tables and metatables.
 class LuaExporter

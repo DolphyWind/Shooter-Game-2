@@ -7,7 +7,7 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
     m_entityLuaState = luaL_newstate();
     luaL_openlibs(m_entityLuaState);
     lua_pushstring(m_entityLuaState, assetsFolderPath.c_str());
-    lua_setglobal(m_entityLuaState, ASSETS_VARNAME);
+    lua_setglobal(m_entityLuaState, ASSETSPATH_VARNAME);
     
     ShooterGameExporter::exportTo(m_entityLuaState);
 
