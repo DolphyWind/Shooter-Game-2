@@ -15,6 +15,7 @@ Game::Game():
     WindowFunctionalities::setMinimumSize(m_window, m_minWindowSize);
     m_lastWindowPosition = m_window.getPosition();
     m_gameGui.setTarget(m_window);
+    Global::mainWindow = &m_window;
     
     m_defaultSceneManager.insert( {"main_menu", std::make_shared<MainMenuScene>(this)} );
     m_defaultSceneManager.insert( {"about_menu", std::make_shared<AboutScene>(this)} );

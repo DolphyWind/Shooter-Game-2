@@ -12,6 +12,7 @@
 #include <Modding/Exporters/ImageExporter.hpp>
 #include <Modding/Exporters/GlyphExporter.hpp>
 #include <Modding/Exporters/FontExporter.hpp>
+#include <Modding/Exporters/RenderWindowExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     Vector2Exporter::toLuaExporter(),
@@ -26,6 +27,7 @@ std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     ImageExporter::toLuaExporter(),
     GlyphExporter::toLuaExporter(),
     FontExporter::toLuaExporter(),
+    RenderWindowExporter::toLuaExporter(),
 };
 
 void ShooterGameExporter::exportTo(lua_State* L)

@@ -2,6 +2,7 @@
 #include <thirdparty/effolkronium/random.hpp>
 #include <SFEX/General/StaticClass.hpp>
 #include <SFEX/SFEX.hpp>
+#include <SFML/Graphics.hpp>
 #include <optional>
 
 using StaticRandom = effolkronium::random_static;
@@ -17,6 +18,7 @@ public:
     static constexpr unsigned int menuButtonTextSize = 22;
     static constexpr unsigned int menuButtonBorderRadius = 5;
     static constexpr unsigned int titleTextSize = 42;
+    static const sf::RenderWindow* mainWindow;
 
     struct Line
     {
