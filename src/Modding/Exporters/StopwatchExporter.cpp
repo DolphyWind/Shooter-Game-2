@@ -11,7 +11,7 @@ void StopwatchExporter::createStopwatch(lua_State *L, const Lua_Stopwatch& stopw
 
 int StopwatchExporter::__new(lua_State *L)
 {
-    createStopwatch(L, sfex::Stopwatch());
+    createStopwatch(L, Lua_Stopwatch());
     return 1;
 }
 

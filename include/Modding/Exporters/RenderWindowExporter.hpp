@@ -9,7 +9,6 @@ typedef sf::RenderWindow Lua_RenderWindow;
 class LuaExporter;
 struct RenderWindowExporter
 {
-    // I might add creating windows later
     static void createRenderWindow(
         lua_State* L,
         sf::VideoMode mode,
@@ -25,6 +24,11 @@ struct RenderWindowExporter
     static int setActive(lua_State* L);
     static int close(lua_State* L);
     static int isOpen(lua_State* L);
+
+    static int getSettings(lua_State* L);
+    static int pollEvent(lua_State* L);
+    static int waitEvent(lua_State* L);
+
     static int getPosition(lua_State* L);
     static int setPosition(lua_State* L);
     static int setSize(lua_State* L);
@@ -34,9 +38,14 @@ struct RenderWindowExporter
     static int setVerticalSyncEnabled(lua_State* L);
     static int setMouseCursorVisible(lua_State* L);
     static int setMouseCursorGrabbed(lua_State* L);
+    static int setMouseCursor(lua_State* L);
     static int setKeyRepeatEnabled(lua_State* L);
+    static int setFramerateLimit(lua_State* L);
+    static int setJoystickTreshold(lua_State* L);
     static int requestFocus(lua_State* L);
     static int hasFocus(lua_State* L);
+    static int display(lua_State* L);
+    static int clear(lua_State* L);
     static int setView(lua_State* L);
     static int getView(lua_State* L);
     static int getDefaultView(lua_State* L);
@@ -44,6 +53,10 @@ struct RenderWindowExporter
     static int mapPixelToCoords(lua_State* L);
     static int mapCoordsToPixel(lua_State* L);
     static int draw(lua_State* L);
+    static int pushGLStates(lua_State* L);
+    static int popGLStates(lua_State* L);
+    static int resetGLStates(lua_State* L);
+
 
     static LuaExporter toLuaExporter();
 };
