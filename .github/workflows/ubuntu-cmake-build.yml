@@ -29,7 +29,7 @@ jobs:
         mkdir -p ${{github.workspace}}/build
         git clone https://github.com/SFML/SFML.git -b 2.5.x ${{github.workspace}}/build/SFML
         cmake -B ${{github.workspace}}/build/SFML/build -S ${{github.workspace}}/build/SFML -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
-        cmake --build ${{github.workspace}}/build/SFML/build --config="Release"
+        cmake --build ${{github.workspace}}/build/SFML/build --config="Release" -- -j$(nproc)
 
     - name: Restore cached Dependencies
       id: cache-restore
@@ -43,7 +43,7 @@ jobs:
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSFML_ROOT=${{github.workspace}}/build/SFML/build -- -j $(nproc)
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSFML_ROOT=${{github.workspace}}/build/SFML/build -- -j$(nproc)
 
     - name: Build
       # Build your program with the given configuration
