@@ -16,6 +16,7 @@
 #include <Modding/Exporters/EventExporter.hpp>
 #include <Modding/Exporters/VideoModeExporter.hpp>
 #include <Modding/Exporters/ContextSettingsExporter.hpp>
+#include <Modding/Exporters/CursorExporter.hpp>
 #include <Modding/Exporters/RenderWindowExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
@@ -35,6 +36,7 @@ std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     EventExporter::toLuaExporter(),
     VideoModeExporter::toLuaExporter(),
     ContextSettingsExporter::toLuaExporter(),
+    CursorExporter::toLuaExporter(),
     RenderWindowExporter::toLuaExporter(),
 };
 

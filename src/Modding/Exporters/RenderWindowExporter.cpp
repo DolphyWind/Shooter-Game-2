@@ -7,6 +7,7 @@
 #include <Modding/Exporters/EventExporter.hpp>
 #include <Modding/Exporters/VideoModeExporter.hpp>
 #include <Modding/Exporters/ContextSettingsExporter.hpp>
+#include <Modding/Exporters/CursorExporter.hpp>
 #include <Modding/LuaExporter.hpp>
 
 void RenderWindowExporter::createRenderWindow(lua_State *L, sf::VideoMode mode, const std::string& title, sf::Uint32 style, const sf::ContextSettings& settings)
@@ -226,7 +227,10 @@ int RenderWindowExporter::setMouseCursorGrabbed(lua_State *L)
 
 int RenderWindowExporter::setMouseCursor(lua_State *L)
 {
-    luaL_error(L, "Not yet implemented!");
+    Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( luaL_checkudata(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
+    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( luaL_checkudata(L, 2, LUA_CURSOR_METATABLENAME) );
+
+    renderWindowPtr->setMouseCursor(*cursorPtr);
     return 0;
 }
 
