@@ -13,6 +13,9 @@
 #include <Modding/Exporters/GlyphExporter.hpp>
 #include <Modding/Exporters/FontExporter.hpp>
 #include <Modding/Exporters/ViewExporter.hpp>
+#include <Modding/Exporters/EventExporter.hpp>
+#include <Modding/Exporters/VideoModeExporter.hpp>
+#include <Modding/Exporters/ContextSettingsExporter.hpp>
 #include <Modding/Exporters/RenderWindowExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
@@ -29,6 +32,9 @@ std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     GlyphExporter::toLuaExporter(),
     FontExporter::toLuaExporter(),
     ViewExporter::toLuaExporter(),
+    EventExporter::toLuaExporter(),
+    VideoModeExporter::toLuaExporter(),
+    ContextSettingsExporter::toLuaExporter(),
     RenderWindowExporter::toLuaExporter(),
 };
 

@@ -12,7 +12,7 @@ struct RenderWindowExporter
     static void createRenderWindow(
         lua_State* L,
         sf::VideoMode mode,
-        const std::string title,
+        const std::string& title,
         sf::Uint32 style=sf::Style::Default,
         const sf::ContextSettings& settings = sf::ContextSettings()
     );
@@ -24,11 +24,9 @@ struct RenderWindowExporter
     static int setActive(lua_State* L);
     static int close(lua_State* L);
     static int isOpen(lua_State* L);
-
     static int getSettings(lua_State* L);
     static int pollEvent(lua_State* L);
     static int waitEvent(lua_State* L);
-
     static int getPosition(lua_State* L);
     static int setPosition(lua_State* L);
     static int setSize(lua_State* L);

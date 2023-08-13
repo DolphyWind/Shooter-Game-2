@@ -358,29 +358,29 @@ LuaExporter ColorExporter::toLuaExporter()
     // It only happens in this function and nowhere else which makes it really suspicious
     // I am guessing there is an undefined behaviour somewhere in the code
     std::vector<Lua_Color*> public_lua_colors = {
-        new Lua_Color(sf::Color::Red),
-        new Lua_Color(sf::Color::Green),
-        new Lua_Color(sf::Color::Blue),
-        new Lua_Color(sf::Color::Yellow),
-        new Lua_Color(sf::Color::Magenta),
-        new Lua_Color(sf::Color::Cyan),
+        new Lua_Color(sf::Color(255, 0, 0, 255)),
+        new Lua_Color(sf::Color(0, 255, 0, 255)),
+        new Lua_Color(sf::Color(0, 0, 255, 255)),
+        new Lua_Color(sf::Color(255, 255, 0, 255)),
+        new Lua_Color(sf::Color(255, 0, 255, 255)),
+        new Lua_Color(sf::Color(0, 255, 255, 255)),
         new Lua_Color(sf::Color(128, 128, 128, 255)),
-        new Lua_Color(sf::Color::White),
-        new Lua_Color(sf::Color::Black),
-        new Lua_Color(sf::Color::Transparent),
+        new Lua_Color(sf::Color(255, 255, 255, 255)),
+        new Lua_Color(sf::Color(0, 0, 0, 255)),
+        new Lua_Color(sf::Color(0, 0, 0, 0)),
     };
 
 
-    exporter.addUserdata("red", public_lua_colors[0], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("green", public_lua_colors[1], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("blue", public_lua_colors[2], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("yellow", public_lua_colors[3], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("magenta", public_lua_colors[4], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("cyan", public_lua_colors[5], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("gray", public_lua_colors[6], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("white", public_lua_colors[7], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("black", public_lua_colors[8], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
-    exporter.addUserdata("transparent", public_lua_colors[9], sizeof(Lua_Color), LUA_COLOR_CLASSNAME"_metatable");
+    exporter.addUserdata("red", public_lua_colors[0], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("green", public_lua_colors[1], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("blue", public_lua_colors[2], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("yellow", public_lua_colors[3], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("magenta", public_lua_colors[4], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("cyan", public_lua_colors[5], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("gray", public_lua_colors[6], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("white", public_lua_colors[7], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("black", public_lua_colors[8], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
+    exporter.addUserdata("transparent", public_lua_colors[9], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
 
     // It is ok to delete them because addUserdata copies the data it got
     for(auto& v : public_lua_colors)

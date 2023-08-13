@@ -139,12 +139,6 @@ int Vector2Exporter::__unm(lua_State* L)
 
 int Vector2Exporter::__add(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1) || !lua_isuserdata(L, 2))
-    {
-        luaL_error(L, "Unsupported binary operation between types %s and %s", lua_typename(L, lua_type(L, 1)), lua_typename(L, lua_type(L, 1)));
-        return 0;
-    }
-
     Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
 
@@ -154,12 +148,6 @@ int Vector2Exporter::__add(lua_State* L)
 
 int Vector2Exporter::__sub(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1) || !lua_isuserdata(L, 2))
-    {
-        luaL_error(L, "Unsupported binary operation between types %s and %s", lua_typename(L, lua_type(L, 1)), lua_typename(L, lua_type(L, 1)));
-        return 0;
-    }
-
     Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
 
@@ -200,11 +188,8 @@ int Vector2Exporter::__div(lua_State* L)
         return 0;
     }
 
-    Lua_Vector2* vecPtr;
-    lua_Number divider;
-
-    vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    divider = luaL_checknumber(L, 2);
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    lua_Number divider = luaL_checknumber(L, 2);
 
     createVector(L, (*vecPtr) / divider);
     return 1;
@@ -217,11 +202,8 @@ int Vector2Exporter::__idiv(lua_State* L)
         luaL_error(L, "Unsupported binary operation between types %s and %s", lua_typename(L, lua_type(L, 1)), lua_typename(L, lua_type(L, 1)));
         return 0;
     }
-    Lua_Vector2* vecPtr;
-    lua_Number divider;
-
-    vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    divider = luaL_checknumber(L, 2);
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    lua_Number divider = luaL_checknumber(L, 2);
 
 
     createVector(L, {
@@ -249,12 +231,6 @@ int Vector2Exporter::__eq(lua_State* L)
 /// Regular Functions
 int Vector2Exporter::magnitude(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1))
-    {
-        luaL_error(L, "The first parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 1)) );
-        return 0;
-    }
-
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, vecPtr->magnitude());
 
@@ -263,12 +239,6 @@ int Vector2Exporter::magnitude(lua_State* L)
 
 int Vector2Exporter::magnitude2(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1))
-    {
-        luaL_error(L, "The first parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 1)) );
-        return 0;
-    }
-
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, vecPtr->magnitude2());
 
@@ -277,17 +247,6 @@ int Vector2Exporter::magnitude2(lua_State* L)
 
 int Vector2Exporter::setmagnitude(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1))
-    {
-        luaL_error(L, "The first parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 1)) );
-        return 0;
-    }
-    if(!lua_isnumber(L, 2))
-    {
-        luaL_error(L, "The second parameter has be a number, not %s", lua_typename(L, lua_type(L, 2)) );
-        return 0;
-    }
-
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     vecPtr->setMagnitude( luaL_checknumber(L, 2) );
 
@@ -296,12 +255,6 @@ int Vector2Exporter::setmagnitude(lua_State* L)
 
 int Vector2Exporter::normalize(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1))
-    {
-        luaL_error(L, "The operand has be an user data, not %s", lua_typename(L, lua_type(L, 1)) );
-        return 0;
-    }
-
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     vecPtr->normalize();
     return 0;
@@ -309,12 +262,6 @@ int Vector2Exporter::normalize(lua_State* L)
 
 int Vector2Exporter::normalized(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1))
-    {
-        luaL_error(L, "The operand has be an user data, not %s", lua_typename(L, lua_type(L, 1)) );
-        return 0;
-    }
-
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     createVector(L, vecPtr->normalized());
 
@@ -323,17 +270,6 @@ int Vector2Exporter::normalized(lua_State* L)
 
 int Vector2Exporter::dot(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1))
-    {
-        luaL_error(L, "The first parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 1)) );
-        return 0;
-    }
-    if(!lua_isuserdata(L, 2))
-    {
-        luaL_error(L, "The second parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 2)) );
-        return 0;
-    }
-
     Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, firstVec->dot(*secondVec));
@@ -343,17 +279,6 @@ int Vector2Exporter::dot(lua_State* L)
 
 int Vector2Exporter::cross(lua_State* L)
 {
-    if(!lua_isuserdata(L, 1))
-    {
-        luaL_error(L, "The first parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 1)) );
-        return 0;
-    }
-    if(!lua_isuserdata(L, 2))
-    {
-        luaL_error(L, "The second parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 2)) );
-        return 0;
-    }
-
     Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, firstVec->cross(*secondVec));

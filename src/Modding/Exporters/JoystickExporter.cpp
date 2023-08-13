@@ -83,14 +83,14 @@ LuaExporter JoystickExporter::toLuaExporter()
         }
     );
 
-    exporter.addInteger("AxisX", sfex::Joystick::Axis::X);
-    exporter.addInteger("AxisY", sfex::Joystick::Axis::Y);
-    exporter.addInteger("AxisZ", sfex::Joystick::Axis::Z);
-    exporter.addInteger("AxisR", sfex::Joystick::Axis::R);
-    exporter.addInteger("AxisU", sfex::Joystick::Axis::U);
-    exporter.addInteger("AxisV", sfex::Joystick::Axis::V);
-    exporter.addInteger("AxisPovX", sfex::Joystick::Axis::PovX);
-    exporter.addInteger("AxisPovY", sfex::Joystick::Axis::PovY);
+    exporter.addInteger("Axis_X", sfex::Joystick::Axis::X);
+    exporter.addInteger("Axis_Y", sfex::Joystick::Axis::Y);
+    exporter.addInteger("Axis_Z", sfex::Joystick::Axis::Z);
+    exporter.addInteger("Axis_R", sfex::Joystick::Axis::R);
+    exporter.addInteger("Axis_U", sfex::Joystick::Axis::U);
+    exporter.addInteger("Axis_V", sfex::Joystick::Axis::V);
+    exporter.addInteger("AxisPov_X", sfex::Joystick::Axis::PovX);
+    exporter.addInteger("AxisPov_Y", sfex::Joystick::Axis::PovY);
 
     exporter.addInteger("Count", sfex::Joystick::Count);
     exporter.addInteger("AxisCount", sfex::Joystick::AxisCount);

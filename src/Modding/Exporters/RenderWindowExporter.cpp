@@ -4,39 +4,74 @@
 #include <Modding/Exporters/ColorExporter.hpp>
 #include <Modding/Exporters/ViewExporter.hpp>
 #include <Modding/Exporters/IntRectExporter.hpp>
+#include <Modding/Exporters/EventExporter.hpp>
+#include <Modding/Exporters/VideoModeExporter.hpp>
+#include <Modding/Exporters/ContextSettingsExporter.hpp>
 #include <Modding/LuaExporter.hpp>
+
+void RenderWindowExporter::createRenderWindow(lua_State *L, sf::VideoMode mode, const std::string& title, sf::Uint32 style, const sf::ContextSettings& settings)
+{
+    void* data = lua_newuserdata(L, sizeof(Lua_RenderWindow));
+    new (data) Lua_RenderWindow(mode, title, style, settings);
+    luaL_getmetatable(L, LUA_RENDERWINDOW_METATABLENAME);
+    lua_setmetatable(L, -2);
+}
+
+int RenderWindowExporter::__new(lua_State *L)
+{
+    int arg_count = lua_gettop(L);
+    sf::VideoMode mode;
+    sf::String title;
+    sf::Uint32 style = sf::Style::Default;
+    sf::ContextSettings settings = sf::ContextSettings();
+
+    mode = *static_cast<Lua_VideoMode*>( luaL_checkudata(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    title = luaL_checkstring(L, 2);
+
+    if(arg_count >= 3)
+    {
+        lua_numbertointeger(luaL_checknumber(L, 3), &style);
+    }
+    if(arg_count >= 4)
+    {
+        settings = *static_cast<Lua_ContextSettings*>( luaL_checkudata(L, 4, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    }
+
+    createRenderWindow(L, mode, title, style, settings);
+    return 1;
+}
 
 int RenderWindowExporter::__index(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( luaL_checkudata(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
-    if(indexStr == "StyleNone")
+    if(indexStr == "Style_None")
     {
         lua_pushinteger(L, sf::Style::None);
         return 1;
     }
-    else if(indexStr == "Titlebar")
+    else if(indexStr == "Style_Titlebar")
     {
         lua_pushinteger(L, sf::Style::Titlebar);
         return 1;
     }
-    else if(indexStr == "Resize")
+    else if(indexStr == "Style_Resize")
     {
         lua_pushinteger(L, sf::Style::Resize);
         return 1;
     }
-    else if(indexStr == "Close")
+    else if(indexStr == "Style_Close")
     {
         lua_pushinteger(L, sf::Style::Close);
         return 1;
     }
-    else if(indexStr == "Fullscreen")
+    else if(indexStr == "Style_Fullscreen")
     {
         lua_pushinteger(L, sf::Style::Fullscreen);
         return 1;
     }
-    else if(indexStr == "Default")
+    else if(indexStr == "Style_Default")
     {
         lua_pushinteger(L, sf::Style::Default);
         return 1;
@@ -88,6 +123,30 @@ int RenderWindowExporter::isOpen(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( luaL_checkudata(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     lua_pushboolean(L, renderWindowPtr->isOpen());
+    return 1;
+}
+
+int RenderWindowExporter::getSettings(lua_State *L)
+{
+    Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( luaL_checkudata(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
+    ContextSettingsExporter::createContextSetting(L, renderWindowPtr->getSettings());
+    return 1;
+}
+
+int RenderWindowExporter::pollEvent(lua_State *L)
+{
+    Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( luaL_checkudata(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
+    Lua_Event* eventPtr = static_cast<Lua_Event*>( luaL_checkudata(L, 2, LUA_EVENT_METATABLENAME) );
+    lua_pushboolean(L, renderWindowPtr->pollEvent(*eventPtr));
+
+    return 1;
+}
+
+int RenderWindowExporter::waitEvent(lua_State *L)
+{
+    Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( luaL_checkudata(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
+    Lua_Event* eventPtr = static_cast<Lua_Event*>( luaL_checkudata(L, 2, LUA_EVENT_METATABLENAME) );
+    lua_pushboolean(L, renderWindowPtr->waitEvent(*eventPtr));
     return 1;
 }
 
@@ -219,9 +278,13 @@ int RenderWindowExporter::display(lua_State *L)
 
 int RenderWindowExporter::clear(lua_State *L)
 {
+    int arg_count = lua_gettop(L);
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( luaL_checkudata(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_Color clearColor(0, 0, 0, 255);
-    clearColor = *static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
+    if(arg_count >= 2)
+    {
+        clearColor = *static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
+    }
     renderWindowPtr->clear(clearColor);
 
     return 0;
@@ -331,12 +394,15 @@ LuaExporter RenderWindowExporter::toLuaExporter()
 {
     LuaExporter exporter(
         LUA_RENDERWINDOW_CLASSNAME,
-        nullptr,
+        RenderWindowExporter::__new,
         {
             {"getSize", RenderWindowExporter::getSize},
             {"setActive", RenderWindowExporter::setActive},
             {"close", RenderWindowExporter::close},
             {"isOpen", RenderWindowExporter::isOpen},
+            {"getSettings", RenderWindowExporter::getSettings},
+            {"pollEvent", RenderWindowExporter::pollEvent},
+            {"waitEvent", RenderWindowExporter::waitEvent},
             {"getPosition", RenderWindowExporter::getPosition},
             {"setPosition", RenderWindowExporter::setPosition},
             {"setSize", RenderWindowExporter::setSize},
@@ -371,12 +437,12 @@ LuaExporter RenderWindowExporter::toLuaExporter()
         }
     );
 
-    exporter.addInteger("StyleNone", sf::Style::None);
-    exporter.addInteger("StyleTitlebar", sf::Style::Titlebar);
-    exporter.addInteger("StyleResize", sf::Style::Resize);
-    exporter.addInteger("StyleClose", sf::Style::Close);
-    exporter.addInteger("StyleFullscreen", sf::Style::Fullscreen);
-    exporter.addInteger("StyleDefault", sf::Style::Default);
+    exporter.addInteger("Style_None", sf::Style::None);
+    exporter.addInteger("Style_Titlebar", sf::Style::Titlebar);
+    exporter.addInteger("Style_Resize", sf::Style::Resize);
+    exporter.addInteger("Style_Close", sf::Style::Close);
+    exporter.addInteger("Style_Fullscreen", sf::Style::Fullscreen);
+    exporter.addInteger("Style_Default", sf::Style::Default);
 
     return exporter;
 }
