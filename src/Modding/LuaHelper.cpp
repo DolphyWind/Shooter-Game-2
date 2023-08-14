@@ -59,3 +59,23 @@ int LuaHelper::LuaGetMainWindow(lua_State* L)
     LuaHelper::push(L, {(void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME});
     return 1;
 }
+
+void* LuaHelper::checkudata(lua_State* L, int index, const std::string& metatableName)
+{
+    void* ud = lua_touserdata(L, index);
+    if(ud != nullptr)
+    {
+        if(lua_getmetatable(L, index))
+        {
+            luaL_getmetatable(L, metatableName.c_str());
+
+            if(lua_rawequal(L, -1, -2))
+            {
+                lua_pop(L, 2);
+                return ud;
+            }
+        }
+    }
+
+    return nullptr;
+}

@@ -125,16 +125,16 @@ int CursorExporter::loadFromSystem(lua_State* L)
 LuaExporter CursorExporter::toLuaExporter()
 {
     LuaExporter exporter(
-            LUA_CURSOR_CLASSNAME,
-            __new,
-            {
-                {"loadFromImage", CursorExporter::loadFromImage},
-                {"loadFromSystem", CursorExporter::loadFromSystem},
-            },
-            {
-                {"__gc", CursorExporter::__destroy},
-                {"__index", CursorExporter::__index},
-            }
+        LUA_CURSOR_CLASSNAME,
+        __new,
+        {
+            {"loadFromImage", CursorExporter::loadFromImage},
+            {"loadFromSystem", CursorExporter::loadFromSystem},
+        },
+        {
+            {"__gc", CursorExporter::__destroy},
+            {"__index", CursorExporter::__index},
+        }
     );
 
     exporter.addInteger("Type_Arrow", sf::Cursor::Type::Arrow);

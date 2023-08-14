@@ -18,6 +18,7 @@ public:
     static void push(lua_State* L, lua_CFunction val);
 
     static int LuaGetMainWindow(lua_State* L);
+    static void* checkudata(lua_State* L, int index, const std::string& metatableName);
 
     union LuaVariable
     {
