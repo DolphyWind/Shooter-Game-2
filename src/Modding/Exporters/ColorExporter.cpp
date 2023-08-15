@@ -96,56 +96,6 @@ int ColorExporter::__index(lua_State* L)
         lua_pushnumber(L, colorPtr->a);
         return 1;
     }
-    else if(indexStr == "red")
-    {
-        createColor(L, Lua_Color::Red);
-        return 1;
-    }
-    else if(indexStr == "green")
-    {
-        createColor(L, Lua_Color::Green);
-        return 1;
-    }
-    else if(indexStr == "blue")
-    {
-        createColor(L, Lua_Color::Blue);
-        return 1;
-    }
-    else if(indexStr == "yellow")
-    {
-        createColor(L, Lua_Color::Yellow);
-        return 1;
-    }
-    else if(indexStr == "magenta")
-    {
-        createColor(L, Lua_Color::Magenta);
-        return 1;
-    }
-    else if(indexStr == "cyan")
-    {
-        createColor(L, Lua_Color::Cyan);
-        return 1;
-    }
-    else if(indexStr == "gray")
-    {
-        createColor(L, Lua_Color::Gray);
-        return 1;
-    }
-    else if(indexStr == "white")
-    {
-        createColor(L, Lua_Color::White);
-        return 1;
-    }
-    else if(indexStr == "black")
-    {
-        createColor(L, Lua_Color::Black);
-        return 1;
-    }
-    else if(indexStr == "transparent")
-    {
-        createColor(L, Lua_Color::Transparent);
-        return 1;
-    }
 
     lua_getglobal(L, LUA_COLOR_CLASSNAME);
     lua_pushstring(L, indexStr.c_str());
@@ -353,40 +303,6 @@ LuaExporter ColorExporter::toLuaExporter()
             {"__eq", ColorExporter::__eq},
         }
     );
-
-    // For some reaseon in this function all static colors are set to (0, 0, 0, 0).
-    // It only happens in this function and nowhere else which makes it really suspicious
-    // I am guessing there is an undefined behaviour somewhere in the code
-    std::vector<Lua_Color*> public_lua_colors = {
-        new Lua_Color(sf::Color(255, 0, 0, 255)),
-        new Lua_Color(sf::Color(0, 255, 0, 255)),
-        new Lua_Color(sf::Color(0, 0, 255, 255)),
-        new Lua_Color(sf::Color(255, 255, 0, 255)),
-        new Lua_Color(sf::Color(255, 0, 255, 255)),
-        new Lua_Color(sf::Color(0, 255, 255, 255)),
-        new Lua_Color(sf::Color(128, 128, 128, 255)),
-        new Lua_Color(sf::Color(255, 255, 255, 255)),
-        new Lua_Color(sf::Color(0, 0, 0, 255)),
-        new Lua_Color(sf::Color(0, 0, 0, 0)),
-    };
-
-
-    exporter.addUserdata("red", public_lua_colors[0], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("green", public_lua_colors[1], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("blue", public_lua_colors[2], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("yellow", public_lua_colors[3], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("magenta", public_lua_colors[4], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("cyan", public_lua_colors[5], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("gray", public_lua_colors[6], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("white", public_lua_colors[7], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("black", public_lua_colors[8], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-    exporter.addUserdata("transparent", public_lua_colors[9], sizeof(Lua_Color), LUA_COLOR_METATABLENAME);
-
-    // It is ok to delete them because addUserdata copies the data it got
-    for(auto& v : public_lua_colors)
-    {
-        delete v;
-    }
 
     return exporter;
 }

@@ -1,5 +1,6 @@
 #include <InGame/LuaEntity.hpp>
 #include <Modding/ShooterGameExporter.hpp>
+#include <Modding/Exporters/EventExporter.hpp>
 
 LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath):
     Entity(parent), m_assetsFolderPath(assetsFolderPath)
@@ -20,6 +21,7 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
     }
 
     m_startFunction.load(m_entityLuaState, "start", 0, 0);
+    m_handleEventFunction.load(m_entityLuaState, "handleEvent", 1, 0);
     m_updateFunction.load(m_entityLuaState, "update", 1, 0);
     m_lateUpdateFunction.load(m_entityLuaState, "lateUpdate", 1, 0);
     m_onDestroyFunction.load(m_entityLuaState, "onDestroy", 0, 0);
@@ -40,6 +42,11 @@ LuaEntity::~LuaEntity()
 void LuaEntity::start()
 {
     m_startFunction();
+}
+
+void LuaEntity::handleEvent(const sf::Event& e)
+{
+    m_handleEventFunction(std::pair<void*, std::string>{(void*)&e, LUA_EVENT_METATABLENAME});
 }
 
 void LuaEntity::update(const sf::Time& deltaTime)

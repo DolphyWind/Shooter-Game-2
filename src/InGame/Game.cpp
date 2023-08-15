@@ -48,39 +48,32 @@ void Game::handleEvents()
             const sf::View& currentView = m_window.getView();
             sf::View newView;
             newView.setCenter(currentView.getCenter());
-            m_viewportSize = newSize;
 
             if(area_based_on_width < area_based_on_height)
             {
-                newView.setSize(newSize.y * m_targetAspectRatio, newSize.y);
-                
                 // Horizontal bars
                 // borderPercentage is the ratio of the width of the black bars to the width of the screen
                 float targetHeight = newSize.x / m_targetAspectRatio;
-                m_viewportSize.y = targetHeight;
                 float cameraPercentage = targetHeight / newSize.y;
                 float borderPercentage = (1 - cameraPercentage);
                 
                 newView.setViewport({0.0f, borderPercentage / 2.0f, 1.0f, 1.0f - borderPercentage});
+                m_viewportSize = ((sfex::Vec2)newSize).cwiseMul({1, cameraPercentage});
                 m_gameGui.setRelativeViewport({0.0f, borderPercentage / 2.0f, 1.0f, 1.0f - borderPercentage});
             }
             else
             {
-                newView.setSize(newSize.x, newSize.x / m_targetAspectRatio);
-                m_viewportSize = {newSize.x, newSize.x / m_targetAspectRatio};
-
                 // Vertical bars
                 // Percentage is the ratio of the height of the black bars to the height of the screen
                 float targetWidth = newSize.y * m_targetAspectRatio;
-                m_viewportSize.x = targetWidth;
                 float cameraPercentage = targetWidth / newSize.x;
                 float borderPercentage = (1 - cameraPercentage);
-                
+
                 newView.setViewport({borderPercentage / 2.0f, 0.0f, 1.0f - borderPercentage, 1.0f});
+                m_viewportSize = ((sfex::Vec2)newSize).cwiseMul({cameraPercentage, 1});
                 m_gameGui.setRelativeViewport({borderPercentage / 2.0f, 0.0f, 1.0f - borderPercentage, 1.0f});
             }
-            // std::cout << (sfex::Vec2)newView.getSize() << std::endl;
-            newView.setSize(newSize);
+            newView.setSize(m_initialWindowSize);
             m_window.setView(newView);
 
             // Reposition the window after resizing on windows
@@ -262,5 +255,6 @@ sfex::Vec2u Game::getViewportSize() const
 float Game::getScalePercentage() const
 {
     // UI scaling factor
+    std::cout << getViewportSize() << std::endl;
     return std::sqrt((getViewportSize().x * getViewportSize().y) / (getInitialWindowSize().x * getInitialWindowSize().y));
 }

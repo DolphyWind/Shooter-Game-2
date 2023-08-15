@@ -24,6 +24,7 @@ struct TransformExporter
     static int translate(lua_State* L);
     static int rotate(lua_State* L);
     static int scale(lua_State* L);
+    static int identity(lua_State* L);
 
     static LuaExporter toLuaExporter();
 };

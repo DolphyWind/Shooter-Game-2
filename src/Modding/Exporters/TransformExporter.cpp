@@ -262,6 +262,12 @@ int TransformExporter::scale(lua_State *L)
     return 1;
 }
 
+int TransformExporter::identity(lua_State* L)
+{
+    createTransform(L, Lua_Transform::Identity);
+    return 1;
+}
+
 LuaExporter TransformExporter::toLuaExporter()
 {
     LuaExporter exporter(
@@ -276,6 +282,7 @@ LuaExporter TransformExporter::toLuaExporter()
             {"translate", TransformExporter::translate},
             {"rotate", TransformExporter::rotate},
             {"scale", TransformExporter::scale},
+            {"identity", TransformExporter::identity},
         },
         {
             {"__gc", TransformExporter::__destroy},
@@ -285,10 +292,5 @@ LuaExporter TransformExporter::toLuaExporter()
         }
     );
 
-    Lua_Transform* identity = new Lua_Transform(Lua_Transform::Identity);
-    exporter.addUserdata("identity", (void*)identity, sizeof(Lua_Transform), LUA_TRANSFORM_CLASSNAME"_metatable");
-
-    // It is ok to delete them because addUserdata copies the data it got
-    delete identity;
     return exporter;
 }

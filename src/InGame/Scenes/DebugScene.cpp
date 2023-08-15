@@ -6,7 +6,7 @@
 
 
 DebugScene::DebugScene(Game* parent):
-    ExtendedScene(parent), m_collisionTable()
+    ExtendedScene(parent)
 {
     setBackgroundColor(sfex::Color::Cyan);
     m_welcomeLabel = tgui::Label::create("Welcome to the debug menu!\n"
@@ -27,10 +27,7 @@ void DebugScene::handleEvent(const sf::Event &e)
         m_welcomeLabel->setTextSize(18 * scale_percentage);
     }
 
-    for(auto& entity : m_entities)
-    {
-        entity->handleEvent(e);
-    }
+    m_gameManager.handleEvent(e);
 }
 
 void DebugScene::start()
@@ -40,12 +37,12 @@ void DebugScene::start()
     gui->add(m_welcomeLabel);
     gui->add(m_drawCollidersToggle);
 
-    m_entities.push_back(std::make_unique<Player>(getParent(), true));
-    m_entities.push_back(std::make_unique<Player>(getParent(), false));
-    m_entities.push_back(std::make_unique<LuaEntity>(getParent(), "entity.lua", "."));
+    m_gameManager.addEntity<Player>(getParent(), true);
+    m_gameManager.addEntity<Player>(getParent(), false);
+    m_gameManager.addEntity<LuaEntity>(getParent(), "entity.lua", ".");
 
-    m_entities[0]->setPosition({100, 100});
-    m_entities[1]->setPosition({300, 300});
+    m_gameManager.getEntities()[0]->setPosition({100, 100});
+    m_gameManager.getEntities()[1]->setPosition({300, 300});
 }
 
 void DebugScene::update(const sf::Time& deltaTime)
@@ -59,91 +56,21 @@ void DebugScene::update(const sf::Time& deltaTime)
         getParent()->switchScene("main_menu");
     }
 
-    for(auto& entity : m_entities)
-    {
-        entity->update(deltaTime);
-    }
-
-    checkCollisions();
+    m_gameManager.update(deltaTime);
 }
 
 void DebugScene::lateUpdate(const sf::Time& deltaTime)
 {
-    for(auto& entity : m_entities)
-    {
-        entity->lateUpdate(deltaTime);
-    }
+    m_gameManager.lateUpdate(deltaTime);
 }
 
 void DebugScene::draw(sf::RenderTarget &target)
 {
-    for(auto& entity : m_entities)
-    {
-        entity->render(target);
-        if(m_drawCollidersToggle->isDown()) entity->debugRender(target);
-    }
+    m_gameManager.render(target, m_drawCollidersToggle->isDown());
 }
 
 void DebugScene::destroy()
 {
     getParent()->getGUI()->removeAllWidgets();
-    m_entities.clear();
-}
-
-void DebugScene::checkCollisions()
-{
-    for(std::size_t i = 0; i < m_entities.size(); ++i)
-    {
-        for(std::size_t j = 0; j < m_entities.size(); ++j)
-        {
-            if(i == j) continue;
-
-            auto& e1 = m_entities[i];
-            auto& e2 = m_entities[j];
-            bool collided = false;
-            std::optional<sfex::Vec2> intersectionPoint;
-
-            for(auto& line1 : e1->getColliderLines())
-            {
-                for(auto& line2 : e2->getOuterLines())
-                {
-                    intersectionPoint = Global::getIntersectionPoint({
-                        line1[0].position + e1->getPosition(),
-                        line1[1].position + e1->getPosition()
-                    }, {
-                        line2[0].position + e2->getPosition(),
-                        line2[1].position + e2->getPosition()
-                    });
-
-                    if(intersectionPoint.has_value())
-                    {
-                        collided = true;
-                        break;
-                    }
-                }
-                if(collided) break;
-            }
-
-            if(collided)
-            {
-                if(!m_collisionTable.contains(e1.get()) || !m_collisionTable[e1.get()].contains(e2.get()))
-                {
-                    m_collisionTable[e1.get()].insert(e2.get());
-                    e1->onCollisionEnter(e2.get(), intersectionPoint.value());
-                }
-                else
-                {
-                    e1->onCollisionStay(e2.get(), intersectionPoint.value());
-                }
-            }
-            else
-            {
-                if(m_collisionTable.contains(e1.get()) && m_collisionTable.at(e1.get()).contains(e2.get()))
-                {
-                    m_collisionTable[e1.get()].erase(e2.get());
-                    e1->onCollisionExit(e2.get());
-                }
-            }
-        }
-    }
+    m_gameManager.destroy();
 }

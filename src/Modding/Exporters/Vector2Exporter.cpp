@@ -55,47 +55,6 @@ int Vector2Exporter::__index(lua_State* L)
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
-    if(indexStr == "x")
-    {
-        lua_pushnumber(L, vecPtr->x);
-        return 1;
-    }
-    else if(indexStr == "y")
-    {
-        lua_pushnumber(L, vecPtr->y);
-        return 1;
-    }
-    else if(indexStr == "left")
-    {
-        createVector(L, Lua_Vector2::left);
-        return 1;
-    }
-    else if(indexStr == "right")
-    {
-        createVector(L, Lua_Vector2::right);
-        return 1;
-    }
-    else if(indexStr == "up")
-    {
-        createVector(L, Lua_Vector2::up);
-        return 1;
-    }
-    else if(indexStr == "down")
-    {
-        createVector(L, Lua_Vector2::down);
-        return 1;
-    }
-    else if(indexStr == "one")
-    {
-        createVector(L, Lua_Vector2::one);
-        return 1;
-    }
-    else if(indexStr == "zero")
-    {
-        LuaHelper::push(L, {(void*)&Lua_Vector2::zero, LUA_VECTOR2_METATABLENAME});
-        return 1;
-    }
-
     lua_getglobal(L, LUA_VECTOR2_CLASSNAME);
     lua_pushstring(L, indexStr.c_str());
     lua_rawget(L, -2);
@@ -529,28 +488,6 @@ LuaExporter Vector2Exporter::toLuaExporter()
             {"__eq", Vector2Exporter::__eq},
         }
     );
-
-    std::vector<Lua_Vector2*> public_lua_vectors = {
-        new Lua_Vector2(Lua_Vector2::left),
-        new Lua_Vector2(Lua_Vector2::right),
-        new Lua_Vector2(Lua_Vector2::up),
-        new Lua_Vector2(Lua_Vector2::down),
-        new Lua_Vector2(Lua_Vector2::zero),
-        new Lua_Vector2(Lua_Vector2::one),
-    };
-
-    exporter.addUserdata("left", public_lua_vectors[0], sizeof(Lua_Vector2), LUA_VECTOR2_CLASSNAME"_metatable");
-    exporter.addUserdata("right", public_lua_vectors[1], sizeof(Lua_Vector2), LUA_VECTOR2_CLASSNAME"_metatable");
-    exporter.addUserdata("up", public_lua_vectors[2], sizeof(Lua_Vector2), LUA_VECTOR2_CLASSNAME"_metatable");
-    exporter.addUserdata("down", public_lua_vectors[3], sizeof(Lua_Vector2), LUA_VECTOR2_CLASSNAME"_metatable");
-    exporter.addUserdata("zero", public_lua_vectors[4], sizeof(Lua_Vector2), LUA_VECTOR2_CLASSNAME"_metatable");
-    exporter.addUserdata("one", public_lua_vectors[5], sizeof(Lua_Vector2), LUA_VECTOR2_CLASSNAME"_metatable");
-
-    // It is ok to delete them because addUserdata copies the data it got
-    for(auto& v : public_lua_vectors)
-    {
-        delete v;
-    }
 
     return exporter;
 }
