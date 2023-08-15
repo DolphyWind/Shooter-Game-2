@@ -1,9 +1,12 @@
+#include <sstream>
+#include <cassert>
+
 #include <SFEX/Numeric/Vector2.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include <Modding/LuaHelper.hpp>
+
 #include <lua.hpp>
-#include <cassert>
-#include <sstream>
 
 void Vector2Exporter::createVector(lua_State* L, const Lua_Vector2& vec)
 {
@@ -89,7 +92,7 @@ int Vector2Exporter::__index(lua_State* L)
     }
     else if(indexStr == "zero")
     {
-        createVector(L, Lua_Vector2::zero);
+        LuaHelper::push(L, {(void*)&Lua_Vector2::zero, LUA_VECTOR2_METATABLENAME});
         return 1;
     }
 

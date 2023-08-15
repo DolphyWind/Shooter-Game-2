@@ -3,7 +3,8 @@
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <Modding/LuaExporter.hpp>
 
-void CursorExporter::createCursor(lua_State* L) {
+void CursorExporter::createCursor(lua_State* L)
+{
     void* data = lua_newuserdata(L, sizeof(Lua_Cursor));
     new (data) Lua_Cursor();
     luaL_getmetatable(L, LUA_CURSOR_METATABLENAME);
