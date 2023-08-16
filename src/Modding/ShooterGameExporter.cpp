@@ -22,6 +22,7 @@
 #include <Modding/Exporters/RenderWindowExporter.hpp>
 #include <Modding/Exporters/RectangleShapeExporter.hpp>
 #include <Modding/Exporters/CircleShapeExporter.hpp>
+#include <Modding/Exporters/ConvexShapeExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     Vector2Exporter::toLuaExporter(),
@@ -46,6 +47,7 @@ std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     RenderWindowExporter::toLuaExporter(),
     RectangleShapeExporter::toLuaExporter(),
     CircleShapeExporter::toLuaExporter(),
+    ConvexShapeExporter::toLuaExporter(),
 };
 
 void ShooterGameExporter::exportTo(lua_State* L)
