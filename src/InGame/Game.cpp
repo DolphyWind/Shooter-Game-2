@@ -255,6 +255,5 @@ sfex::Vec2u Game::getViewportSize() const
 float Game::getScalePercentage() const
 {
     // UI scaling factor
-    std::cout << getViewportSize() << std::endl;
     return std::sqrt((getViewportSize().x * getViewportSize().y) / (getInitialWindowSize().x * getInitialWindowSize().y));
 }

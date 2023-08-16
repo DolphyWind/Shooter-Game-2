@@ -1,6 +1,7 @@
 #include <InGame/LuaEntity.hpp>
 #include <Modding/ShooterGameExporter.hpp>
 #include <Modding/Exporters/EventExporter.hpp>
+#include <Modding/Exporters/RenderWindowExporter.hpp>
 
 LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath):
     Entity(parent), m_assetsFolderPath(assetsFolderPath)
@@ -66,7 +67,8 @@ void LuaEntity::onDestroy()
 
 void LuaEntity::render(sf::RenderTarget& target)
 {
-    m_renderFunction((void*)&target);
+    // For some reason passing the target gives a segfault. So I had to pass the global window here
+    m_renderFunction(std::pair{(void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME});
 }
 
 void LuaEntity::onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint)
