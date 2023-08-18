@@ -64,7 +64,7 @@ void DebugScene::lateUpdate(const sf::Time& deltaTime)
     m_gameManager.lateUpdate(deltaTime);
 }
 
-void DebugScene::draw(sf::RenderTarget &target)
+void DebugScene::render(sf::RenderTarget &target)
 {
     m_gameManager.render(target, m_drawCollidersToggle->isDown());
 }

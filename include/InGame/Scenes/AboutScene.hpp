@@ -28,6 +28,6 @@ public:
     virtual void update(const sf::Time& deltaTime) override;
     virtual void lateUpdate(const sf::Time& deltaTime) override;
 
-    virtual void draw(sf::RenderTarget &target) override;
+    virtual void render(sf::RenderTarget &target) override;
     virtual void destroy() override;
 };

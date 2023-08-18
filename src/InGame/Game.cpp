@@ -118,7 +118,7 @@ void Game::lateUpdate(const sf::Time& deltaTime)
 void Game::render()
 {
     m_window.clear(getCurrentScene()->getBackgroundColor());
-    m_defaultSceneManager.draw(getRenderWindow());
+    m_defaultSceneManager.render(getRenderWindow());
     m_gameGui.draw();
     m_window.display();
 }

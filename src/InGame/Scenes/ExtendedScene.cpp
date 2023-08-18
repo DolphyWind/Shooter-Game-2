@@ -26,9 +26,9 @@ void ExtendedScene::lateUpdate(const sf::Time& deltaTime)
     
 }
 
-void ExtendedScene::draw(sf::RenderTarget& target)
+void ExtendedScene::render(sf::RenderTarget& target)
 {
-    sfex::Scene::draw(target);
+    sfex::Scene::render(target);
 }
 
 

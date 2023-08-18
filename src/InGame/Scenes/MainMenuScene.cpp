@@ -91,7 +91,7 @@ void MainMenuScene::lateUpdate(const sf::Time& deltaTime)
     }
 }
 
-void MainMenuScene::draw(sf::RenderTarget& target)
+void MainMenuScene::render(sf::RenderTarget& target)
 {
     
 }

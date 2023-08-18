@@ -84,7 +84,7 @@ void AboutScene::lateUpdate(const sf::Time& deltaTime)
 
 }
 
-void AboutScene::draw(sf::RenderTarget& target)
+void AboutScene::render(sf::RenderTarget& target)
 {
     
 }
