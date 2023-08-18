@@ -25,6 +25,7 @@
 #include <Modding/Exporters/ConvexShapeExporter.hpp>
 #include <Modding/Exporters/SoundBufferExporter.hpp>
 #include <Modding/Exporters/SoundExporter.hpp>
+#include <Modding/Exporters/MusicExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     Vector2Exporter::toLuaExporter(),
@@ -52,6 +53,7 @@ std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     ConvexShapeExporter::toLuaExporter(),
     SoundBufferExporter::toLuaExporter(),
     SoundExporter::toLuaExporter(),
+    MusicExporter::toLuaExporter(),
 };
 
 void ShooterGameExporter::exportTo(lua_State* L)

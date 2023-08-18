@@ -1,4 +1,4 @@
-#include <InGame/Version.hpp>
+#include <Version.hpp>
 
 
 Version::Version(std::uint8_t major, std::uint8_t minor, std::uint8_t patch):

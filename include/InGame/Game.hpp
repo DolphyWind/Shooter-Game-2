@@ -8,7 +8,7 @@
 #include <imgui-SFML.h>
 #include <ResourceManagement/TGUIFontManager.hpp>
 #include <OsSpecific/Config.hpp>
-#include <InGame/Version.hpp>
+#include "Version.hpp"
 
 
 class Game
