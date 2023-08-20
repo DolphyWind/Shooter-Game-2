@@ -13,6 +13,7 @@ public:
     virtual void onDestroy() override;
     virtual void handleEvent(const sf::Event& e) override;
     virtual void render(sf::RenderTarget& target) override;
+    virtual void onDeath() override;
 
     virtual void setPosition(const sfex::Vec2& newPos) override;
     virtual void move(const sfex::Vec2& delta) override;

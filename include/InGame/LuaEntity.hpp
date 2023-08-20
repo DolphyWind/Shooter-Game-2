@@ -17,10 +17,13 @@ public:
     virtual void lateUpdate(const sf::Time& deltaTime) override;
     virtual void onDestroy() override;
     virtual void render(sf::RenderTarget& target) override;
+    virtual void onDeath() override;
 
     virtual void onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint) override;
     virtual void onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint) override;
     virtual void onCollisionExit(Entity* other) override;
+
+    lua_State* getLuaState() const;
 
 private:
     lua_State* m_entityLuaState;
@@ -30,6 +33,7 @@ private:
     LuaFunction m_lateUpdateFunction;
     LuaFunction m_onDestroyFunction;
     LuaFunction m_renderFunction;
+    LuaFunction m_onDeathFunction;
     LuaFunction m_onCollisionEnterFunction;
     LuaFunction m_onCollisionStayFunction;
     LuaFunction m_onCollisionExitFunction;

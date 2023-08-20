@@ -17,6 +17,7 @@ public:
     virtual void onDestroy() {};
     virtual void handleEvent(const sf::Event& e) {};
     virtual void render(sf::RenderTarget& target) {};
+    virtual void onDeath() {}
     void debugRender(sf::RenderTarget& target);
     
     void setHealth(float newHealth);
@@ -40,6 +41,12 @@ public:
     const std::vector<sf::VertexArray>& getColliderLines() const;
     const std::vector<sf::VertexArray>& getOuterLines() const;
 
+    void setName(const std::string& newName);
+    std::string getName() const;
+
+    void setMetadata(const std::string& newMetadata);
+    std::string getMetadata() const;
+
 protected:
     float m_health;
     sfex::Vec2 m_position;
@@ -47,4 +54,6 @@ protected:
     std::vector<sf::VertexArray> m_innerLines;
     std::vector<sf::VertexArray> m_outerLines;
     Game* m_parent;
+    std::string m_name;
+    std::string m_metadata;
 };

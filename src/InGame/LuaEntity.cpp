@@ -2,18 +2,21 @@
 #include <Modding/ShooterGameExporter.hpp>
 #include <Modding/Exporters/EventExporter.hpp>
 #include <Modding/Exporters/RenderWindowExporter.hpp>
+#include <Modding/Exporters/EntityExporter.hpp>
 
 LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath):
     Entity(parent), m_assetsFolderPath(assetsFolderPath)
 {
     m_entityLuaState = luaL_newstate();
     luaL_openlibs(m_entityLuaState);
+    ShooterGameExporter::exportTo(m_entityLuaState);
+
     lua_pushstring(m_entityLuaState, assetsFolderPath.c_str());
     lua_setglobal(m_entityLuaState, ASSETSPATH_VARNAME);
-    lua_pushcfunction(m_entityLuaState, LuaHelper::LuaGetMainWindow);
-    lua_setglobal(m_entityLuaState, "getMainWindow");
-    
-    ShooterGameExporter::exportTo(m_entityLuaState);
+    LuaHelper::push(m_entityLuaState, (void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME);
+    lua_setglobal(m_entityLuaState, "main_window");
+    LuaHelper::push(m_entityLuaState, (void*)this, LUA_ENTITY_METATABLENAME);
+    lua_setglobal(m_entityLuaState, "this");
 
     int status = luaL_dofile(m_entityLuaState, filename.c_str());
     if(status != LUA_OK)
@@ -30,6 +33,7 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
     m_onCollisionEnterFunction.load(m_entityLuaState, "onCollisionEnter", 2, 0);
     m_onCollisionStayFunction.load(m_entityLuaState, "onCollisionStay", 2, 0);
     m_onCollisionExitFunction.load(m_entityLuaState, "onCollisionExit", 1, 0);
+    m_onDeathFunction.load(m_entityLuaState, "onDeath", 0, 0);
 
     start();
 }
@@ -71,6 +75,11 @@ void LuaEntity::render(sf::RenderTarget& target)
     m_renderFunction(std::pair{(void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME});
 }
 
+void LuaEntity::onDeath()
+{
+    m_onDeathFunction();
+}
+
 void LuaEntity::onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint)
 {
     m_onCollisionEnterFunction((void*)other, (void*)&intersectionPoint);
@@ -84,4 +93,9 @@ void LuaEntity::onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint)
 void LuaEntity::onCollisionExit(Entity* other)
 {
     m_onCollisionExitFunction((void*)other);
+}
+
+lua_State* LuaEntity::getLuaState() const
+{
+    return m_entityLuaState;
 }

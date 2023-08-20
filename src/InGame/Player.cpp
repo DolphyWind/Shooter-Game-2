@@ -85,6 +85,11 @@ void Player::render(sf::RenderTarget& target)
     target.draw(m_playerCircle);
 }
 
+void Player::onDeath()
+{
+
+}
+
 void Player::setPosition(const sfex::Vec2& newPos)
 {
     Entity::setPosition(newPos);

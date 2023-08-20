@@ -17,7 +17,7 @@ void Entity::setHealth(float newHealth)
     m_health = newHealth;
     if(m_health <= 0)
     {
-        this->onDestroy();
+        this->onDeath();
     }
 }
 
@@ -109,4 +109,24 @@ void Entity::debugRender(sf::RenderTarget& target)
         target.draw(m_innerLines[i], playerTransform);
         target.draw(m_outerLines[i], playerTransform);
     }
+}
+
+void Entity::setName(const std::string& newName)
+{
+    m_name = newName;
+}
+
+std::string Entity::getName() const
+{
+    return m_name;
+}
+
+void Entity::setMetadata(const std::string& newMetadata)
+{
+    m_metadata = newMetadata;
+}
+
+std::string Entity::getMetadata() const
+{
+    return m_metadata;
 }
