@@ -11,7 +11,7 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
     luaL_openlibs(m_entityLuaState);
     ShooterGameExporter::exportTo(m_entityLuaState);
 
-    lua_pushstring(m_entityLuaState, assetsFolderPath.c_str());
+    lua_pushstring(m_entityLuaState, assetsFolderPath.string().c_str());
     lua_setglobal(m_entityLuaState, ASSETSPATH_VARNAME);
     LuaHelper::push(m_entityLuaState, (void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME);
     lua_setglobal(m_entityLuaState, "main_window");

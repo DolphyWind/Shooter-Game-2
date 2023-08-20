@@ -58,7 +58,7 @@ int MusicExporter::openFromFile(lua_State* L)
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path fullPath = lua_tostring(L, -1);
     fullPath /= filename;
-    bool result = musicPtr->openFromFile(fullPath.c_str());
+    bool result = musicPtr->openFromFile(fullPath.string());
     lua_pushboolean(L, result);
 
     return 1;

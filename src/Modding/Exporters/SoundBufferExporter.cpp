@@ -48,7 +48,7 @@ int SoundBufferExporter::loadFromFile(lua_State* L)
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path totalPath = lua_tostring(L, -1);
     totalPath /= filename;
-    bool result = soundBufferPtr->loadFromFile(totalPath.c_str());
+    bool result = soundBufferPtr->loadFromFile(totalPath.string());
     lua_pushboolean(L, result);
 
     return 1;
@@ -61,7 +61,7 @@ int SoundBufferExporter::saveToFile(lua_State* L)
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path totalPath = lua_tostring(L, -1);
     totalPath /= filename;
-    bool result = soundBufferPtr->saveToFile(totalPath.c_str());
+    bool result = soundBufferPtr->saveToFile(totalPath.string());
     lua_pushboolean(L, result);
 
     return 1;

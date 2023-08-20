@@ -166,11 +166,14 @@ int Vector2Exporter::__idiv(lua_State* L)
     }
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
     lua_Number divider = luaL_checknumber(L, 2);
-
+    lua_Integer x_int, y_int;
+    
+    lua_numbertointeger(vecPtr->x / divider, &x_int);
+    lua_numbertointeger(vecPtr->y / divider, &y_int);
 
     createVector(L, {
-        static_cast<lua_Integer>(vecPtr->x / divider),
-        static_cast<lua_Integer>(vecPtr->y / divider)
+    static_cast<lua_Number>(x_int),
+    static_cast<lua_Number>(y_int)
     } );
     return 1;
 }

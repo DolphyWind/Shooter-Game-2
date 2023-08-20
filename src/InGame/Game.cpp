@@ -94,7 +94,6 @@ void Game::handleEvents()
             if(newSizeLessThanMinimum)
             {
                 m_window.setSize(newSize);
-                m_window.setPosition(m_lastPosition);
             }
 #endif
         }

@@ -65,7 +65,7 @@ int TextureExporter::loadFromFile(lua_State* L)
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path totalPath(luaL_checkstring(L, -1));
     totalPath /= filename;
-    bool result = texturePtr->loadFromFile(totalPath.c_str());
+    bool result = texturePtr->loadFromFile(totalPath.string());
     lua_pushboolean(L, result);
     return 1;
 }
