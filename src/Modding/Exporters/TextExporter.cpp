@@ -182,7 +182,7 @@ int TextExporter::getFont(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
     const Lua_Font* fontPtr = textPtr->getFont();
-    LuaHelper::push(L, std::pair{(void*)fontPtr, LUA_FONT_METATABLENAME});
+    LuaHelper::push(L, (void*)fontPtr);
 
     return 1;
 }

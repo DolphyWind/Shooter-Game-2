@@ -116,17 +116,17 @@ int TextureExporter::update(lua_State* L)
         lua_numbertointeger(luaL_checknumber(L, 4), &y);
     }
 
-    if(LuaHelper::checkudata(L, 2, LUA_TEXTURE_METATABLENAME))
+    if(LuaHelper::checkudata_orNull(L, 2, LUA_TEXTURE_METATABLENAME))
     {
         Lua_Texture* textureToCopyPtr = static_cast<Lua_Texture*>(lua_touserdata(L, 2));
         texturePtr->update(*textureToCopyPtr, x, y);
     }
-    else if(LuaHelper::checkudata(L, 2, LUA_IMAGE_METATABLENAME))
+    else if(LuaHelper::checkudata_orNull(L, 2, LUA_IMAGE_METATABLENAME))
     {
         Lua_Image* imageToCopyPtr = static_cast<Lua_Image*>(lua_touserdata(L, 2));
         texturePtr->update(*imageToCopyPtr, x, y);
     }
-    else if(LuaHelper::checkudata(L, 2, LUA_RENDERWINDOW_METATABLENAME))
+    else if(LuaHelper::checkudata_orNull(L, 2, LUA_RENDERWINDOW_METATABLENAME))
     {
         Lua_RenderWindow* windowToCopyPtr = static_cast<Lua_RenderWindow*>(lua_touserdata(L, 2));
         texturePtr->update(*windowToCopyPtr, x, y);
