@@ -1,6 +1,7 @@
 #include <Modding/LuaExporter.hpp>
 #include <Modding/Exporters/FloatRectExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void FloatRectExporter::createFloatRect(lua_State *L, const Lua_FloatRect& floatRect)
 {
@@ -21,14 +22,14 @@ int FloatRectExporter::__new(lua_State *L)
     }
     else if(arg_count == 1)
     {
-        Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
+        Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
         createFloatRect(L, Lua_FloatRect(*floatRectPtr));
         return 1;
     }
     else if(arg_count == 2)
     {
-        Lua_Vector2* positionVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-        Lua_Vector2* sizeVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Lua_Vector2* positionVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+        Lua_Vector2* sizeVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         createFloatRect(L, Lua_FloatRect(*positionVec, *sizeVec));
         return 1;
     }
@@ -49,14 +50,14 @@ int FloatRectExporter::__new(lua_State *L)
 
 int FloatRectExporter::__destroy(lua_State *L)
 {
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
     floatRectPtr->~Lua_FloatRect();
     return 0;
 }
 
 int FloatRectExporter::__index(lua_State *L)
 {
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "left")
@@ -88,7 +89,7 @@ int FloatRectExporter::__index(lua_State *L)
 
 int FloatRectExporter::__newindex(lua_State *L)
 {
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "left")
@@ -124,8 +125,8 @@ int FloatRectExporter::__eq(lua_State *L)
         return 1;
     }
 
-    Lua_FloatRect* firstFloatRect = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
-    Lua_FloatRect* secondFloatRect = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 2, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* firstFloatRect = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* secondFloatRect = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
     lua_pushboolean(L, (*firstFloatRect) == (*secondFloatRect));
     return 1;
 }
@@ -133,11 +134,11 @@ int FloatRectExporter::__eq(lua_State *L)
 int FloatRectExporter::contains(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
 
     if(arg_count == 2)
     {
-        Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         lua_pushboolean(L, floatRectPtr->contains(*vecPtr));
         return 1;
     }
@@ -156,8 +157,8 @@ int FloatRectExporter::contains(lua_State *L)
 int FloatRectExporter::intersects(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
-    Lua_FloatRect* rectanglePtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 2, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* rectanglePtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
 
     if(arg_count == 2)
     {
@@ -166,7 +167,7 @@ int FloatRectExporter::intersects(lua_State *L)
     }
     else if(arg_count == 3)
     {
-        Lua_FloatRect* intersectionPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 3, LUA_FLOATRECT_METATABLENAME) );
+        Lua_FloatRect* intersectionPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_FLOATRECT_METATABLENAME) );
         lua_pushboolean(L, floatRectPtr->intersects(*rectanglePtr, *intersectionPtr));
         return 1;
     }
@@ -177,14 +178,14 @@ int FloatRectExporter::intersects(lua_State *L)
 
 int FloatRectExporter::getPosition(lua_State *L)
 {
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
     Vector2Exporter::createVector(L, Lua_Vector2(floatRectPtr->left, floatRectPtr->top));
     return 1;
 }
 
 int FloatRectExporter::getSize(lua_State *L)
 {
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
     Vector2Exporter::createVector(L, Lua_Vector2(floatRectPtr->width, floatRectPtr->height));
     return 1;
 }

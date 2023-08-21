@@ -5,7 +5,7 @@
 
 int EntityExporter::__index(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     lua_getglobal(L, LUA_ENTITY_CLASSNAME);
@@ -16,7 +16,7 @@ int EntityExporter::__index(lua_State* L)
 
 int EntityExporter::setHealth(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     entityPtr->setHealth(luaL_checknumber(L, 2));
 
     return 0;
@@ -24,7 +24,7 @@ int EntityExporter::setHealth(lua_State* L)
 
 int EntityExporter::changeHealth(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     entityPtr->changeHealth(luaL_checknumber(L, 2));
 
     return 0;
@@ -32,7 +32,7 @@ int EntityExporter::changeHealth(lua_State* L)
 
 int EntityExporter::getHealth(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     lua_pushnumber(L, entityPtr->getHealth());
 
     return 1;
@@ -40,8 +40,8 @@ int EntityExporter::getHealth(lua_State* L)
 
 int EntityExporter::setPosition(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     entityPtr->setPosition(*vecPtr);
 
     return 0;
@@ -49,7 +49,7 @@ int EntityExporter::setPosition(lua_State* L)
 
 int EntityExporter::getPosition(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     Vector2Exporter::createVector(L, entityPtr->getPosition());
 
     return 1;
@@ -57,8 +57,8 @@ int EntityExporter::getPosition(lua_State* L)
 
 int EntityExporter::move(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     entityPtr->move(*vecPtr);
 
     return 0;
@@ -66,7 +66,7 @@ int EntityExporter::move(lua_State* L)
 
 int EntityExporter::getName(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     lua_pushstring(L, entityPtr->getName().c_str());
 
     return 1;
@@ -74,7 +74,7 @@ int EntityExporter::getName(lua_State* L)
 
 int EntityExporter::setMetadata(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     entityPtr->setMetadata(luaL_checkstring(L, 2));
 
     return 0;
@@ -82,7 +82,7 @@ int EntityExporter::setMetadata(lua_State* L)
 
 int EntityExporter::getMetadata(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     lua_pushstring(L, entityPtr->getMetadata().c_str());
 
     return 1;
@@ -90,7 +90,7 @@ int EntityExporter::getMetadata(lua_State* L)
 
 int EntityExporter::setCollider(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     if(!lua_istable(L, 2))
     {
         luaL_error(L, "The collider should be an array containing vectors");
@@ -105,7 +105,7 @@ int EntityExporter::setCollider(lua_State* L)
     for(int i = 1; i <= arrSize; ++i)
     {
         lua_rawgeti(L, 2, i);
-        Lua_Vector2* currentPoint = static_cast<Lua_Vector2*>( luaL_checkudata(L, -1, LUA_VECTOR2_METATABLENAME) );
+        Lua_Vector2* currentPoint = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, -1, LUA_VECTOR2_METATABLENAME) );
         points.push_back({static_cast<float>(currentPoint->x), static_cast<float>(currentPoint->y)});
     }
     entityPtr->setCollider(points);
@@ -115,7 +115,7 @@ int EntityExporter::setCollider(lua_State* L)
 
 int EntityExporter::getCollider(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     std::vector<sfex::Vec2> collider = entityPtr->getCollider();
     for(int i = 0; i < collider.size(); ++i)
     {
@@ -128,7 +128,7 @@ int EntityExporter::getCollider(lua_State* L)
 
 int EntityExporter::getGlobal(lua_State* L)
 {
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( luaL_checkudata(L, 1, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     lua_State* sourceState = entityPtr->getLuaState();
     std::string varname = lua_tostring(L, 2);
 
@@ -160,17 +160,7 @@ int EntityExporter::getGlobal(lua_State* L)
     }
     else if(lua_islightuserdata(sourceState, -1) || lua_isuserdata(sourceState, -1))
     {
-        if(lua_getmetatable(sourceState, -1))
-        {
-            lua_pushstring(sourceState, "name");
-            lua_rawget(sourceState, -2);
-            std::string metatableName = lua_tostring(sourceState, -1);
-            LuaHelper::push(L, {lua_touserdata(sourceState, -1), metatableName.c_str()});
-        }
-        else
-        {
-            LuaHelper::push(L, lua_touserdata(sourceState, -1));
-        }
+        LuaHelper::push(L, lua_touserdata(sourceState, -1));
         return 1;
     }
 

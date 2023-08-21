@@ -1,5 +1,6 @@
 #include <Modding/Exporters/ContextSettingsExporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void ContextSettingsExporter::createContextSetting(lua_State *L, const Lua_ContextSettings& settings)
 {
@@ -35,14 +36,14 @@ int ContextSettingsExporter::__new(lua_State *L)
 
 int ContextSettingsExporter::__destroy(lua_State *L)
 {
-    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( luaL_checkudata(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
     contextSettingsPtr->~Lua_ContextSettings();
     return 0;
 }
 
 int ContextSettingsExporter::__index(lua_State *L)
 {
-    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( luaL_checkudata(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "depthBits")
@@ -104,7 +105,7 @@ int ContextSettingsExporter::__index(lua_State *L)
 
 int ContextSettingsExporter::__newindex(lua_State *L)
 {
-    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( luaL_checkudata(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "depthBits")

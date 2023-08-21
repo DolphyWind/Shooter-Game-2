@@ -18,7 +18,7 @@ int TextureExporter::__new(lua_State* L)
     int arg_count = lua_gettop(L);
     if(arg_count >= 1)
     {
-        Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+        Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
         createTexture(L, *texturePtr);
         return 1;
     }
@@ -29,14 +29,14 @@ int TextureExporter::__new(lua_State* L)
 
 int TextureExporter::__destroy(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     texturePtr->~Lua_Texture();
     return 0;
 }
 
 int TextureExporter::__index(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     lua_getglobal(L, LUA_TEXTURE_CLASSNAME);
@@ -47,7 +47,7 @@ int TextureExporter::__index(lua_State* L)
 
 int TextureExporter::create(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     lua_Integer width;
     lua_Integer height;
     lua_numbertointeger(luaL_checknumber(L, 2), &width);
@@ -60,7 +60,7 @@ int TextureExporter::create(lua_State* L)
 
 int TextureExporter::loadFromFile(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     std::string filename = luaL_checkstring(L, 2);
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path totalPath(luaL_checkstring(L, -1));
@@ -73,13 +73,13 @@ int TextureExporter::loadFromFile(lua_State* L)
 int TextureExporter::loadFromImage(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 2, LUA_IMAGE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
     Lua_IntRect rect;
 
     if(arg_count >= 3)
     {
-        rect = *static_cast<Lua_IntRect*>( luaL_checkudata(L, 3, LUA_INTRECT_METATABLENAME) );
+        rect = *static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_INTRECT_METATABLENAME) );
     }
 
     bool result = texturePtr->loadFromImage(*imagePtr, rect);
@@ -90,7 +90,7 @@ int TextureExporter::loadFromImage(lua_State* L)
 
 int TextureExporter::getSize(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     Vector2Exporter::createVector(L, texturePtr->getSize());
 
     return 1;
@@ -98,7 +98,7 @@ int TextureExporter::getSize(lua_State* L)
 
 int TextureExporter::copyToImage(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     ImageExporter::createImage(L, texturePtr->copyToImage());
 
     return 1;
@@ -107,7 +107,7 @@ int TextureExporter::copyToImage(lua_State* L)
 int TextureExporter::update(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     lua_Integer x = 0;
     lua_Integer y = 0;
     if(arg_count >= 4)
@@ -137,7 +137,7 @@ int TextureExporter::update(lua_State* L)
 
 int TextureExporter::setSmooth(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     bool smooth = lua_toboolean(L, 2);
     texturePtr->setSmooth(smooth);
 
@@ -146,14 +146,14 @@ int TextureExporter::setSmooth(lua_State* L)
 
 int TextureExporter::isSmooth(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     lua_pushboolean(L, texturePtr->isSmooth());
     return 1;
 }
 
 int TextureExporter::setSrgb(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     bool srgb = lua_toboolean(L, 2);
     texturePtr->setSmooth(srgb);
 
@@ -162,14 +162,14 @@ int TextureExporter::setSrgb(lua_State* L)
 
 int TextureExporter::isSrgb(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     lua_pushboolean(L, texturePtr->isSrgb());
     return 1;
 }
 
 int TextureExporter::setRepeated(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     bool repeated = lua_toboolean(L, 2);
     texturePtr->setRepeated(repeated);
 
@@ -178,22 +178,22 @@ int TextureExporter::setRepeated(lua_State* L)
 
 int TextureExporter::isRepeated(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     lua_pushboolean(L, texturePtr->isRepeated());
     return 1;
 }
 
 int TextureExporter::generateMipmap(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     lua_pushboolean(L, texturePtr->generateMipmap());
     return 1;
 }
 
 int TextureExporter::swap(lua_State* L)
 {
-    Lua_Texture* firstTexturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
-    Lua_Texture* secondTexturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 2, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* firstTexturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* secondTexturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 2, LUA_TEXTURE_METATABLENAME) );
 
     firstTexturePtr->swap(*secondTexturePtr);
     return 0;
@@ -201,7 +201,7 @@ int TextureExporter::swap(lua_State* L)
 
 int TextureExporter::getNativeHandle(lua_State* L)
 {
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 1, LUA_TEXTURE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     lua_pushinteger(L, texturePtr->getNativeHandle());
     return 1;
 }

@@ -3,6 +3,7 @@
 #include <Modding/Exporters/TransformExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void ViewExporter::createView(lua_State *L, const Lua_View& view)
 {
@@ -22,12 +23,12 @@ int ViewExporter::__new(lua_State *L)
     }
     else if(arg_count == 1)
     {
-        Lua_FloatRect* rectanglePtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 1, LUA_FLOATRECT_METATABLENAME) );
+        Lua_FloatRect* rectanglePtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
         createView(L, Lua_View(*rectanglePtr));
         return 1;
     }
-    Lua_Vector2* centerPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* sizePtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* centerPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* sizePtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     createView(L, Lua_View(*centerPtr, *sizePtr));
 
     return 1;
@@ -35,14 +36,14 @@ int ViewExporter::__new(lua_State *L)
 
 int ViewExporter::__destroy(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     viewPtr->~Lua_View();
     return 0;
 }
 
 int ViewExporter::__index(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     std::string indexStr = lua_tostring(L, 2);
 
     lua_getglobal(L, LUA_VIEW_CLASSNAME);
@@ -54,11 +55,11 @@ int ViewExporter::__index(lua_State *L)
 int ViewExporter::setCenter(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     
     if(arg_count == 2)
     {
-        Lua_Vector2* centerPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Lua_Vector2* centerPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         viewPtr->setCenter(*centerPtr);
         return 0;
     }
@@ -73,11 +74,11 @@ int ViewExporter::setCenter(lua_State *L)
 int ViewExporter::setSize(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
 
     if(arg_count == 2)
     {
-        Lua_Vector2* sizePtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Lua_Vector2* sizePtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         viewPtr->setCenter(*sizePtr);
         return 0;
     }
@@ -91,15 +92,15 @@ int ViewExporter::setSize(lua_State *L)
 
 int ViewExporter::setRotatin(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     viewPtr->setRotation( luaL_checknumber(L, 2) );
     return 0;
 }
 
 int ViewExporter::setViewport(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
-    Lua_FloatRect* viewportPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 2, LUA_FLOATRECT_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_FloatRect* viewportPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
     viewPtr->setViewport(*viewportPtr);
 
     return 0;
@@ -107,8 +108,8 @@ int ViewExporter::setViewport(lua_State *L)
 
 int ViewExporter::reset(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
-    Lua_FloatRect* rectanglePtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 2, LUA_FLOATRECT_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_FloatRect* rectanglePtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
     viewPtr->reset(*rectanglePtr);
     
     return 0;
@@ -116,28 +117,28 @@ int ViewExporter::reset(lua_State *L)
 
 int ViewExporter::getCenter(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     Vector2Exporter::createVector(L, viewPtr->getCenter());
     return 1;
 }
 
 int ViewExporter::getSize(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     Vector2Exporter::createVector(L, viewPtr->getSize());
     return 1;
 }
 
 int ViewExporter::getRotation(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     lua_pushnumber(L, viewPtr->getRotation());
     return 1;
 }
 
 int ViewExporter::getViewport(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, viewPtr->getViewport());
     return 1;
 }
@@ -145,11 +146,11 @@ int ViewExporter::getViewport(lua_State *L)
 int ViewExporter::move(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     
     if(arg_count == 2)
     {
-        Lua_Vector2* offsetPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Lua_Vector2* offsetPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         viewPtr->move(*offsetPtr);
         return 1;
     }
@@ -163,28 +164,28 @@ int ViewExporter::move(lua_State *L)
 
 int ViewExporter::rotate(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     viewPtr->rotate( luaL_checknumber(L, 2) );
     return 1;
 }
 
 int ViewExporter::zoom(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     viewPtr->zoom( luaL_checknumber(L, 2) );
     return 1;
 }
 
 int ViewExporter::getTransform(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     TransformExporter::createTransform(L, viewPtr->getTransform());
     return 1;
 }
 
 int ViewExporter::getInverseTransform(lua_State *L)
 {
-    Lua_View* viewPtr = static_cast<Lua_View*>( luaL_checkudata(L, 1, LUA_VIEW_METATABLENAME) );
+    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
     TransformExporter::createTransform(L, viewPtr->getInverseTransform());
     return 1;
 }

@@ -2,6 +2,7 @@
 #include <Modding/LuaExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <SFEX/General/Mouse.hpp>
+#include "Modding/LuaHelper.hpp"
 
 int MouseExporter::getButton(lua_State *L)
 {
@@ -39,7 +40,7 @@ int MouseExporter::setPosition(lua_State *L)
     // TODO: Add support for setting position relative to window
     if(lua_isuserdata(L, 1))
     {
-        Lua_Vector2* newPos = static_cast<Lua_Vector2*>(luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME));
+        Lua_Vector2* newPos = static_cast<Lua_Vector2*>(LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME));
         sfex::Mouse::setPosition(*newPos);
     }
     return 0;

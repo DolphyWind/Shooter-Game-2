@@ -4,6 +4,7 @@
 #include <SFEX/SFEX.hpp>
 #include <SFML/Graphics.hpp>
 #include <optional>
+#include <lua.h>
 
 using StaticRandom = effolkronium::random_static;
 using LocalRandom = effolkronium::random_local;

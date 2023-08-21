@@ -27,7 +27,7 @@ int Vector2Exporter::__new(lua_State* L)
     if(arg_count == 1)
     {
         // Treat it as userdata
-        Lua_Vector2* v = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+        Lua_Vector2* v = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
         x = v->x;
         y = v->y;
     }
@@ -45,14 +45,14 @@ int Vector2Exporter::__new(lua_State* L)
 
 int Vector2Exporter::__destroy(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     vecPtr->~Lua_Vector2();
     return 0;
 }
 
 int Vector2Exporter::__index(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     lua_getglobal(L, LUA_VECTOR2_CLASSNAME);
@@ -63,7 +63,7 @@ int Vector2Exporter::__index(lua_State* L)
 
 int Vector2Exporter::__newindex(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "x")
@@ -85,7 +85,7 @@ int Vector2Exporter::__newindex(lua_State* L)
 
 int Vector2Exporter::__toString(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     std::stringstream ss;
     ss << (*vecPtr);
     lua_pushstring(L, ss.str().c_str());
@@ -94,15 +94,15 @@ int Vector2Exporter::__toString(lua_State* L)
 
 int Vector2Exporter::__unm(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     createVector(L, -(*vecPtr));
     return 1;
 }
 
 int Vector2Exporter::__add(lua_State* L)
 {
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
 
     createVector(L, (*firstVec) + (*secondVec));
     return 1;
@@ -110,8 +110,8 @@ int Vector2Exporter::__add(lua_State* L)
 
 int Vector2Exporter::__sub(lua_State* L)
 {
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
 
     createVector(L, (*firstVec) - (*secondVec));
     return 1;
@@ -124,13 +124,13 @@ int Vector2Exporter::__mul(lua_State* L)
 
     if(lua_isuserdata(L, 1) && lua_isnumber(L, 2))
     {
-        vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+        vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
         scalar = luaL_checknumber(L, 2);
     }
     else if(lua_isnumber(L, 1) && lua_isuserdata(L, 2))
     {
         scalar = luaL_checknumber(L, 1);
-        vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     }
     else
     {
@@ -150,7 +150,7 @@ int Vector2Exporter::__div(lua_State* L)
         return 0;
     }
 
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     lua_Number divider = luaL_checknumber(L, 2);
 
     createVector(L, (*vecPtr) / divider);
@@ -164,7 +164,7 @@ int Vector2Exporter::__idiv(lua_State* L)
         luaL_error(L, "Unsupported binary operation between types %s and %s", lua_typename(L, lua_type(L, 1)), lua_typename(L, lua_type(L, 1)));
         return 0;
     }
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     lua_Number divider = luaL_checknumber(L, 2);
     lua_Integer x_int, y_int;
     
@@ -186,8 +186,8 @@ int Vector2Exporter::__eq(lua_State* L)
         return 1;
     }
 
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
 
     lua_pushboolean(L, ((*firstVec) == (*secondVec)) );
     return 1;
@@ -196,7 +196,7 @@ int Vector2Exporter::__eq(lua_State* L)
 /// Regular Functions
 int Vector2Exporter::magnitude(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, vecPtr->magnitude());
 
     return 1;
@@ -204,7 +204,7 @@ int Vector2Exporter::magnitude(lua_State* L)
 
 int Vector2Exporter::magnitude2(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, vecPtr->magnitude2());
 
     return 1;
@@ -212,7 +212,7 @@ int Vector2Exporter::magnitude2(lua_State* L)
 
 int Vector2Exporter::setmagnitude(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     vecPtr->setMagnitude( luaL_checknumber(L, 2) );
 
     return 0;
@@ -220,14 +220,14 @@ int Vector2Exporter::setmagnitude(lua_State* L)
 
 int Vector2Exporter::normalize(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     vecPtr->normalize();
     return 0;
 }
 
 int Vector2Exporter::normalized(lua_State* L)
 {
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     createVector(L, vecPtr->normalized());
 
     return 1;
@@ -235,8 +235,8 @@ int Vector2Exporter::normalized(lua_State* L)
 
 int Vector2Exporter::dot(lua_State* L)
 {
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, firstVec->dot(*secondVec));
 
     return 1;
@@ -244,8 +244,8 @@ int Vector2Exporter::dot(lua_State* L)
 
 int Vector2Exporter::cross(lua_State* L)
 {
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, firstVec->cross(*secondVec));
     
     return 1;
@@ -264,8 +264,8 @@ int Vector2Exporter::cwiseMul(lua_State* L)
         return 0;
     }
 
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     createVector(L, firstVec->cwiseMul(*secondVec));
     
     return 1;
@@ -284,8 +284,8 @@ int Vector2Exporter::cwiseDiv(lua_State* L)
         return 0;
     }
 
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     createVector(L, firstVec->cwiseDiv(*secondVec));
     
     return 1;
@@ -304,7 +304,7 @@ int Vector2Exporter::scale(lua_State* L)
         return 0;
     }
 
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     vecPtr->scale( luaL_checknumber(L, 2) );
     
     return 0;
@@ -323,7 +323,7 @@ int Vector2Exporter::scaled(lua_State* L)
         return 0;
     }
 
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     createVector(L, vecPtr->scaled( luaL_checknumber(L, 2) ));
     
     return 1;
@@ -350,10 +350,10 @@ int Vector2Exporter::rotate(lua_State* L)
             luaL_error(L, "The third parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 3)) );
             return 0;
         }
-        rotateAround = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 3, LUA_VECTOR2_METATABLENAME) );
+        rotateAround = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
     }
 
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     vecPtr->rotate( luaL_checknumber(L, 2), rotateAround);
     
     return 0;
@@ -380,10 +380,10 @@ int Vector2Exporter::rotated(lua_State* L)
             luaL_error(L, "The third parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 3)) );
             return 0;
         }
-        rotateAround = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 3, LUA_VECTOR2_METATABLENAME) );
+        rotateAround = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
     }
 
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     createVector(L, vecPtr->rotated( luaL_checknumber(L, 2), rotateAround));
 
     return 1;
@@ -405,10 +405,10 @@ int Vector2Exporter::angle(lua_State* L)
             luaL_error(L, "The second parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 2)) );
             return 0;
         }
-        otherVector = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        otherVector = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     }
 
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     lua_pushnumber(L, vecPtr->angle(otherVector) );
 
     return 1;
@@ -427,8 +427,8 @@ int Vector2Exporter::projectOnto(lua_State* L)
         return 0;
     }
 
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     firstVec->projectOnto(*secondVec);
 
     return 0;
@@ -447,8 +447,8 @@ int Vector2Exporter::projectedOnto(lua_State* L)
         return 0;
     }
 
-    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* firstVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Lua_Vector2* secondVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     createVector(L, firstVec->projectedOnto(*secondVec));
 
     return 1;

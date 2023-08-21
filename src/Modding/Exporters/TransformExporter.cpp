@@ -45,14 +45,14 @@ int TransformExporter::__new(lua_State *L)
 
 int TransformExporter::__destroy(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     transformPtr->~Lua_Transform();
     return 0;
 }
 
 int TransformExporter::__index(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "identity")
@@ -69,8 +69,8 @@ int TransformExporter::__index(lua_State *L)
 
 int TransformExporter::__mul(lua_State *L)
 {
-    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( luaL_checkudata(L, 2, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
 
     createTransform(L, (*firstTransform) * (*secondTransform));
     return 1;
@@ -84,8 +84,8 @@ int TransformExporter::__eq(lua_State *L)
         return 1;
     }
 
-    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( luaL_checkudata(L, 2, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
 
     lua_pushboolean(L, (*firstTransform) == (*secondTransform));
     return 1;
@@ -93,7 +93,7 @@ int TransformExporter::__eq(lua_State *L)
 
 int TransformExporter::getMatrix(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
 
     const float* mat = transformPtr->getMatrix();
     for(std::size_t i = 0; i < 16; ++i)
@@ -106,7 +106,7 @@ int TransformExporter::getMatrix(lua_State *L)
 
 int TransformExporter::getInverse(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     createTransform(L, transformPtr->getInverse());
     return 1;
 }
@@ -114,12 +114,12 @@ int TransformExporter::getInverse(lua_State *L)
 int TransformExporter::transformPoint(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     Lua_Vector2 vecToTransform;
 
     if(arg_count == 2)
     {
-        vecToTransform = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        vecToTransform = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     }
     else if(arg_count == 3)
     {
@@ -140,16 +140,16 @@ int TransformExporter::transformPoint(lua_State *L)
 
 int TransformExporter::transformRect(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( luaL_checkudata(L, 2, LUA_FLOATRECT_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, transformPtr->transformRect(*floatRectPtr));
     return 1;
 }
 
 int TransformExporter::combine(lua_State *L)
 {
-    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( luaL_checkudata(L, 2, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
     firstTransform->combine(*secondTransform);
 
     LuaHelper::push(L, (void*)firstTransform);
@@ -159,12 +159,12 @@ int TransformExporter::combine(lua_State *L)
 int TransformExporter::translate(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     Lua_Vector2 vecToTranslate;
 
     if(arg_count == 2)
     {
-        vecToTranslate = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
+        vecToTranslate = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     }
     else if(arg_count == 3)
     {
@@ -185,7 +185,7 @@ int TransformExporter::translate(lua_State *L)
 int TransformExporter::rotate(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     lua_Number angle;
     Lua_Vector2 center;
 
@@ -197,7 +197,7 @@ int TransformExporter::rotate(lua_State *L)
     else if(arg_count == 3)
     {
         angle = luaL_checknumber(L, 2);
-        center = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 3, LUA_VECTOR2_METATABLENAME) );
+        center = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
         transformPtr->rotate(angle, center);
     }
     else if(arg_count == 4)
@@ -220,21 +220,21 @@ int TransformExporter::rotate(lua_State *L)
 int TransformExporter::scale(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( luaL_checkudata(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     Lua_Vector2 factors;
     Lua_Vector2 center;
 
     if(arg_count == 2)
     {
-        factors = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 1, LUA_VECTOR2_METATABLENAME) );
+        factors = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
         transformPtr->scale(factors);
     }
     else if(arg_count == 3)
     {
         if(lua_isuserdata(L, 2) && lua_isuserdata(L, 3))
         {
-            factors = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 2, LUA_VECTOR2_METATABLENAME) );
-            center = *static_cast<Lua_Vector2*>( luaL_checkudata(L, 3, LUA_VECTOR2_METATABLENAME) );
+            factors = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+            center = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
             transformPtr->scale(factors, center);
         }
         else

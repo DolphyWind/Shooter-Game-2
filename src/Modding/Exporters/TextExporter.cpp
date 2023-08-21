@@ -32,7 +32,7 @@ int TextExporter::__new(lua_State *L)
         return 1;
     }
     sf::String string = lua_tostring(L, 1);
-    Lua_Font* font = static_cast<Lua_Font*>( luaL_checkudata(L, 2, LUA_FONT_METATABLENAME) );
+    Lua_Font* font = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 2, LUA_FONT_METATABLENAME) );
     lua_Integer charSize = 30;
     if(arg_count >= 3)
     {
@@ -45,14 +45,14 @@ int TextExporter::__new(lua_State *L)
 
 int TextExporter::__destroy(lua_State *L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     textPtr->~Lua_Text();
     return 0;
 }
 
 int TextExporter::__index(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "Style_Regular")
@@ -89,7 +89,7 @@ int TextExporter::__index(lua_State* L)
 
 int TextExporter::setString(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     std::string string = luaL_checkstring(L, 2);
     textPtr->setString(string);
 
@@ -98,8 +98,8 @@ int TextExporter::setString(lua_State* L)
 
 int TextExporter::setFont(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( luaL_checkudata(L, 2, LUA_FONT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 2, LUA_FONT_METATABLENAME) );
     textPtr->setFont(*fontPtr);
 
     return 0;
@@ -107,7 +107,7 @@ int TextExporter::setFont(lua_State* L)
 
 int TextExporter::setCharacterSize(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_Integer size;
     lua_numbertointeger(luaL_checknumber(L, 2), &size);
     textPtr->setCharacterSize(size);
@@ -117,7 +117,7 @@ int TextExporter::setCharacterSize(lua_State* L)
 
 int TextExporter::setLineSpacing(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_Number spacingFactor = luaL_checknumber(L, 2);
     textPtr->setLineSpacing(spacingFactor);
 
@@ -126,7 +126,7 @@ int TextExporter::setLineSpacing(lua_State* L)
 
 int TextExporter::setLetterSpacing(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_Number spacingFactor = luaL_checknumber(L, 2);
     textPtr->setLetterSpacing(spacingFactor);
 
@@ -135,7 +135,7 @@ int TextExporter::setLetterSpacing(lua_State* L)
 
 int TextExporter::setStyle(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_Integer style;
     lua_numbertointeger(luaL_checknumber(L, 2), &style);
     textPtr->setStyle(style);
@@ -145,8 +145,8 @@ int TextExporter::setStyle(lua_State* L)
 
 int TextExporter::setFillColor(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     textPtr->setFillColor(*colorPtr);
 
     return 0;
@@ -154,8 +154,8 @@ int TextExporter::setFillColor(lua_State* L)
 
 int TextExporter::setOutlineColor(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     textPtr->setOutlineColor(*colorPtr);
 
     return 0;
@@ -163,7 +163,7 @@ int TextExporter::setOutlineColor(lua_State* L)
 
 int TextExporter::setOutlineThickness(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_Number thickness = luaL_checknumber(L, 2);
     textPtr->setOutlineThickness(thickness);
 
@@ -172,7 +172,7 @@ int TextExporter::setOutlineThickness(lua_State* L)
 
 int TextExporter::getString(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_pushstring(L, textPtr->getString().toAnsiString().c_str());
 
     return 1;
@@ -180,7 +180,7 @@ int TextExporter::getString(lua_State* L)
 
 int TextExporter::getFont(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     const Lua_Font* fontPtr = textPtr->getFont();
     LuaHelper::push(L, (void*)fontPtr);
 
@@ -189,7 +189,7 @@ int TextExporter::getFont(lua_State* L)
 
 int TextExporter::getCharacterSize(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_pushinteger(L, textPtr->getCharacterSize());
 
     return 1;
@@ -197,7 +197,7 @@ int TextExporter::getCharacterSize(lua_State* L)
 
 int TextExporter::getLetterSpacing(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_pushnumber(L, textPtr->getLetterSpacing());
 
     return 1;
@@ -205,7 +205,7 @@ int TextExporter::getLetterSpacing(lua_State* L)
 
 int TextExporter::getLineSpacing(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_pushnumber(L, textPtr->getLineSpacing());
 
     return 1;
@@ -213,7 +213,7 @@ int TextExporter::getLineSpacing(lua_State* L)
 
 int TextExporter::getStyle(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_pushinteger(L, textPtr->getStyle());
 
     return 1;
@@ -221,7 +221,7 @@ int TextExporter::getStyle(lua_State* L)
 
 int TextExporter::getFillColor(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     ColorExporter::createColor(L, textPtr->getFillColor());
 
     return 1;
@@ -229,7 +229,7 @@ int TextExporter::getFillColor(lua_State* L)
 
 int TextExporter::getOutlineColor(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     ColorExporter::createColor(L, textPtr->getOutlineColor());
 
     return 1;
@@ -237,7 +237,7 @@ int TextExporter::getOutlineColor(lua_State* L)
 
 int TextExporter::getOutlineThickness(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_pushnumber(L, textPtr->getOutlineThickness());
 
     return 1;
@@ -245,7 +245,7 @@ int TextExporter::getOutlineThickness(lua_State* L)
 
 int TextExporter::findCharacterPos(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_Integer index;
     lua_numbertointeger(luaL_checknumber(L, 2), &index);
     Vector2Exporter::createVector(L, textPtr->findCharacterPos(index));
@@ -255,7 +255,7 @@ int TextExporter::findCharacterPos(lua_State* L)
 
 int TextExporter::getLocalBounds(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, textPtr->getLocalBounds());
 
     return 1;
@@ -263,7 +263,7 @@ int TextExporter::getLocalBounds(lua_State* L)
 
 int TextExporter::getGlobalBounds(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, textPtr->getGlobalBounds());
 
     return 1;
@@ -272,10 +272,10 @@ int TextExporter::getGlobalBounds(lua_State* L)
 int TextExporter::setPosition(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         textPtr->setPosition(*vecPtr);
@@ -291,7 +291,7 @@ int TextExporter::setPosition(lua_State* L)
 
 int TextExporter::setRotation(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     textPtr->setRotation(luaL_checknumber(L, 2) );
 
     return 0;
@@ -299,10 +299,10 @@ int TextExporter::setRotation(lua_State* L)
 
 int TextExporter::setScale(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         textPtr->setScale(*vecPtr);
@@ -318,10 +318,10 @@ int TextExporter::setScale(lua_State* L)
 
 int TextExporter::setOrigin(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         textPtr->setOrigin(*vecPtr);
@@ -337,7 +337,7 @@ int TextExporter::setOrigin(lua_State* L)
 
 int TextExporter::getPosition(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     Vector2Exporter::createVector(L, textPtr->getPosition());
 
     return 1;
@@ -345,7 +345,7 @@ int TextExporter::getPosition(lua_State* L)
 
 int TextExporter::getRotation(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     lua_pushnumber(L, textPtr->getRotation());
 
     return 1;
@@ -353,7 +353,7 @@ int TextExporter::getRotation(lua_State* L)
 
 int TextExporter::getScale(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     Vector2Exporter::createVector(L, textPtr->getScale());
 
     return 1;
@@ -361,7 +361,7 @@ int TextExporter::getScale(lua_State* L)
 
 int TextExporter::getOrigin(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     Vector2Exporter::createVector(L, textPtr->getOrigin());
 
     return 1;
@@ -369,10 +369,10 @@ int TextExporter::getOrigin(lua_State* L)
 
 int TextExporter::move(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         textPtr->move(*vecPtr);
@@ -388,7 +388,7 @@ int TextExporter::move(lua_State* L)
 
 int TextExporter::rotate(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     textPtr->rotate(luaL_checknumber(L, 2));
 
     return 0;
@@ -396,10 +396,10 @@ int TextExporter::rotate(lua_State* L)
 
 int TextExporter::scale(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         textPtr->scale(*vecPtr);
@@ -415,7 +415,7 @@ int TextExporter::scale(lua_State* L)
 
 int TextExporter::getTransform(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     TransformExporter::createTransform(L, textPtr->getTransform());
 
     return 1;
@@ -423,7 +423,7 @@ int TextExporter::getTransform(lua_State* L)
 
 int TextExporter::getInverseTransform(lua_State* L)
 {
-    Lua_Text* textPtr = static_cast<Lua_Text*>( luaL_checkudata(L, 1, LUA_TEXT_METATABLENAME) );
+    Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
     TransformExporter::createTransform(L, textPtr->getInverseTransform());
 
     return 1;

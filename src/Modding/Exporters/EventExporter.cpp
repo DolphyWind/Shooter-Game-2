@@ -1,5 +1,6 @@
 #include <Modding/Exporters/EventExporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void EventExporter::createEvent(lua_State *L, const Lua_Event& event)
 {
@@ -17,14 +18,14 @@ int EventExporter::__new(lua_State *L)
 
 int EventExporter::__destroy(lua_State *L)
 {
-    Lua_Event* eventPtr = static_cast<Lua_Event*>( luaL_checkudata(L, 1, LUA_EVENT_CLASSNAME) );
+    Lua_Event* eventPtr = static_cast<Lua_Event*>( LuaHelper::checkudata_WithError(L, 1, LUA_EVENT_CLASSNAME) );
     eventPtr->~Lua_Event();
     return 0;
 }
 
 int EventExporter::__index(lua_State *L)
 {
-    Lua_Event* eventPtr = static_cast<Lua_Event*>( luaL_checkudata(L, 1, LUA_EVENT_METATABLENAME) );
+    Lua_Event* eventPtr = static_cast<Lua_Event*>( LuaHelper::checkudata_WithError(L, 1, LUA_EVENT_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "type")

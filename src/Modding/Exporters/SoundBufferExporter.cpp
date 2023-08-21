@@ -1,5 +1,6 @@
 #include <Modding/Exporters/SoundBufferExporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void SoundBufferExporter::createSoundBuffer(lua_State* L, const Lua_SoundBuffer& soundBuffer)
 {
@@ -14,7 +15,7 @@ int SoundBufferExporter::__new(lua_State *L)
     int arg_count = lua_gettop(L);
     if(arg_count == 1)
     {
-        Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+        Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
         createSoundBuffer(L, *soundBufferPtr);
         return 1;
     }
@@ -25,14 +26,14 @@ int SoundBufferExporter::__new(lua_State *L)
 
 int SoundBufferExporter::__destroy(lua_State *L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     soundBufferPtr->~Lua_SoundBuffer();
     return 0;
 }
 
 int SoundBufferExporter::__index(lua_State* L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     std::string indexStr = lua_tostring(L, 2);
 
     lua_getglobal(L, LUA_SOUNDBUFFER_CLASSNAME);
@@ -43,7 +44,7 @@ int SoundBufferExporter::__index(lua_State* L)
 
 int SoundBufferExporter::loadFromFile(lua_State* L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     std::string filename = lua_tostring(L, 2);
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path totalPath = lua_tostring(L, -1);
@@ -56,7 +57,7 @@ int SoundBufferExporter::loadFromFile(lua_State* L)
 
 int SoundBufferExporter::saveToFile(lua_State* L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     std::string filename = lua_tostring(L, 2);
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path totalPath = lua_tostring(L, -1);
@@ -69,7 +70,7 @@ int SoundBufferExporter::saveToFile(lua_State* L)
 
 int SoundBufferExporter::getSamples(lua_State* L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     int arr_len = soundBufferPtr->getSampleCount();
     lua_newtable(L);
     for(int i = 0; i < arr_len; ++i)
@@ -83,28 +84,28 @@ int SoundBufferExporter::getSamples(lua_State* L)
 
 int SoundBufferExporter::getSampleCount(lua_State* L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     lua_pushinteger(L, soundBufferPtr->getSampleCount());
     return 1;
 }
 
 int SoundBufferExporter::getSampleRate(lua_State* L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     lua_pushinteger(L, soundBufferPtr->getSampleRate());
     return 1;
 }
 
 int SoundBufferExporter::getChannelCount(lua_State* L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     lua_pushinteger(L, soundBufferPtr->getChannelCount());
     return 1;
 }
 
 int SoundBufferExporter::getDuration(lua_State* L)
 {
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     lua_pushnumber(L, soundBufferPtr->getDuration().asSeconds());
     return 1;
 }

@@ -2,6 +2,7 @@
 #include <Modding/Exporters/GlyphExporter.hpp>
 #include <Modding/Exporters/FloatRectExporter.hpp>
 #include <Modding/Exporters/IntRectExporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void GlyphExporter::createGlyph(lua_State *L, const Lua_Glyph &glyph)
 {
@@ -19,14 +20,14 @@ int GlyphExporter::__new(lua_State *L)
 
 int GlyphExporter::__destroy(lua_State *L)
 {
-    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( luaL_checkudata(L, 1, LUA_GLYPH_METATABLENAME) );
+    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
     glyphPtr->~Lua_Glyph();
     return 0;
 }
 
 int GlyphExporter::__index(lua_State *L)
 {
-    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( luaL_checkudata(L, 1, LUA_GLYPH_METATABLENAME) );
+    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "advance")
@@ -53,7 +54,7 @@ int GlyphExporter::__index(lua_State *L)
 
 int GlyphExporter::__newindex(lua_State *L)
 {
-    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( luaL_checkudata(L, 1, LUA_GLYPH_METATABLENAME) );
+    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "advance")
@@ -63,12 +64,12 @@ int GlyphExporter::__newindex(lua_State *L)
     }
     else if(indexStr == "bounds")
     {
-        glyphPtr->bounds = *static_cast<Lua_FloatRect*>( luaL_checkudata(L, 3, LUA_FLOATRECT_METATABLENAME) );
+        glyphPtr->bounds = *static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_FLOATRECT_METATABLENAME) );
         return 0;
     }
     else if(indexStr == "textureRect")
     {
-        glyphPtr->textureRect = *static_cast<Lua_IntRect*>( luaL_checkudata(L, 3, LUA_INTRECT_METATABLENAME) );
+        glyphPtr->textureRect = *static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_INTRECT_METATABLENAME) );
         return 0;
     }
 
@@ -83,8 +84,8 @@ int GlyphExporter::__eq(lua_State *L)
         lua_pushboolean(L, false);
         return 1;
     }
-    Lua_Glyph* firstGlyphPtr = static_cast<Lua_Glyph*>( luaL_checkudata(L, 1, LUA_GLYPH_METATABLENAME) );
-    Lua_Glyph* secondGlyphPtr = static_cast<Lua_Glyph*>( luaL_checkudata(L, 2, LUA_GLYPH_METATABLENAME) );
+    Lua_Glyph* firstGlyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
+    Lua_Glyph* secondGlyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 2, LUA_GLYPH_METATABLENAME) );
     lua_pushboolean(L,
         (firstGlyphPtr->advance == secondGlyphPtr->advance) &&
         (firstGlyphPtr->bounds == secondGlyphPtr->bounds) && 

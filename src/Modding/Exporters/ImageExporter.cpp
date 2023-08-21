@@ -4,6 +4,7 @@
 #include <Modding/Exporters/IntRectExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <iostream>
+#include "Modding/LuaHelper.hpp"
 
 void ImageExporter::createImage(lua_State *L, const Lua_Image &image)
 {
@@ -21,7 +22,7 @@ int ImageExporter::__new(lua_State *L)
 
 int ImageExporter::__index(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     lua_getglobal(L, LUA_IMAGE_CLASSNAME);
@@ -32,7 +33,7 @@ int ImageExporter::__index(lua_State *L)
 
 int ImageExporter::__destroy(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     imagePtr->~Lua_Image();
     return 0;
 }
@@ -40,7 +41,7 @@ int ImageExporter::__destroy(lua_State *L)
 int ImageExporter::create(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_Integer width;
     lua_Integer height;
     lua_numbertointeger(luaL_checknumber(L, 2), &width);
@@ -49,7 +50,7 @@ int ImageExporter::create(lua_State *L)
 
     if(arg_count > 3)
     {
-        color = *static_cast<Lua_Color*>( luaL_checkudata(L, 4, LUA_COLOR_METATABLENAME) );
+        color = *static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 4, LUA_COLOR_METATABLENAME) );
     }
     imagePtr->create(width, height, color);
 
@@ -58,7 +59,7 @@ int ImageExporter::create(lua_State *L)
 
 int ImageExporter::loadFromFile(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path total_path( luaL_checkstring(L, -1) );
     lua_pop(L, 1);
@@ -71,7 +72,7 @@ int ImageExporter::loadFromFile(lua_State *L)
 
 int ImageExporter::saveToFile(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path total_path( luaL_checkstring(L, -1) );
     lua_pop(L, 1);
@@ -84,7 +85,7 @@ int ImageExporter::saveToFile(lua_State *L)
 
 int ImageExporter::getSize(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     Lua_Vector2 size = imagePtr->getSize();
     Vector2Exporter::createVector(L, size);
     return 1;
@@ -93,8 +94,8 @@ int ImageExporter::getSize(lua_State *L)
 int ImageExporter::createMaskFromColor(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     lua_Integer alpha = 0;
     
     if(arg_count > 2)
@@ -109,8 +110,8 @@ int ImageExporter::createMaskFromColor(lua_State *L)
 int ImageExporter::copy(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
-    Lua_Image* sourcePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 2, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* sourcePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
     lua_Integer destX;
     lua_Integer destY;
     sf::IntRect sourceRect(0, 0, 0, 0);
@@ -120,7 +121,7 @@ int ImageExporter::copy(lua_State *L)
     lua_numbertointeger(luaL_checknumber(L, 4), &destY);
     if(arg_count > 4)
     {
-        sourceRect = *static_cast<Lua_IntRect*>( luaL_checkudata(L, 5, LUA_INTRECT_METATABLENAME) );
+        sourceRect = *static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 5, LUA_INTRECT_METATABLENAME) );
         if(arg_count > 5)
         {
             applyAlpha = lua_toboolean(L, 2);
@@ -133,14 +134,14 @@ int ImageExporter::copy(lua_State *L)
 
 int ImageExporter::setPixel(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_Integer x;
     lua_Integer y;
     Lua_Color color;
     
     lua_numbertointeger(luaL_checknumber(L, 2), &x);
     lua_numbertointeger(luaL_checknumber(L, 3), &y);
-    color = *static_cast<Lua_Color*>( luaL_checkudata(L, 4, LUA_COLOR_METATABLENAME) );
+    color = *static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 4, LUA_COLOR_METATABLENAME) );
     imagePtr->setPixel(x, y, color);
 
     return 0;
@@ -148,7 +149,7 @@ int ImageExporter::setPixel(lua_State *L)
 
 int ImageExporter::getPixel(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_Integer x;
     lua_Integer y;
     
@@ -161,14 +162,14 @@ int ImageExporter::getPixel(lua_State *L)
 
 int ImageExporter::flipHorizontally(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     imagePtr->flipHorizontally();
     return 0;
 }
 
 int ImageExporter::flipVertically(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 1, LUA_IMAGE_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     imagePtr->flipVertically();
     return 0;
 }

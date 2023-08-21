@@ -17,8 +17,22 @@ public:
     static void push(lua_State* L, const std::pair<void*, std::string>& dataWithMetatable);
     static void push(lua_State* L, lua_CFunction val);
 
-    static int LuaGetMainWindow(lua_State* L);
-    static void* checkudata(lua_State* L, int index, const std::string& metatableName);
+    static int GetMainWindow(lua_State* L);
+    static int InterpretLUdataAs(lua_State* L);
+
+    /// @brief Returns the usertada if it has the said metatable or has no metatable. Otherwise it returns null
+    /// @param L Lua state to check
+    /// @param index Index of the userdata
+    /// @param metatableName Metatable name of the userdata
+    /// @return The userdata if the metatables match or has no metatable. Otherwise it returns null
+    static void* checkudata_orNull(lua_State* L, int index, const std::string& metatableName);
+
+    /// \brief
+    /// \param L
+    /// \param index
+    /// \param metatableName
+    /// \return
+    static void* checkudata_WithError(lua_State* L, int index, const std::string& metatableName);
 
     union LuaVariable
     {

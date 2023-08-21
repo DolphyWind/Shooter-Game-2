@@ -1,5 +1,6 @@
 #include <Modding/Exporters/VideoModeExporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void VideoModeExporter::createVideoMode(lua_State *L, const Lua_VideoMode &videoMode)
 {
@@ -46,14 +47,14 @@ int VideoModeExporter::__new(lua_State *L)
 
 int VideoModeExporter::__destroy(lua_State *L)
 {
-    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
     videoModePtr->~Lua_VideoMode();
     return 0;
 }
 
 int VideoModeExporter::__index(lua_State *L)
 {
-    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "width")
@@ -80,7 +81,7 @@ int VideoModeExporter::__index(lua_State *L)
 
 int VideoModeExporter::__newindex(lua_State *L)
 {
-    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "width")
@@ -105,31 +106,31 @@ int VideoModeExporter::__newindex(lua_State *L)
 
 int VideoModeExporter::__eq(lua_State *L)
 {
-    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 1, LUA_VIDEOMODE_METATABLENAME) );
-    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 2, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
     lua_pushboolean(L, (*firstVideoModePtr) == (*secondVideoModePtr));
     return 1;
 }
 
 int VideoModeExporter::__lt(lua_State *L)
 {
-    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 1, LUA_VIDEOMODE_METATABLENAME) );
-    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 2, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
     lua_pushboolean(L, (*firstVideoModePtr) < (*secondVideoModePtr));
     return 1;
 }
 
 int VideoModeExporter::__le(lua_State *L)
 {
-    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 1, LUA_VIDEOMODE_METATABLENAME) );
-    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 2, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
     lua_pushboolean(L, (*firstVideoModePtr) <= (*secondVideoModePtr));
     return 1;
 }
 
 int VideoModeExporter::isValid(lua_State *L)
 {
-    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( luaL_checkudata(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
     lua_pushboolean(L, videoModePtr->isValid());
     return 1;
 }

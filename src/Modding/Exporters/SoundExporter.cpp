@@ -17,15 +17,15 @@ int SoundExporter::__new(lua_State *L)
     int arg_count = lua_gettop(L);
     if(arg_count == 1)
     {
-        if(LuaHelper::checkudata(L, 1, LUA_SOUND_METATABLENAME))
+        if(LuaHelper::checkudata_orNull(L, 1, LUA_SOUND_METATABLENAME))
         {
-            Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+            Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
             createSound(L, *soundPtr);
             return 1;
         }
-        else if(LuaHelper::checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME))
+        else if(LuaHelper::checkudata_orNull(L, 1, LUA_SOUNDBUFFER_METATABLENAME))
         {
-            Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+            Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
             createSound(L, Lua_Sound(*soundBufferPtr));
             return 1;
         }
@@ -37,14 +37,14 @@ int SoundExporter::__new(lua_State *L)
 
 int SoundExporter::__destroy(lua_State *L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     soundPtr->~Lua_Sound();
     return 0;
 }
 
 int SoundExporter::__index(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     std::string indexStr = lua_tostring(L, 2);
 
     if(indexStr == "Status_Stopped")
@@ -71,36 +71,36 @@ int SoundExporter::__index(lua_State* L)
 
 int SoundExporter::play(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     soundPtr->play();
     return 0;
 }
 
 int SoundExporter::pause(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     soundPtr->pause();
     return 0;
 }
 
 int SoundExporter::stop(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     soundPtr->stop();
     return 0;
 }
 
 int SoundExporter::setBuffer(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
-    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( luaL_checkudata(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_SoundBuffer* soundBufferPtr = static_cast<Lua_SoundBuffer*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUNDBUFFER_METATABLENAME) );
     soundPtr->setBuffer(*soundBufferPtr);
     return 0;
 }
 
 int SoundExporter::setLoop(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     bool loop = lua_toboolean(L, 2);
     soundPtr->setLoop(loop);
     return 0;
@@ -108,7 +108,7 @@ int SoundExporter::setLoop(lua_State* L)
 
 int SoundExporter::setPlayingOffset(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_Number timeOffset = luaL_checknumber(L, 2);
     soundPtr->setPlayingOffset(sf::seconds(timeOffset));
     return 0;
@@ -116,42 +116,42 @@ int SoundExporter::setPlayingOffset(lua_State* L)
 
 int SoundExporter::getBuffer(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
-    LuaHelper::push(L, {(void*)soundPtr->getBuffer(), LUA_SOUNDBUFFER_METATABLENAME});
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
+    LuaHelper::push(L, soundPtr->getBuffer());
     return 1;
 }
 
 int SoundExporter::getLoop(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushboolean(L, soundPtr->getLoop());
     return 1;
 }
 
 int SoundExporter::getPlayingOffset(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushnumber(L, soundPtr->getPlayingOffset().asSeconds());
     return 1;
 }
 
 int SoundExporter::getStatus(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushinteger(L, (lua_Integer)soundPtr->getStatus());
     return 1;
 }
 
 int SoundExporter::resetBuffer(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     soundPtr->resetBuffer();
     return 0;
 }
 
 int SoundExporter::setPitch(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_Number pitch = luaL_checknumber(L, 2);
     soundPtr->setPitch(pitch);
     return 0;
@@ -159,7 +159,7 @@ int SoundExporter::setPitch(lua_State* L)
 
 int SoundExporter::setVolume(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_Number volume = luaL_checknumber(L, 2);
     soundPtr->setVolume(volume);
     return 0;
@@ -167,7 +167,7 @@ int SoundExporter::setVolume(lua_State* L)
 
 int SoundExporter::setPosition(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     soundPtr->setPosition(
         luaL_checknumber(L, 2),
         luaL_checknumber(L, 3),
@@ -178,7 +178,7 @@ int SoundExporter::setPosition(lua_State* L)
 
 int SoundExporter::setRelativeToListener(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     bool relative = lua_toboolean(L, 2);
     soundPtr->setRelativeToListener(relative);
     return 0;
@@ -186,7 +186,7 @@ int SoundExporter::setRelativeToListener(lua_State* L)
 
 int SoundExporter::setMinDistance(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_Number minDistance = luaL_checknumber(L, 2);
     soundPtr->setMinDistance(minDistance);
     return 0;
@@ -194,7 +194,7 @@ int SoundExporter::setMinDistance(lua_State* L)
 
 int SoundExporter::setAttenuation(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_Number attenuation = luaL_checknumber(L, 2);
     soundPtr->setAttenuation(attenuation);
     return 0;
@@ -202,21 +202,21 @@ int SoundExporter::setAttenuation(lua_State* L)
 
 int SoundExporter::getPitch(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushnumber(L, soundPtr->getPitch());
     return 1;
 }
 
 int SoundExporter::getVolume(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushnumber(L, soundPtr->getVolume());
     return 1;
 }
 
 int SoundExporter::getPosition(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushnumber(L, soundPtr->getPosition().x);
     lua_pushnumber(L, soundPtr->getPosition().y);
     lua_pushnumber(L, soundPtr->getPosition().z);
@@ -225,21 +225,21 @@ int SoundExporter::getPosition(lua_State* L)
 
 int SoundExporter::isRelativeToListener(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushboolean(L, soundPtr->isRelativeToListener());
     return 1;
 }
 
 int SoundExporter::getMinDistance(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushnumber(L, soundPtr->getMinDistance());
     return 1;
 }
 
 int SoundExporter::getAttenuation(lua_State* L)
 {
-    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( luaL_checkudata(L, 1, LUA_SOUND_METATABLENAME) );
+    Lua_Sound* soundPtr = static_cast<Lua_Sound*>( LuaHelper::checkudata_WithError(L, 1, LUA_SOUND_METATABLENAME) );
     lua_pushnumber(L, soundPtr->getAttenuation());
     return 1;
 }

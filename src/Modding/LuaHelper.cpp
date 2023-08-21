@@ -54,28 +54,56 @@ void LuaHelper::push(lua_State* L, lua_CFunction val)
     lua_pushcfunction(L, val);
 }
 
-int LuaHelper::LuaGetMainWindow(lua_State* L)
+int LuaHelper::GetMainWindow(lua_State* L)
 {
     LuaHelper::push(L, {(void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME});
     return 1;
 }
 
-void* LuaHelper::checkudata(lua_State* L, int index, const std::string& metatableName)
+int LuaHelper::InterpretLUdataAs(lua_State* L)
+{
+    lua_pushlightuserdata(L, nullptr);
+//    std::string dataType = luaL_checkstring(L, 1);
+//    luaL_setmetatable(L, (dataType + std::string("_metatable")).c_str());
+//    lua_pop(L, lua_gettop(L));
+
+    return 0;
+}
+
+void* LuaHelper::checkudata_orNull(lua_State* L, int index, const std::string& metatableName)
 {
     void* ud = lua_touserdata(L, index);
     if(ud != nullptr)
     {
-        if(lua_getmetatable(L, index))
-        {
-            luaL_getmetatable(L, metatableName.c_str());
+        if(!lua_getmetatable(L, index)) return ud;
 
-            if(lua_rawequal(L, -1, -2))
-            {
-                lua_pop(L, 2);
-                return ud;
-            }
+        luaL_getmetatable(L, metatableName.c_str());
+
+        if(lua_rawequal(L, -1, -2))
+        {
+            lua_pop(L, 2);
+            return ud;
         }
     }
 
+    return nullptr;
+}
+
+void* LuaHelper::checkudata_WithError(lua_State* L, int index, const std::string& metatableName)
+{
+    void* ud = lua_touserdata(L, index);
+    if(ud != nullptr)
+    {
+        if(!lua_getmetatable(L, index)) return ud;
+
+        luaL_getmetatable(L, metatableName.c_str());
+        if(lua_rawequal(L, -1, -2))
+        {
+            lua_pop(L, 2);
+            return ud;
+        }
+    }
+
+    luaL_error(L, "Expected a userdata... got %s", lua_typename(L, lua_type(L, index)));
     return nullptr;
 }

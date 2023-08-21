@@ -1,3 +1,4 @@
+#include <lua.h>
 #include <InGame/LuaEntity.hpp>
 #include <Modding/ShooterGameExporter.hpp>
 #include <Modding/Exporters/EventExporter.hpp>
@@ -13,10 +14,12 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
 
     lua_pushstring(m_entityLuaState, assetsFolderPath.string().c_str());
     lua_setglobal(m_entityLuaState, ASSETSPATH_VARNAME);
-    LuaHelper::push(m_entityLuaState, Global::mainWindow);
-    lua_setglobal(m_entityLuaState, "main_window");
+    lua_pushcfunction(m_entityLuaState, LuaHelper::GetMainWindow);
+    lua_setglobal(m_entityLuaState, "GetMainWindow");
     LuaHelper::push(m_entityLuaState, this);
     lua_setglobal(m_entityLuaState, "this");
+    lua_pushcfunction(m_entityLuaState, LuaHelper::InterpretLUdataAs);
+    lua_setglobal(m_entityLuaState, "InterpretLUdataAs");
 
     int status = luaL_dofile(m_entityLuaState, filename.c_str());
     if(status != LUA_OK)

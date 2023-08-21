@@ -1,5 +1,6 @@
 #include <Modding/Exporters/StopwatchExporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void StopwatchExporter::createStopwatch(lua_State *L, const Lua_Stopwatch& stopwatch)
 {
@@ -17,14 +18,14 @@ int StopwatchExporter::__new(lua_State *L)
 
 int StopwatchExporter::__destroy(lua_State *L)
 {
-    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( luaL_checkudata(L, 1, LUA_STOPWATCH_METATABLENAME) );
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( LuaHelper::checkudata_WithError(L, 1, LUA_STOPWATCH_METATABLENAME) );
     stopwatchPtr->~Lua_Stopwatch();
     return 0;
 }
 
 int StopwatchExporter::__index(lua_State *L)
 {
-    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( luaL_checkudata(L, 1, LUA_STOPWATCH_METATABLENAME) );
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( LuaHelper::checkudata_WithError(L, 1, LUA_STOPWATCH_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     lua_getglobal(L, LUA_STOPWATCH_CLASSNAME);
@@ -35,35 +36,35 @@ int StopwatchExporter::__index(lua_State *L)
 
 int StopwatchExporter::getElapsedTime(lua_State *L)
 {
-    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( luaL_checkudata(L, 1, LUA_STOPWATCH_METATABLENAME) );
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( LuaHelper::checkudata_WithError(L, 1, LUA_STOPWATCH_METATABLENAME) );
     lua_pushnumber(L, stopwatchPtr->getElapsedTime().asSeconds());
     return 1;
 }
 
 int StopwatchExporter::pause(lua_State *L)
 {
-    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( luaL_checkudata(L, 1, LUA_STOPWATCH_METATABLENAME) );
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( LuaHelper::checkudata_WithError(L, 1, LUA_STOPWATCH_METATABLENAME) );
     stopwatchPtr->pause();
     return 0;
 }
 
 int StopwatchExporter::resume(lua_State *L)
 {
-    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( luaL_checkudata(L, 1, LUA_STOPWATCH_METATABLENAME) );
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( LuaHelper::checkudata_WithError(L, 1, LUA_STOPWATCH_METATABLENAME) );
     stopwatchPtr->resume();
     return 0;
 }
 
 int StopwatchExporter::restart(lua_State *L)
 {
-    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( luaL_checkudata(L, 1, LUA_STOPWATCH_METATABLENAME) );
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( LuaHelper::checkudata_WithError(L, 1, LUA_STOPWATCH_METATABLENAME) );
     stopwatchPtr->restart();
     return 0;
 }
 
 int StopwatchExporter::isPaused(lua_State *L)
 {
-    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( luaL_checkudata(L, 1, LUA_STOPWATCH_METATABLENAME) );
+    Lua_Stopwatch* stopwatchPtr = static_cast<Lua_Stopwatch*>( LuaHelper::checkudata_WithError(L, 1, LUA_STOPWATCH_METATABLENAME) );
     lua_pushboolean(L, stopwatchPtr->isPaused());
     return 1;
 }

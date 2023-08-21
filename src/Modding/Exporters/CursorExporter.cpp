@@ -2,6 +2,7 @@
 #include <Modding/Exporters/ImageExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include "Modding/LuaHelper.hpp"
 
 void CursorExporter::createCursor(lua_State* L)
 {
@@ -19,14 +20,14 @@ int CursorExporter::__new(lua_State *L)
 
 int CursorExporter::__destroy(lua_State *L)
 {
-    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( luaL_checkudata(L, 1, LUA_CURSOR_METATABLENAME) );
+    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( LuaHelper::checkudata_WithError(L, 1, LUA_CURSOR_METATABLENAME) );
     cursorPtr->~Lua_Cursor();
     return 0;
 }
 
 int CursorExporter::__index(lua_State *L)
 {
-    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( luaL_checkudata(L, 1, LUA_CURSOR_METATABLENAME) );
+    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( LuaHelper::checkudata_WithError(L, 1, LUA_CURSOR_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "Type_Arrow")
@@ -103,9 +104,9 @@ int CursorExporter::__index(lua_State *L)
 
 int CursorExporter::loadFromImage(lua_State* L)
 {
-    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( luaL_checkudata(L, 1, LUA_CURSOR_METATABLENAME) );
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( luaL_checkudata(L, 2, LUA_IMAGE_METATABLENAME) );
-    Lua_Vector2* hotspotPtr = static_cast<Lua_Vector2*>( luaL_checkudata(L, 3, LUA_VECTOR2_METATABLENAME) );
+    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( LuaHelper::checkudata_WithError(L, 1, LUA_CURSOR_METATABLENAME) );
+    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
+    Lua_Vector2* hotspotPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
 
     bool result = cursorPtr->loadFromPixels(imagePtr->getPixelsPtr(), imagePtr->getSize(), *hotspotPtr);
     lua_pushboolean(L, result);
@@ -114,7 +115,7 @@ int CursorExporter::loadFromImage(lua_State* L)
 
 int CursorExporter::loadFromSystem(lua_State* L)
 {
-    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( luaL_checkudata(L, 1, LUA_CURSOR_METATABLENAME) );
+    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( LuaHelper::checkudata_WithError(L, 1, LUA_CURSOR_METATABLENAME) );
     lua_Integer typeAsInteger;
     lua_numbertointeger(luaL_checknumber(L, 2), &typeAsInteger);
 

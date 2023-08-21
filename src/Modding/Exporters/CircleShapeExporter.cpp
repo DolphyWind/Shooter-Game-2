@@ -37,14 +37,14 @@ int CircleShapeExporter::__new(lua_State *L)
 
 int CircleShapeExporter::__destroy(lua_State *L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     circleShapePtr->~Lua_CircleShape();
     return 0;
 }
 
 int CircleShapeExporter::__index(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     std::string indexStr = lua_tostring(L, 2);
 
     lua_getglobal(L, LUA_CIRCLESHAPE_CLASSNAME);
@@ -55,7 +55,7 @@ int CircleShapeExporter::__index(lua_State* L)
 
 int CircleShapeExporter::setRadius(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     circleShapePtr->setRadius(luaL_checknumber(L, 2) );
 
     return 0;
@@ -63,7 +63,7 @@ int CircleShapeExporter::setRadius(lua_State* L)
 
 int CircleShapeExporter::getRadius(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     lua_pushnumber(L, circleShapePtr->getRadius());
 
     return 1;
@@ -71,7 +71,7 @@ int CircleShapeExporter::getRadius(lua_State* L)
 
 int CircleShapeExporter::getPointCount(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     lua_pushinteger(L, circleShapePtr->getPointCount());
 
     return 1;
@@ -79,7 +79,7 @@ int CircleShapeExporter::getPointCount(lua_State* L)
 
 int CircleShapeExporter::getPoint(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     lua_Integer index;
     lua_numbertointeger(luaL_checknumber(L, 2), &index);
     Vector2Exporter::createVector(L, circleShapePtr->getPoint(index));
@@ -90,8 +90,8 @@ int CircleShapeExporter::getPoint(lua_State* L)
 int CircleShapeExporter::setTexture(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( luaL_checkudata(L, 2, LUA_TEXTURE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 2, LUA_TEXTURE_METATABLENAME) );
     bool resetRect = false;
 
     if(arg_count >= 3)
@@ -105,8 +105,8 @@ int CircleShapeExporter::setTexture(lua_State* L)
 
 int CircleShapeExporter::setTextureRect(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_IntRect* rectPtr = static_cast<Lua_IntRect*>( luaL_checkudata(L, 2, LUA_INTRECT_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_IntRect* rectPtr = static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_INTRECT_METATABLENAME) );
     circleShapePtr->setTextureRect(*rectPtr);
 
     return 0;
@@ -114,8 +114,8 @@ int CircleShapeExporter::setTextureRect(lua_State* L)
 
 int CircleShapeExporter::setFillColor(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     circleShapePtr->setFillColor(*colorPtr);
 
     return 0;
@@ -123,8 +123,8 @@ int CircleShapeExporter::setFillColor(lua_State* L)
 
 int CircleShapeExporter::setOutlineColor(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( luaL_checkudata(L, 2, LUA_COLOR_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     circleShapePtr->setOutlineColor(*colorPtr);
 
     return 0;
@@ -132,7 +132,7 @@ int CircleShapeExporter::setOutlineColor(lua_State* L)
 
 int CircleShapeExporter::setOutlineThickness(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     circleShapePtr->setOutlineThickness(luaL_checknumber(L, 2));
 
     return 0;
@@ -140,15 +140,15 @@ int CircleShapeExporter::setOutlineThickness(lua_State* L)
 
 int CircleShapeExporter::getTexture(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    LuaHelper::push(L, {(void*)circleShapePtr->getTexture(), LUA_TEXTURE_METATABLENAME});
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    LuaHelper::push(L, (void*)circleShapePtr->getTexture());
 
     return 1;
 }
 
 int CircleShapeExporter::getTextureRect(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     IntRectExporter::createIntRect(L, circleShapePtr->getTextureRect());
 
     return 1;
@@ -156,7 +156,7 @@ int CircleShapeExporter::getTextureRect(lua_State* L)
 
 int CircleShapeExporter::getFillColor(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     ColorExporter::createColor(L, circleShapePtr->getFillColor());
 
     return 1;
@@ -164,7 +164,7 @@ int CircleShapeExporter::getFillColor(lua_State* L)
 
 int CircleShapeExporter::getOutlineColor(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     ColorExporter::createColor(L, circleShapePtr->getOutlineColor());
 
     return 1;
@@ -172,7 +172,7 @@ int CircleShapeExporter::getOutlineColor(lua_State* L)
 
 int CircleShapeExporter::getOutlineThickness(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     lua_pushnumber(L, circleShapePtr->getOutlineThickness());
 
     return 1;
@@ -180,7 +180,7 @@ int CircleShapeExporter::getOutlineThickness(lua_State* L)
 
 int CircleShapeExporter::getLocalBounds(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, circleShapePtr->getLocalBounds());
 
     return 1;
@@ -188,7 +188,7 @@ int CircleShapeExporter::getLocalBounds(lua_State* L)
 
 int CircleShapeExporter::getGlobalBounds(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, circleShapePtr->getGlobalBounds());
 
     return 1;
@@ -197,10 +197,10 @@ int CircleShapeExporter::getGlobalBounds(lua_State* L)
 int CircleShapeExporter::setPosition(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         circleShapePtr->setPosition(*vecPtr);
@@ -216,7 +216,7 @@ int CircleShapeExporter::setPosition(lua_State* L)
 
 int CircleShapeExporter::setRotation(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     circleShapePtr->setRotation(luaL_checknumber(L, 2) );
 
     return 0;
@@ -224,10 +224,10 @@ int CircleShapeExporter::setRotation(lua_State* L)
 
 int CircleShapeExporter::setScale(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         circleShapePtr->setScale(*vecPtr);
@@ -243,10 +243,10 @@ int CircleShapeExporter::setScale(lua_State* L)
 
 int CircleShapeExporter::setOrigin(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         circleShapePtr->setOrigin(*vecPtr);
@@ -262,7 +262,7 @@ int CircleShapeExporter::setOrigin(lua_State* L)
 
 int CircleShapeExporter::getPosition(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     Vector2Exporter::createVector(L, circleShapePtr->getPosition());
 
     return 1;
@@ -270,7 +270,7 @@ int CircleShapeExporter::getPosition(lua_State* L)
 
 int CircleShapeExporter::getRotation(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     lua_pushnumber(L, circleShapePtr->getRotation());
 
     return 1;
@@ -278,7 +278,7 @@ int CircleShapeExporter::getRotation(lua_State* L)
 
 int CircleShapeExporter::getScale(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     Vector2Exporter::createVector(L, circleShapePtr->getScale());
 
     return 1;
@@ -286,7 +286,7 @@ int CircleShapeExporter::getScale(lua_State* L)
 
 int CircleShapeExporter::getOrigin(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     Vector2Exporter::createVector(L, circleShapePtr->getOrigin());
 
     return 1;
@@ -294,10 +294,10 @@ int CircleShapeExporter::getOrigin(lua_State* L)
 
 int CircleShapeExporter::move(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         circleShapePtr->move(*vecPtr);
@@ -313,7 +313,7 @@ int CircleShapeExporter::move(lua_State* L)
 
 int CircleShapeExporter::rotate(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     circleShapePtr->rotate(luaL_checknumber(L, 2));
 
     return 0;
@@ -321,10 +321,10 @@ int CircleShapeExporter::rotate(lua_State* L)
 
 int CircleShapeExporter::scale(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     Lua_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         circleShapePtr->scale(*vecPtr);
@@ -340,7 +340,7 @@ int CircleShapeExporter::scale(lua_State* L)
 
 int CircleShapeExporter::getTransform(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     TransformExporter::createTransform(L, circleShapePtr->getTransform());
 
     return 1;
@@ -348,7 +348,7 @@ int CircleShapeExporter::getTransform(lua_State* L)
 
 int CircleShapeExporter::getInverseTransform(lua_State* L)
 {
-    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( luaL_checkudata(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
+    Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
     TransformExporter::createTransform(L, circleShapePtr->getInverseTransform());
 
     return 1;
