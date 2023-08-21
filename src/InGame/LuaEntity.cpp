@@ -13,9 +13,9 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
 
     lua_pushstring(m_entityLuaState, assetsFolderPath.c_str());
     lua_setglobal(m_entityLuaState, ASSETSPATH_VARNAME);
-    LuaHelper::push(m_entityLuaState, (void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME);
+    LuaHelper::push(m_entityLuaState, Global::mainWindow);
     lua_setglobal(m_entityLuaState, "main_window");
-    LuaHelper::push(m_entityLuaState, (void*)this, LUA_ENTITY_METATABLENAME);
+    LuaHelper::push(m_entityLuaState, this);
     lua_setglobal(m_entityLuaState, "this");
 
     int status = luaL_dofile(m_entityLuaState, filename.c_str());
@@ -51,7 +51,7 @@ void LuaEntity::start()
 
 void LuaEntity::handleEvent(const sf::Event& e)
 {
-    m_handleEventFunction(std::pair<void*, std::string>{(void*)&e, LUA_EVENT_METATABLENAME});
+    m_handleEventFunction((void*)&e);
 }
 
 void LuaEntity::update(const sf::Time& deltaTime)
@@ -72,7 +72,7 @@ void LuaEntity::onDestroy()
 void LuaEntity::render(sf::RenderTarget& target)
 {
     // For some reason passing the target gives a segfault. So I had to pass the global window here
-    m_renderFunction(std::pair{(void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME});
+    m_renderFunction((void*)Global::mainWindow);
 }
 
 void LuaEntity::onDeath()
