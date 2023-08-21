@@ -106,7 +106,7 @@ int EntityExporter::setCollider(lua_State* L)
     {
         lua_rawgeti(L, 2, i);
         Lua_Vector2* currentPoint = static_cast<Lua_Vector2*>( luaL_checkudata(L, -1, LUA_VECTOR2_METATABLENAME) );
-        points.push_back({currentPoint->x, currentPoint->y});
+        points.push_back({static_cast<float>(currentPoint->x), static_cast<float>(currentPoint->y)});
     }
     entityPtr->setCollider(points);
 

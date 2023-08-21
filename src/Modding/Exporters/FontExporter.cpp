@@ -49,7 +49,7 @@ int FontExporter::loadFromFile(lua_State *L)
     fs::path total_path( luaL_checkstring(L, -1) );
     lua_pop(L, 1);
     total_path /= luaL_checkstring(L, 2);
-    bool result = fontPtr->loadFromFile(total_path.c_str());
+    bool result = fontPtr->loadFromFile(total_path.string());
     lua_pushboolean(L, result);
     return 1;
 }

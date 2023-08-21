@@ -1,6 +1,7 @@
 #pragma once
 #include <InGame/Entity.hpp>
 #include <Modding/LuaFunction.hpp>
+#include <boost/filesystem.hpp>
 #include <filesystem>
 
 struct lua_State;
@@ -37,5 +38,5 @@ private:
     LuaFunction m_onCollisionStayFunction;
     LuaFunction m_onCollisionExitFunction;
 
-    std::filesystem::path m_assetsFolderPath;
+    boost::filesystem::path m_assetsFolderPath;
 };
