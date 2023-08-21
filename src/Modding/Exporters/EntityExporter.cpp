@@ -160,7 +160,27 @@ int EntityExporter::getGlobal(lua_State* L)
     }
     else if(lua_islightuserdata(sourceState, -1) || lua_isuserdata(sourceState, -1))
     {
-        LuaHelper::push(L, lua_touserdata(sourceState, -1));
+        luaL_error(L, "Moving userdatas between scripts is not currently supported!");
+        return 0;
+        void* srcPtr = lua_touserdata(sourceState, -1);
+        std::string metatableName;
+        if(lua_getmetatable(sourceState, -1))
+        {
+            lua_pushstring(sourceState, "__name");
+            lua_rawget(sourceState, -2);
+            metatableName = luaL_checkstring(sourceState, -1);
+            luaL_setmetatable(L, metatableName.c_str());
+            lua_pop(sourceState, 1);
+        }
+        std::size_t pointerSize = lua_rawlen(sourceState, -1);
+        void* destPtr = lua_newuserdata(L, pointerSize);
+        std::memcpy(destPtr, srcPtr, pointerSize);
+
+        if(!metatableName.empty())
+        {
+            luaL_setmetatable(L, metatableName.c_str());
+        }
+
         return 1;
     }
 

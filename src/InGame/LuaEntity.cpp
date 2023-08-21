@@ -1,4 +1,4 @@
-#include <lua.h>
+#include <lua.hpp>
 #include <InGame/LuaEntity.hpp>
 #include <Modding/ShooterGameExporter.hpp>
 #include <Modding/Exporters/EventExporter.hpp>

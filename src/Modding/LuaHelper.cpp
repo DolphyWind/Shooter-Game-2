@@ -63,9 +63,9 @@ int LuaHelper::GetMainWindow(lua_State* L)
 int LuaHelper::InterpretLUdataAs(lua_State* L)
 {
     lua_pushlightuserdata(L, nullptr);
-//    std::string dataType = luaL_checkstring(L, 1);
-//    luaL_setmetatable(L, (dataType + std::string("_metatable")).c_str());
-//    lua_pop(L, lua_gettop(L));
+    std::string dataType = luaL_checkstring(L, 1);
+    luaL_setmetatable(L, (dataType + std::string("_metatable")).c_str());
+    lua_pop(L, lua_gettop(L));
 
     return 0;
 }
