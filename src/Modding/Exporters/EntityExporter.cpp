@@ -133,59 +133,27 @@ int EntityExporter::getGlobal(lua_State* L)
     std::string varname = lua_tostring(L, 2);
 
     lua_getglobal(sourceState, varname.c_str());
-    if(lua_isnil(sourceState, -1))
-    {
-        lua_pushnil(L);
-        return 1;
-    }
-    else if(lua_isboolean(sourceState, -1))
-    {
-        lua_pushboolean(L, lua_toboolean(sourceState, -1));
-        return 1;
-    }
-    else if(lua_isinteger(sourceState, -1))
-    {
-        lua_pushinteger(L, lua_tointeger(sourceState, -1));
-        return 1;
-    }
-    else if(lua_isnumber(sourceState, -1))
-    {
-        lua_pushnumber(L, lua_tonumber(sourceState, -1));
-        return 1;
-    }
-    else if(lua_isstring(sourceState, -1))
-    {
-        lua_pushstring(L, lua_tostring(sourceState, -1));
-        return 1;
-    }
-    else if(lua_islightuserdata(sourceState, -1) || lua_isuserdata(sourceState, -1))
-    {
-        luaL_error(L, "Moving userdatas between scripts is not currently supported!");
-        return 0;
-        void* srcPtr = lua_touserdata(sourceState, -1);
-        std::string metatableName;
-        if(lua_getmetatable(sourceState, -1))
-        {
-            lua_pushstring(sourceState, "__name");
-            lua_rawget(sourceState, -2);
-            metatableName = luaL_checkstring(sourceState, -1);
-            luaL_setmetatable(L, metatableName.c_str());
-            lua_pop(sourceState, 1);
-        }
-        std::size_t pointerSize = lua_rawlen(sourceState, -1);
-        void* destPtr = lua_newuserdata(L, pointerSize);
-        std::memcpy(destPtr, srcPtr, pointerSize);
+    return LuaHelper::MoveData(sourceState, L, -1);
+}
 
-        if(!metatableName.empty())
-        {
-            luaL_setmetatable(L, metatableName.c_str());
-        }
+int EntityExporter::setGlobal(lua_State* L)
+{
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
+    lua_State* targetState = entityPtr->getLuaState();
+    std::string varname = lua_tostring(L, 2);
+    int returnVal = LuaHelper::MoveData(L, targetState, 3);
+    if(!returnVal) return 0;
 
-        return 1;
-    }
-
-    luaL_error(L, "This global value type is not supported! (type=%s)", lua_typename(sourceState, lua_type(sourceState, -1)));
+    lua_setglobal(targetState, varname.c_str());
     return 0;
+}
+
+int EntityExporter::runCode(lua_State* L)
+{
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
+    lua_State* entityState = entityPtr->getLuaState();
+    std::string code = luaL_checkstring(L, 2);
+    luaL_dostring(entityState, code.c_str());
 }
 
 LuaExporter EntityExporter::toLuaExporter()
@@ -206,6 +174,8 @@ LuaExporter EntityExporter::toLuaExporter()
             {"setCollider", EntityExporter::setCollider},
             {"getCollider", EntityExporter::getCollider},
             {"getGlobal", EntityExporter::getGlobal},
+            {"setGlobal", EntityExporter::setGlobal},
+            {"runCode", EntityExporter::runCode},
         },
         {
             {"__index", EntityExporter::__index},

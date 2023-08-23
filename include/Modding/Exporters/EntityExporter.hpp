@@ -35,6 +35,7 @@ struct EntityExporter
     static int getGlobal(lua_State* L);
     static int setGlobal(lua_State* L);
     static int callFunction(lua_State* L);
+    static int runCode(lua_State* L);
 
     static LuaExporter toLuaExporter();
 };

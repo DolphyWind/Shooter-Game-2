@@ -56,7 +56,7 @@ void LuaHelper::push(lua_State* L, lua_CFunction val)
 
 int LuaHelper::GetMainWindow(lua_State* L)
 {
-    LuaHelper::push(L, {(void*)Global::mainWindow, LUA_RENDERWINDOW_METATABLENAME});
+    LuaHelper::push(L, (void*)Global::mainWindow);
     return 1;
 }
 
@@ -72,6 +72,11 @@ int LuaHelper::InterpretLUdataAs(lua_State* L)
 
 void* LuaHelper::checkudata_orNull(lua_State* L, int index, const std::string& metatableName)
 {
+    if(lua_islightuserdata(L, index))
+    {
+        return lua_touserdata(L, index);
+    }
+
     void* ud = lua_touserdata(L, index);
     if(ud != nullptr)
     {
@@ -104,6 +109,67 @@ void* LuaHelper::checkudata_WithError(lua_State* L, int index, const std::string
         }
     }
 
-    luaL_error(L, "Expected a userdata... got %s", lua_typename(L, lua_type(L, index)));
+    luaL_error(L, "Expected a userdata with metatable %s got %s", metatableName.c_str(), lua_typename(L, lua_type(L, index)));
     return nullptr;
+}
+
+int LuaHelper::MoveData(lua_State* sourceState, lua_State* targetState, int dataIndex)
+{
+    if(lua_isnil(sourceState, dataIndex))
+    {
+        lua_pushnil(targetState);
+        return 1;
+    }
+    else if(lua_isboolean(sourceState, dataIndex))
+    {
+        lua_pushboolean(targetState, lua_toboolean(sourceState, dataIndex));
+        return 1;
+    }
+    else if(lua_isinteger(sourceState, dataIndex))
+    {
+        lua_pushinteger(targetState, lua_tointeger(sourceState, dataIndex));
+        return 1;
+    }
+    else if(lua_isnumber(sourceState, dataIndex))
+    {
+        lua_pushnumber(targetState, lua_tonumber(sourceState, dataIndex));
+        return 1;
+    }
+    else if(lua_isstring(sourceState, dataIndex))
+    {
+        lua_pushstring(targetState, lua_tostring(sourceState, dataIndex));
+        return 1;
+    }
+    else if (lua_islightuserdata(sourceState, dataIndex))
+    {
+        void* srcPtr = lua_touserdata(sourceState, dataIndex);
+        lua_pushlightuserdata(targetState, srcPtr);
+        return 1;
+    }
+    else if(lua_isuserdata(sourceState, dataIndex))
+    {
+        void* srcPtr = lua_touserdata(sourceState, dataIndex);
+        std::string metatableName;
+        if(lua_getmetatable(sourceState, dataIndex))
+        {
+            lua_pushstring(sourceState, "__name");
+            lua_rawget(sourceState, -2);
+            metatableName = luaL_checkstring(sourceState, -1);
+
+            lua_pop(sourceState, 2);
+        }
+        std::size_t pointerSize = lua_rawlen(sourceState, dataIndex);
+        void* destPtr = lua_newuserdata(targetState, pointerSize);
+        std::memcpy(destPtr, srcPtr, pointerSize);
+
+        if(!metatableName.empty())
+        {
+            luaL_setmetatable(targetState, metatableName.c_str());
+        }
+
+        return 1;
+    }
+
+    luaL_error(sourceState, "This global value type is not supported! (type=%s)", lua_typename(sourceState, lua_type(sourceState, -1)));
+    return 0;
 }
