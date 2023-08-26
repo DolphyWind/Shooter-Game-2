@@ -1,11 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <Modding/AttachableObject.hpp>
 #include <lua.hpp>
 
 #define LUA_RECTANGLESHAPE_CLASSNAME "RectangleShape"
 #define LUA_RECTANGLESHAPE_METATABLENAME LUA_RECTANGLESHAPE_CLASSNAME"_metatable"
-typedef sf::RectangleShape Lua_RectangleShape;
+typedef AttachableObject<sf::RectangleShape> Lua_RectangleShape;
 
 class LuaExporter;
 struct RectangleShapeExporter
@@ -35,7 +36,8 @@ struct RectangleShapeExporter
     static int setRotation(lua_State* L);
     static int setScale(lua_State* L);
     static int setOrigin(lua_State* L);
-    static int getPosition(lua_State* L);
+    static int getLocalPosition(lua_State* L);
+    static int getWorldPosition(lua_State* L);
     static int getRotation(lua_State* L);
     static int getScale(lua_State* L);
     static int getOrigin(lua_State* L);
@@ -44,6 +46,8 @@ struct RectangleShapeExporter
     static int scale(lua_State* L);
     static int getTransform(lua_State* L);
     static int getInverseTransform(lua_State* L);
+
+    static int attachTo(lua_State* L);
 
     static LuaExporter toLuaExporter();
 };

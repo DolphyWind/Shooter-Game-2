@@ -154,6 +154,8 @@ int EntityExporter::runCode(lua_State* L)
     lua_State* entityState = entityPtr->getLuaState();
     std::string code = luaL_checkstring(L, 2);
     luaL_dostring(entityState, code.c_str());
+
+    return 0;
 }
 
 LuaExporter EntityExporter::toLuaExporter()

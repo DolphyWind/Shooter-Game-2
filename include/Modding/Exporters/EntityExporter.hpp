@@ -25,7 +25,7 @@ struct EntityExporter
 //    static int isPlayer(lua_State* L);
 //    static int setName(lua_State* L);
     static int getName(lua_State* L);
-//    static int getFullName(lua_State* L); This will be implemented after I create the ModManager will be {parentMod}::{name}
+//    static int getFullName(lua_State* L); This will be implemented after I create the ModManager. Equals to {modname}::{name}
     static int setMetadata(lua_State* L);
     static int getMetadata(lua_State* L);
     static int setCollider(lua_State* L);

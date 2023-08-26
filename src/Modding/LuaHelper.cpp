@@ -96,6 +96,11 @@ void* LuaHelper::checkudata_orNull(lua_State* L, int index, const std::string& m
 
 void* LuaHelper::checkudata_WithError(lua_State* L, int index, const std::string& metatableName)
 {
+    if(lua_islightuserdata(L, index))
+    {
+        return lua_touserdata(L, index);
+    }
+
     void* ud = lua_touserdata(L, index);
     if(ud != nullptr)
     {
