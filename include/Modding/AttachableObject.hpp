@@ -17,6 +17,7 @@ public:
     Entity* getEntity();
 
     sfex::Vec2 getPosition() const;
+    sf::FloatRect getGlobalBounds() const;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     T* operator->();
 private:

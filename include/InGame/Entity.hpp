@@ -40,6 +40,7 @@ public:
     std::vector<sfex::Vec2> getCollider() const;
     const std::vector<sf::VertexArray>& getColliderLines() const;
     const std::vector<sf::VertexArray>& getOuterLines() const;
+    sfex::Vec2 getColliderCenter() const;
 
     void setName(const std::string& newName);
     std::string getName() const;
@@ -50,9 +51,13 @@ public:
 protected:
     float m_health;
     sfex::Vec2 m_position;
+
+    sfex::Vec2 m_colliderCenter;
     std::vector<sfex::Vec2> m_collider;
     std::vector<sf::VertexArray> m_innerLines;
     std::vector<sf::VertexArray> m_outerLines;
+
+
     Game* m_parent;
     std::string m_name;
     std::string m_metadata;

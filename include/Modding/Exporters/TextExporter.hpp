@@ -1,11 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <Modding/AttachableObject.hpp>
 #include <lua.hpp>
 
 #define LUA_TEXT_CLASSNAME "Text"
 #define LUA_TEXT_METATABLENAME LUA_TEXT_CLASSNAME"_metatable"
-typedef sf::Text Lua_Text;
+typedef AttachableObject<sf::Text> Lua_Text;
 
 class LuaExporter;
 struct TextExporter
@@ -41,7 +42,8 @@ struct TextExporter
     static int setRotation(lua_State* L);
     static int setScale(lua_State* L);
     static int setOrigin(lua_State* L);
-    static int getPosition(lua_State* L);
+    static int getLocalPosition(lua_State* L);
+    static int getWorldPosition(lua_State* L);
     static int getRotation(lua_State* L);
     static int getScale(lua_State* L);
     static int getOrigin(lua_State* L);
@@ -50,6 +52,8 @@ struct TextExporter
     static int scale(lua_State* L);
     static int getTransform(lua_State* L);
     static int getInverseTransform(lua_State* L);
+
+    static int attachTo(lua_State* L);
 
     static LuaExporter toLuaExporter();
 };

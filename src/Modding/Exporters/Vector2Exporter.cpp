@@ -55,6 +55,17 @@ int Vector2Exporter::__index(lua_State* L)
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
+    if(indexStr == "x")
+    {
+        lua_pushnumber(L, vecPtr->x);
+        return 1;
+    }
+    else if(indexStr == "y")
+    {
+        lua_pushnumber(L, vecPtr->y);
+        return 1;
+    }
+
     lua_getglobal(L, LUA_VECTOR2_CLASSNAME);
     lua_pushstring(L, indexStr.c_str());
     lua_rawget(L, -2);

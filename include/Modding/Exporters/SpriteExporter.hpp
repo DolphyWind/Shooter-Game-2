@@ -1,11 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <Modding/AttachableObject.hpp>
 #include <lua.hpp>
 
 #define LUA_SPRITE_CLASSNAME "Sprite"
 #define LUA_SPRITE_METATABLENAME LUA_SPRITE_CLASSNAME"_metatable"
-typedef sf::Sprite Lua_Sprite;
+typedef AttachableObject<sf::Sprite> Lua_Sprite;
 
 class LuaExporter;
 struct SpriteExporter
@@ -27,7 +28,8 @@ struct SpriteExporter
     static int setRotation(lua_State* L);
     static int setScale(lua_State* L);
     static int setOrigin(lua_State* L);
-    static int getPosition(lua_State* L);
+    static int getLocalPosition(lua_State* L);
+    static int getWorldPosition(lua_State* L);
     static int getRotation(lua_State* L);
     static int getScale(lua_State* L);
     static int getOrigin(lua_State* L);
@@ -36,6 +38,8 @@ struct SpriteExporter
     static int scale(lua_State* L);
     static int getTransform(lua_State* L);
     static int getInverseTransform(lua_State* L);
+
+    static int attachTo(lua_State* L);
 
     static LuaExporter toLuaExporter();
 };

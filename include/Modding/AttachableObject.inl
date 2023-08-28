@@ -39,11 +39,25 @@ Entity* AttachableObject<T>::getEntity()
 template<typename T>
 sfex::Vec2 AttachableObject<T>::getPosition() const
 {
-    if(m_entity)
+    if(!m_entity)
     {
-        return m_entity->getPosition() + m_object->getPosition();
+        return m_object->getPosition();
     }
-    return m_object->getPosition();
+    return m_entity->getPosition() + (sfex::Vec2)m_object->getPosition();
+}
+
+template<typename T>
+sf::FloatRect AttachableObject<T>::getGlobalBounds() const
+{
+    if(!m_entity)
+    {
+        return m_object->getGlobalBounds();
+    }
+    sf::FloatRect bounds = m_object->getGlobalBounds();
+    bounds.left += m_entity->getPosition().x;
+    bounds.top += m_entity->getPosition().y;
+
+    return bounds;
 }
 
 template<typename T>

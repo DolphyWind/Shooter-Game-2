@@ -54,6 +54,21 @@ void LuaHelper::push(lua_State* L, lua_CFunction val)
     lua_pushcfunction(L, val);
 }
 
+void LuaHelper::push(lua_State* L, void* val, std::size_t size, const std::string& metatableName)
+{
+    void* newData = lua_newuserdata(L, size);
+    std::memcpy(newData, val, size);
+    luaL_getmetatable(L, metatableName.c_str());
+    lua_setmetatable(L, -2);
+}
+
+void LuaHelper::push(lua_State* L, const std::tuple<void*, std::size_t, std::string>& udataTuple)
+{
+    auto [newData, size, metatableName] = udataTuple;
+    LuaHelper::push(L, newData, size, metatableName);
+}
+
+
 int LuaHelper::GetMainWindow(lua_State* L)
 {
     LuaHelper::push(L, (void*)Global::mainWindow);

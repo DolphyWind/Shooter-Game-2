@@ -187,7 +187,7 @@ int RectangleShapeExporter::getLocalBounds(lua_State* L)
 int RectangleShapeExporter::getGlobalBounds(lua_State* L)
 {
     Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    FloatRectExporter::createFloatRect(L, (*rectangleShapePtr)->getGlobalBounds());
+    FloatRectExporter::createFloatRect(L, rectangleShapePtr->getGlobalBounds());
 
     return 1;
 }

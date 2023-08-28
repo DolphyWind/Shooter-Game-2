@@ -126,6 +126,14 @@ int EntityExporter::getCollider(lua_State* L)
     return 1;
 }
 
+int EntityExporter::getColliderCenter(lua_State* L)
+{
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
+    Vector2Exporter::createVector(L, entityPtr->getColliderCenter());
+
+    return 1;
+}
+
 int EntityExporter::getGlobal(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
@@ -175,6 +183,7 @@ LuaExporter EntityExporter::toLuaExporter()
             {"getMetadata", EntityExporter::getMetadata},
             {"setCollider", EntityExporter::setCollider},
             {"getCollider", EntityExporter::getCollider},
+            {"getColliderCenter", EntityExporter::getColliderCenter},
             {"getGlobal", EntityExporter::getGlobal},
             {"setGlobal", EntityExporter::setGlobal},
             {"runCode", EntityExporter::runCode},

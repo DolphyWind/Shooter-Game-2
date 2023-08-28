@@ -2,8 +2,7 @@
 #include <InGame/LuaEntity.hpp>
 #include <Modding/ShooterGameExporter.hpp>
 #include <Modding/Exporters/EventExporter.hpp>
-#include <Modding/Exporters/RenderWindowExporter.hpp>
-#include <Modding/Exporters/EntityExporter.hpp>
+#include <Modding/Exporters/Vector2Exporter.hpp>
 
 LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath):
     Entity(parent), m_assetsFolderPath(assetsFolderPath)
@@ -85,12 +84,14 @@ void LuaEntity::onDeath()
 
 void LuaEntity::onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint)
 {
-    m_onCollisionEnterFunction((void*)other, (void*)&intersectionPoint);
+    Lua_Vector2 iPoint = intersectionPoint;
+    m_onCollisionEnterFunction((void*)other, (void*)&iPoint);
 }
 
 void LuaEntity::onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint)
 {
-    m_onCollisionStayFunction((void*)other, (void*)&intersectionPoint);
+    Lua_Vector2 iPoint = intersectionPoint;
+    m_onCollisionStayFunction((void*)other, (void*)&iPoint);
 }
 
 void LuaEntity::onCollisionExit(Entity* other)
