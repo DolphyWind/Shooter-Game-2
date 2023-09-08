@@ -90,6 +90,7 @@ int EntityExporter::getMetadata(lua_State* L)
 
 int EntityExporter::setCollider(lua_State* L)
 {
+    int arg_count = lua_gettop(L);
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     if(!lua_istable(L, 2))
     {
@@ -108,7 +109,14 @@ int EntityExporter::setCollider(lua_State* L)
         Lua_Vector2* currentPoint = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, -1, LUA_VECTOR2_METATABLENAME) );
         points.push_back({static_cast<float>(currentPoint->x), static_cast<float>(currentPoint->y)});
     }
-    entityPtr->setCollider(points);
+
+    bool isStatic = false;
+    if(arg_count == 3)
+    {
+        isStatic = lua_toboolean(L, 3);
+    }
+
+    entityPtr->setCollider(Collider(points, isStatic));
 
     return 0;
 }
