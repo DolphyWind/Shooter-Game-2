@@ -60,9 +60,9 @@ void GameManager::checkCollisions()
             bool collided = false;
             std::optional<sfex::Vec2> intersectionPoint;
 
-            for(auto& line1 : e1->getColliderLines())
+            for(auto& line1 : e1->getCollider().getInnerLines())
             {
-                for(auto& line2 : e2->getOuterLines())
+                for(auto& line2 : e2->getCollider().getOuterLines())
                 {
                     intersectionPoint = Global::getIntersectionPoint({
                                                                          line1[0].position + e1->getPosition(),

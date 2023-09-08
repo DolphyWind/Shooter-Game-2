@@ -113,13 +113,13 @@ int EntityExporter::setCollider(lua_State* L)
     return 0;
 }
 
-int EntityExporter::getCollider(lua_State* L)
+int EntityExporter::getColliderPoints(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    std::vector<sfex::Vec2> collider = entityPtr->getCollider();
-    for(int i = 0; i < collider.size(); ++i)
+    std::vector<sfex::Vec2> colliderPoints = entityPtr->getCollider().getPoints();
+    for(int i = 0; i < colliderPoints.size(); ++i)
     {
-        Vector2Exporter::createVector(L, collider[i]);
+        Vector2Exporter::createVector(L, colliderPoints[i]);
         lua_rawseti(L, -2, i + 1);
     }
 
@@ -129,7 +129,7 @@ int EntityExporter::getCollider(lua_State* L)
 int EntityExporter::getColliderCenter(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    Vector2Exporter::createVector(L, entityPtr->getColliderCenter());
+    Vector2Exporter::createVector(L, entityPtr->getCollider().getColliderCenter());
 
     return 1;
 }
@@ -182,7 +182,7 @@ LuaExporter EntityExporter::toLuaExporter()
             {"setMetadata", EntityExporter::setMetadata},
             {"getMetadata", EntityExporter::getMetadata},
             {"setCollider", EntityExporter::setCollider},
-            {"getCollider", EntityExporter::getCollider},
+            {"getColliderPoints", EntityExporter::getColliderPoints},
             {"getColliderCenter", EntityExporter::getColliderCenter},
             {"getGlobal", EntityExporter::getGlobal},
             {"setGlobal", EntityExporter::setGlobal},
