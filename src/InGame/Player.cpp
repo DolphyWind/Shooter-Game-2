@@ -29,7 +29,7 @@ void Player::start()
     {
         points.push_back(m_playerCircle.getPoint(i) - m_playerRadius*sfex::Vec2::one);
     }
-    setCollider(Collider(points, true));
+    setCollider(Collider(this, points, true));
 }
 
 void Player::update(const sf::Time& deltaTime)
@@ -109,16 +109,14 @@ bool Player::isPlayer()
     return true;
 }
 
-void Player::onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint)
+void Player::onCollisionEnter(Entity* other)
 {
-//    sfex::Vec2 differenceVector = intersectionPoint - getPosition();
-//    move((-differenceVector).normalized() * (m_playerRadius - differenceVector.magnitude()));
+
 }
 
-void Player::onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint)
+void Player::onCollisionStay(Entity* other)
 {
-//    sfex::Vec2 differenceVector = intersectionPoint - getPosition();
-//    move((-differenceVector).normalized() * (m_playerRadius - differenceVector.magnitude()));
+
 }
 
 void Player::onCollisionExit(Entity* other)

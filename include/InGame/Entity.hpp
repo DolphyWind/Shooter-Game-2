@@ -33,8 +33,8 @@ public:
 
     virtual bool isPlayer();
 
-    virtual void onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint) {};
-    virtual void onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint) {};
+    virtual void onCollisionEnter(Entity* other) {};
+    virtual void onCollisionStay(Entity* other) {};
     virtual void onCollisionExit(Entity* other) {};
 
     void setCollider(const Collider& collider);

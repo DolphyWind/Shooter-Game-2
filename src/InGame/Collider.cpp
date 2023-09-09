@@ -1,10 +1,12 @@
 #include <InGame/Collider.hpp>
+#include <InGame/Entity.hpp>
 
-Collider::Collider():
-    m_isStatic(false), m_colliderCenter(), m_points(), m_innerLines(), m_outerLines()
+Collider::Collider(Entity* entity):
+    m_isStatic(false), m_entityPtr(entity), m_colliderCenter(), m_points(), m_innerLines(), m_outerLines()
 {}
 
-Collider::Collider(const std::vector<sfex::Vec2>& points, bool isStatic)
+Collider::Collider(Entity* entity, const std::vector<sfex::Vec2>& points, bool isStatic):
+    m_entityPtr(entity)
 {
     setCollider(points);
     setStatic(isStatic);
@@ -77,6 +79,11 @@ bool Collider::isStatic() const
     return m_isStatic;
 }
 
+Entity* Collider::getEntity() const
+{
+    return m_entityPtr;
+}
+
 std::optional<std::pair<float, float>> Collider::getIntersectionParams(const Line &firstLine, const Line &secondLine)
 {
     // Source: https://www.youtube.com/watch?v=5FkOO1Wwb8w
@@ -97,4 +104,53 @@ std::optional<std::pair<float, float>> Collider::getIntersectionParams(const Lin
     }
 
     return std::nullopt;
+}
+
+bool Collider::checkCollisions(const Collider& other) const
+{
+    bool collidedAtLeastOnce = false;
+    sfex::Vec2 intersectionPoint;
+    sfex::Vec2 displacementVector;
+    std::optional<std::pair<float, float>> parametersOfCollision;
+
+    for(auto& line1 : this->getInnerLines())
+    {
+        bool collided = false;
+        Collider::Line firstLine = {
+            line1[0].position + m_entityPtr->getPosition(),
+            line1[1].position + m_entityPtr->getPosition()
+        };
+        for(auto& line2 : other.getOuterLines())
+        {
+            Collider::Line secondLine = {
+                line2[0].position + other.getEntity()->getPosition(),
+                line2[1].position + other.getEntity()->getPosition()
+            };
+            parametersOfCollision = Collider::getIntersectionParams(firstLine, secondLine);
+
+            if(parametersOfCollision.has_value())
+            {
+                intersectionPoint = sfex::Math::lerp(
+                    firstLine.beginPoint,
+                    firstLine.endPoint,
+                    parametersOfCollision->first
+                );
+                collided = true;
+                collidedAtLeastOnce = true;
+                break;
+            }
+        }
+        if(collided)
+        {
+            if(!isStatic()) break;
+
+            displacementVector -= (1 - parametersOfCollision->first) * (firstLine.endPoint - firstLine.beginPoint);
+        }
+    }
+
+    if(isStatic())
+    {
+        m_entityPtr->move(displacementVector);
+    }
+    return collidedAtLeastOnce;
 }

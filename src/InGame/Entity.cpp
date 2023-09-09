@@ -2,7 +2,7 @@
 #include <InGame/Game.hpp>
 
 Entity::Entity(Game* parent):
-    m_health(100), m_position(), m_collider(), m_parent(parent), m_name(), m_metadata()
+    m_health(100), m_position(), m_collider(this), m_parent(parent), m_name(), m_metadata()
 {
     start();
 }

@@ -18,8 +18,8 @@ public:
     virtual void render(sf::RenderTarget& target) override;
     virtual void onDeath() override;
 
-    virtual void onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint) override;
-    virtual void onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint) override;
+    virtual void onCollisionEnter(Entity* other) override;
+    virtual void onCollisionStay(Entity* other) override;
     virtual void onCollisionExit(Entity* other) override;
 
     lua_State* getLuaState() const;

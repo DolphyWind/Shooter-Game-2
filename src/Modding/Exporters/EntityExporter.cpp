@@ -116,7 +116,7 @@ int EntityExporter::setCollider(lua_State* L)
         isStatic = lua_toboolean(L, 3);
     }
 
-    entityPtr->setCollider(Collider(points, isStatic));
+    entityPtr->setCollider(Collider(entityPtr, points, isStatic));
 
     return 0;
 }

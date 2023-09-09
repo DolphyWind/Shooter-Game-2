@@ -19,8 +19,8 @@ public:
     virtual void move(const sfex::Vec2& delta) override;
 
     virtual bool isPlayer() override;
-    virtual void onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint) override;
-    virtual void onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint) override;
+    virtual void onCollisionEnter(Entity* other) override;
+    virtual void onCollisionStay(Entity* other) override;
     virtual void onCollisionExit(Entity* other) override;
 private:
     sf::CircleShape m_playerCircle;
