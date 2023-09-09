@@ -41,7 +41,7 @@ void Entity::setCollider(const Collider& collider)
     m_collider = collider;
 }
 
-const Collider& Entity::getCollider() const
+Collider& Entity::getCollider()
 {
     return m_collider;
 }

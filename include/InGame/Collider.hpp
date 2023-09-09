@@ -16,15 +16,17 @@ public:
     Collider(Entity* entity);
     Collider(Entity* entity, const std::vector<sfex::Vec2>& points, bool isStatic=false);
 
-    void setCollider(const std::vector<sfex::Vec2>& points);
+    void setPoints(const std::vector<sfex::Vec2>& points);
+    void setStatic(bool isStatic);
+    void setImmovable(bool immovable);
 
     sfex::Vec2 getColliderCenter() const;
     const std::vector<sfex::Vec2>& getPoints() const;
     const std::vector<sf::VertexArray>& getInnerLines() const;
     const std::vector<sf::VertexArray>& getOuterLines() const;
 
-    void setStatic(bool isStatic);
     bool isStatic() const;
+    bool isImmovable() const;
     Entity* getEntity() const;
 
     /// Checks the collision between two lines, returns a pair of normalized floats that can be used to find the point of intersection. Returns std::nullopt if there is no intersection.
@@ -39,6 +41,7 @@ public:
     bool checkCollisions(const Collider& other) const;
 private:
     bool m_isStatic;
+    bool m_isImmovable;
     Entity* m_entityPtr;
 
     sfex::Vec2 m_colliderCenter;

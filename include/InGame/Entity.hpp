@@ -38,7 +38,7 @@ public:
     virtual void onCollisionExit(Entity* other) {};
 
     void setCollider(const Collider& collider);
-    const Collider& getCollider() const;
+    Collider& getCollider();
 
     void setName(const std::string& newName);
     std::string getName() const;

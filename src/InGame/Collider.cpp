@@ -8,11 +8,11 @@ Collider::Collider(Entity* entity):
 Collider::Collider(Entity* entity, const std::vector<sfex::Vec2>& points, bool isStatic):
     m_entityPtr(entity)
 {
-    setCollider(points);
+    setPoints(points);
     setStatic(isStatic);
 }
 
-void Collider::setCollider(const std::vector<sfex::Vec2>& points)
+void Collider::setPoints(const std::vector<sfex::Vec2>& points)
 {
     m_points = points;
 
@@ -49,6 +49,16 @@ void Collider::setCollider(const std::vector<sfex::Vec2>& points)
     m_outerLines[points.size() - 1][0].color = m_outerLines[points.size() - 1][1].color = sfex::Color::Yellow;
 }
 
+void Collider::setStatic(bool isStatic)
+{
+    m_isStatic = isStatic;
+}
+
+void Collider::setImmovable(bool immovable)
+{
+    m_isImmovable = immovable;
+}
+
 sfex::Vec2 Collider::getColliderCenter() const
 {
     return m_colliderCenter;
@@ -69,14 +79,15 @@ const std::vector<sf::VertexArray>& Collider::getOuterLines() const
     return m_outerLines;
 }
 
-void Collider::setStatic(bool isStatic)
-{
-    m_isStatic = isStatic;
-}
 
 bool Collider::isStatic() const
 {
     return m_isStatic;
+}
+
+bool Collider::isImmovable() const
+{
+    return m_isImmovable;
 }
 
 Entity* Collider::getEntity() const
@@ -142,13 +153,11 @@ bool Collider::checkCollisions(const Collider& other) const
         }
         if(collided)
         {
-            if(!isStatic()) break;
-
             displacementVector -= (1 - parametersOfCollision->first) * (firstLine.endPoint - firstLine.beginPoint);
         }
     }
 
-    if(isStatic())
+    if(isStatic() && other.isStatic() && !isImmovable())
     {
         m_entityPtr->move(displacementVector);
     }

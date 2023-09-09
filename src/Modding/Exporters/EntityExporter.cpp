@@ -121,6 +121,24 @@ int EntityExporter::setCollider(lua_State* L)
     return 0;
 }
 
+int EntityExporter::setColliderStatic(lua_State* L)
+{
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
+    bool isStatic = lua_toboolean(L, 2);
+
+    entityPtr->getCollider().setStatic(isStatic);
+    return 0;
+}
+
+int EntityExporter::setColliderImmovable(lua_State* L)
+{
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
+    bool isImmovable = lua_toboolean(L, 2);
+
+    entityPtr->getCollider().setImmovable(isImmovable);
+    return 0;
+}
+
 int EntityExporter::getColliderPoints(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
@@ -190,6 +208,8 @@ LuaExporter EntityExporter::toLuaExporter()
             {"setMetadata", EntityExporter::setMetadata},
             {"getMetadata", EntityExporter::getMetadata},
             {"setCollider", EntityExporter::setCollider},
+            {"setColliderStatic", EntityExporter::setColliderStatic},
+            {"setColliderImmovable", EntityExporter::setColliderImmovable},
             {"getColliderPoints", EntityExporter::getColliderPoints},
             {"getColliderCenter", EntityExporter::getColliderCenter},
             {"getGlobal", EntityExporter::getGlobal},
