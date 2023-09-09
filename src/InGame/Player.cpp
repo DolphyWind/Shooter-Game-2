@@ -22,14 +22,14 @@ Player::Player(Game* parent, bool isCurrentPlayer):
 
 void Player::start()
 {
-    std::vector<sfex::Vec2> collider;
-    collider.reserve(m_playerCircle.getPointCount());
+    std::vector<sfex::Vec2> points;
+    points.reserve(m_playerCircle.getPointCount());
 
     for(std::size_t i = 0; i < m_playerCircle.getPointCount(); ++i)
     {
-        collider.push_back(m_playerCircle.getPoint(i) - m_playerRadius*sfex::Vec2::one);
+        points.push_back(m_playerCircle.getPoint(i) - m_playerRadius*sfex::Vec2::one);
     }
-    setCollider(collider);
+    setCollider(Collider(points, true));
 }
 
 void Player::update(const sf::Time& deltaTime)
@@ -111,14 +111,14 @@ bool Player::isPlayer()
 
 void Player::onCollisionEnter(Entity* other, sfex::Vec2 intersectionPoint)
 {
-    sfex::Vec2 differenceVector = intersectionPoint - getPosition();
-    move((-differenceVector).normalized() * (m_playerRadius - differenceVector.magnitude()));
+//    sfex::Vec2 differenceVector = intersectionPoint - getPosition();
+//    move((-differenceVector).normalized() * (m_playerRadius - differenceVector.magnitude()));
 }
 
 void Player::onCollisionStay(Entity* other, sfex::Vec2 intersectionPoint)
 {
-    sfex::Vec2 differenceVector = intersectionPoint - getPosition();
-    move((-differenceVector).normalized() * (m_playerRadius - differenceVector.magnitude()));
+//    sfex::Vec2 differenceVector = intersectionPoint - getPosition();
+//    move((-differenceVector).normalized() * (m_playerRadius - differenceVector.magnitude()));
 }
 
 void Player::onCollisionExit(Entity* other)

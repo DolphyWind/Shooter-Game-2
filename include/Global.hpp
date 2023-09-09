@@ -19,11 +19,4 @@ public:
     static constexpr unsigned int menuButtonBorderRadius = 5;
     static constexpr unsigned int titleTextSize = 42;
     static const sf::RenderWindow* mainWindow;
-
-    struct Line
-    {
-        sfex::Vec2 beginPoint;
-        sfex::Vec2 endPoint;
-    };
-    static std::optional<sfex::Vec2> getIntersectionPoint(const Line& firstLine, const Line& secondLine);
 };
