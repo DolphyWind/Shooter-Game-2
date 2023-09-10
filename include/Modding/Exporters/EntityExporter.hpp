@@ -29,10 +29,6 @@ struct EntityExporter
     static int setMetadata(lua_State* L);
     static int getMetadata(lua_State* L);
     static int setCollider(lua_State* L);
-    static int setColliderStatic(lua_State* L);
-    static int setColliderImmovable(lua_State* L);
-    static int getColliderPoints(lua_State* L);
-    static int getColliderCenter(lua_State* L);
     // static int getColliderInnerLines(lua_State* L);
     // static int getColliderOuterLines(lua_State* L);
 

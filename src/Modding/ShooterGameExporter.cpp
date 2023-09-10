@@ -28,6 +28,7 @@
 #include <Modding/Exporters/MusicExporter.hpp>
 #include <Modding/Exporters/TextExporter.hpp>
 #include <Modding/Exporters/EntityExporter.hpp>
+#include <Modding/Exporters/ColliderExporter.hpp>
 
 std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     Vector2Exporter::toLuaExporter(),
@@ -58,6 +59,7 @@ std::vector<LuaExporter> ShooterGameExporter::luaExporters = {
     MusicExporter::toLuaExporter(),
     TextExporter::toLuaExporter(),
     EntityExporter::toLuaExporter(),
+    ColliderExporter::toLuaExporter(),
 };
 
 void ShooterGameExporter::exportTo(lua_State* L)

@@ -39,6 +39,10 @@ bool Entity::isPlayer()
 void Entity::setCollider(const Collider& collider)
 {
     m_collider = collider;
+    if(m_collider.getEntity() != this)
+    {
+        m_collider.setEntity(this);
+    }
 }
 
 Collider& Entity::getCollider()

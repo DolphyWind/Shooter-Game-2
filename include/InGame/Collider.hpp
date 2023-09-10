@@ -13,12 +13,13 @@ public:
         sfex::Vec2 endPoint;
     };
 
-    Collider(Entity* entity);
-    Collider(Entity* entity, const std::vector<sfex::Vec2>& points, bool isStatic=false);
+    Collider(Entity* entity=nullptr);
+    Collider(const std::vector<sfex::Vec2>& points, bool isStatic=false, Entity* entity=nullptr);
 
     void setPoints(const std::vector<sfex::Vec2>& points);
     void setStatic(bool isStatic);
     void setImmovable(bool immovable);
+    void setEntity(Entity* entity);
 
     sfex::Vec2 getColliderCenter() const;
     const std::vector<sfex::Vec2>& getPoints() const;
@@ -39,6 +40,10 @@ public:
     /// \param other Other collider
     /// \return True if there is at least one collision
     bool checkCollisions(const Collider& other) const;
+
+
+    bool operator==(const Collider& collider);
+    bool operator!=(const Collider& collider);
 private:
     bool m_isStatic;
     bool m_isImmovable;

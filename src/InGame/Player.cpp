@@ -29,7 +29,7 @@ void Player::start()
     {
         points.push_back(m_playerCircle.getPoint(i) - m_playerRadius*sfex::Vec2::one);
     }
-    setCollider(Collider(this, points, true));
+    setCollider(Collider(points, true, this));
 }
 
 void Player::update(const sf::Time& deltaTime)

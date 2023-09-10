@@ -2,12 +2,15 @@
 #include <InGame/Entity.hpp>
 
 Collider::Collider(Entity* entity):
-    m_isStatic(false), m_entityPtr(entity), m_colliderCenter(), m_points(), m_innerLines(), m_outerLines()
-{}
-
-Collider::Collider(Entity* entity, const std::vector<sfex::Vec2>& points, bool isStatic):
-    m_entityPtr(entity)
+    m_isStatic(false), m_colliderCenter(), m_points(), m_innerLines(), m_outerLines()
 {
+    setEntity(entity);
+}
+
+Collider::Collider(const std::vector<sfex::Vec2>& points, bool isStatic, Entity* entity):
+    m_points(), m_innerLines(), m_outerLines()
+{
+    setEntity(entity);
     setPoints(points);
     setStatic(isStatic);
 }
@@ -57,6 +60,17 @@ void Collider::setStatic(bool isStatic)
 void Collider::setImmovable(bool immovable)
 {
     m_isImmovable = immovable;
+}
+
+void Collider::setEntity(Entity* entity)
+{
+    m_entityPtr = entity;
+    if(!entity) return;
+
+    if(entity->getCollider() != *this)
+    {
+        entity->setCollider(*this);
+    }
 }
 
 sfex::Vec2 Collider::getColliderCenter() const
@@ -127,15 +141,27 @@ bool Collider::checkCollisions(const Collider& other) const
     for(auto& line1 : this->getInnerLines())
     {
         bool collided = false;
+        sfex::Vec2 entityPos = sfex::Vec2::zero;
+        if(getEntity())
+        {
+            entityPos = getEntity()->getPosition();
+        }
+
         Collider::Line firstLine = {
-            line1[0].position + m_entityPtr->getPosition(),
-            line1[1].position + m_entityPtr->getPosition()
+            line1[0].position + entityPos,
+            line1[1].position + entityPos
         };
         for(auto& line2 : other.getOuterLines())
         {
+            sfex::Vec2 othersEntityPos = sfex::Vec2::zero;
+            if(other.getEntity())
+            {
+                othersEntityPos = other.getEntity()->getPosition();
+            }
+
             Collider::Line secondLine = {
-                line2[0].position + other.getEntity()->getPosition(),
-                line2[1].position + other.getEntity()->getPosition()
+                line2[0].position + othersEntityPos,
+                line2[1].position + othersEntityPos
             };
             parametersOfCollision = Collider::getIntersectionParams(firstLine, secondLine);
 
@@ -157,9 +183,21 @@ bool Collider::checkCollisions(const Collider& other) const
         }
     }
 
-    if(isStatic() && other.isStatic() && !isImmovable())
+    if(isStatic() && other.isStatic() && !isImmovable() && getEntity())
     {
-        m_entityPtr->move(displacementVector);
+        getEntity()->move(displacementVector);
     }
     return collidedAtLeastOnce;
+}
+
+bool Collider::operator==(const Collider& collider)
+{
+    return collider.getPoints() == this->getPoints() &&
+           collider.isStatic() == this->isStatic() &&
+           collider.isImmovable() == this->isImmovable();
+}
+
+bool Collider::operator!=(const Collider& collider)
+{
+    return !this->operator==(collider);
 }

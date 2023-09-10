@@ -2,6 +2,7 @@
 #include <InGame/LuaEntity.hpp>
 #include <Modding/Exporters/EntityExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
+#include <Modding/Exporters/ColliderExporter.hpp>
 
 int EntityExporter::__index(lua_State* L)
 {
@@ -90,74 +91,12 @@ int EntityExporter::getMetadata(lua_State* L)
 
 int EntityExporter::setCollider(lua_State* L)
 {
-    int arg_count = lua_gettop(L);
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    if(!lua_istable(L, 2))
-    {
-        luaL_error(L, "The collider should be an array containing vectors");
-        return 0;
-    }
+    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLLIDER_METATABLENAME) );
 
-    // Convert from lua array to vector
-    std::vector<sfex::Vec2> points;
-    int arrSize = luaL_len(L, 2);
-    points.reserve(arrSize);
-
-    for(int i = 1; i <= arrSize; ++i)
-    {
-        lua_rawgeti(L, 2, i);
-        Lua_Vector2* currentPoint = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, -1, LUA_VECTOR2_METATABLENAME) );
-        points.push_back({static_cast<float>(currentPoint->x), static_cast<float>(currentPoint->y)});
-    }
-
-    bool isStatic = false;
-    if(arg_count == 3)
-    {
-        isStatic = lua_toboolean(L, 3);
-    }
-
-    entityPtr->setCollider(Collider(entityPtr, points, isStatic));
+    entityPtr->setCollider(*colliderPtr);
 
     return 0;
-}
-
-int EntityExporter::setColliderStatic(lua_State* L)
-{
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    bool isStatic = lua_toboolean(L, 2);
-
-    entityPtr->getCollider().setStatic(isStatic);
-    return 0;
-}
-
-int EntityExporter::setColliderImmovable(lua_State* L)
-{
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    bool isImmovable = lua_toboolean(L, 2);
-
-    entityPtr->getCollider().setImmovable(isImmovable);
-    return 0;
-}
-
-int EntityExporter::getColliderPoints(lua_State* L)
-{
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    std::vector<sfex::Vec2> colliderPoints = entityPtr->getCollider().getPoints();
-    for(int i = 0; i < colliderPoints.size(); ++i)
-    {
-        Vector2Exporter::createVector(L, colliderPoints[i]);
-        lua_rawseti(L, -2, i + 1);
-    }
-
-    return 1;
-}
-
-int EntityExporter::getColliderCenter(lua_State* L)
-{
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    Vector2Exporter::createVector(L, entityPtr->getCollider().getColliderCenter());
-
-    return 1;
 }
 
 int EntityExporter::getGlobal(lua_State* L)
@@ -208,10 +147,6 @@ LuaExporter EntityExporter::toLuaExporter()
             {"setMetadata", EntityExporter::setMetadata},
             {"getMetadata", EntityExporter::getMetadata},
             {"setCollider", EntityExporter::setCollider},
-            {"setColliderStatic", EntityExporter::setColliderStatic},
-            {"setColliderImmovable", EntityExporter::setColliderImmovable},
-            {"getColliderPoints", EntityExporter::getColliderPoints},
-            {"getColliderCenter", EntityExporter::getColliderCenter},
             {"getGlobal", EntityExporter::getGlobal},
             {"setGlobal", EntityExporter::setGlobal},
             {"runCode", EntityExporter::runCode},
