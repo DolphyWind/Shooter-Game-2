@@ -3,6 +3,17 @@
 #include <string>
 #include <string_view>
 #include <iostream>
+#include <stdexcept>
+
+class VersionParsingException : public std::exception
+{
+public:
+    VersionParsingException(const std::string& msg="");
+    VersionParsingException(const VersionParsingException& other) noexcept;
+    const char * what() const noexcept override;
+private:
+    std::string m_msg;
+};
 
 
 /// @brief A class for holding version information such as v1.0.0

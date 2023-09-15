@@ -1,19 +1,13 @@
 #pragma once
-#include <Version.hpp>
-#include <vector>
-#include <string>
-#include <SFEX/General/Multitype.hpp>
+#include <Modding/ModConfig.hpp>
 
 class Mod
 {
 public:
-    sfex::Multitype toJSON();
+    Mod(std::string modName);
 
-    Version version;
-    std::vector<std::string> authors;
-    std::string title;
-    std::string description;
-    std::vector<std::string> dependencies;
-    std::string underlyingName;
-    std::vector<sfex::Multitype> entities;
+    ModConfig config;
+    std::string assetsFolderPath;
+    std::string entityFolderPath;
+    std::vector<std::string> entities;
 };

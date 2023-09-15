@@ -60,7 +60,7 @@ fetch_library(FMT https://github.com/fmtlib/fmt.git a0b8a92e3d1532361c2f7feb63ba
 fetch_library(BOX2D https://github.com/erincatto/box2d.git 411acc32eb6d4f2e96fc70ddbdf01fe5f9b16230)
 fetch_library(IMGUISFML https://github.com/SFML/imgui-sfml.git 15753d56403a7aeb1cae12fd930cfb1d2eac5e74)
 fetch_library(THOR https://github.com/Bromeon/Thor 3e320cb52606f0b44fd9d2bb272b3cb6d01d7f20)
-fetch_library(SFEX https://github.com/DolphyWind/SFML-Extended 4895a7544507742c479a2913223411a38996aed0)
+fetch_library(SFEX https://github.com/DolphyWind/SFML-Extended b69732972b21b8ae8f55b0b8a842d49e91e5dc67)
 
 if(WIN32)
     find_package(CURL CONFIG REQUIRED)

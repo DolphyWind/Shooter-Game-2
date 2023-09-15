@@ -1,5 +1,18 @@
 #include <Version.hpp>
 
+VersionParsingException::VersionParsingException(const std::string& msg): m_msg(msg)
+{
+}
+
+VersionParsingException::VersionParsingException(const VersionParsingException& other) noexcept
+{
+    m_msg = other.m_msg;
+}
+
+const char* VersionParsingException::what() const noexcept
+{
+    return m_msg.c_str();
+}
 
 Version::Version(std::uint8_t major, std::uint8_t minor, std::uint8_t patch):
     m_major(major), m_minor(minor), m_patch(patch)
@@ -7,19 +20,26 @@ Version::Version(std::uint8_t major, std::uint8_t minor, std::uint8_t patch):
 
 Version::Version(const std::string& version)
 {
-    std::size_t first_dot = version.find(".", 0);
-    std::size_t second_dot = version.find(".", first_dot + 1);
-    std::size_t last_dot = version.find(".", second_dot + 1); // Possibly std::string::npos
+    try
+    {
+        std::size_t first_dot = version.find(".", 0);
+        std::size_t second_dot = version.find(".", first_dot + 1);
+        std::size_t last_dot = version.find(".", second_dot + 1); // Possibly std::string::npos
 
-    // Break original string into three strings
-    std::string majorStr = version.substr(0, first_dot);
-    std::string minorStr = version.substr(first_dot + 1, second_dot - first_dot - 1);
-    if(last_dot == std::string::npos) last_dot = version.length();
-    std::string patchStr = version.substr(second_dot + 1, last_dot - second_dot - 1);
+        // Break original string into three strings
+        std::string majorStr = version.substr(0, first_dot);
+        std::string minorStr = version.substr(first_dot + 1, second_dot - first_dot - 1);
+        if(last_dot == std::string::npos) last_dot = version.length();
+        std::string patchStr = version.substr(second_dot + 1, last_dot - second_dot - 1);
 
-    m_major = static_cast<std::uint8_t>( std::stoi(majorStr) );
-    m_minor = static_cast<std::uint8_t>( std::stoi(minorStr) );
-    m_patch = static_cast<std::uint8_t>( std::stoi(patchStr) );
+        m_major = static_cast<std::uint8_t>( std::stoi(majorStr) );
+        m_minor = static_cast<std::uint8_t>( std::stoi(minorStr) );
+        m_patch = static_cast<std::uint8_t>( std::stoi(patchStr) );
+    }
+    catch (const std::exception& e)
+    {
+        throw VersionParsingException(e.what());
+    }
 }
 
 Version::Version(std::uint32_t version)
@@ -71,7 +91,10 @@ std::size_t Version::toSizeType() const
 
 std::string Version::toString() const
 {
-    return std::to_string( static_cast<int>(m_major) ) + "." + std::to_string( static_cast<int>(m_minor) ) + "." + std::to_string( static_cast<int>(m_patch) );
+    return
+    std::to_string( static_cast<int>(m_major) ) + "." +
+    std::to_string( static_cast<int>(m_minor) ) + "." +
+    std::to_string( static_cast<int>(m_patch) );
 }
 
 Version::operator std::uint32_t() const

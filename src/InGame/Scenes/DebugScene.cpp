@@ -3,6 +3,7 @@
 #include <InGame/Entity.hpp>
 #include <InGame/Player.hpp>
 #include <InGame/LuaEntity.hpp>
+#include <Modding/ModConfig.hpp>
 
 
 DebugScene::DebugScene(Game* parent):
@@ -43,6 +44,10 @@ void DebugScene::start()
 
     m_gameManager.getEntities()[0]->setPosition({100, 100});
     m_gameManager.getEntities()[1]->setPosition({300, 300});
+
+    ModConfig conf;
+    conf.loadFromFile("test_config.json");
+    conf.printModConfig();
 }
 
 void DebugScene::update(const sf::Time& deltaTime)
