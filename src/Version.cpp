@@ -22,9 +22,9 @@ Version::Version(const std::string& version)
 {
     try
     {
-        std::size_t first_dot = version.find(".", 0);
-        std::size_t second_dot = version.find(".", first_dot + 1);
-        std::size_t last_dot = version.find(".", second_dot + 1); // Possibly std::string::npos
+        std::size_t first_dot = version.find('.', 0);
+        std::size_t second_dot = version.find('.', first_dot + 1);
+        std::size_t last_dot = version.find('.', second_dot + 1); // Possibly std::string::npos
 
         // Break original string into three strings
         std::string majorStr = version.substr(0, first_dot);

@@ -71,36 +71,42 @@ void ModConfig::loadFromString(const std::string& config)
     {
         throw vpe;
     }
-    authors = json["authors"].as_list<std::string>();
-    if(authors.empty())
+    decltype(authors) _authors = json["authors"].as_list<std::string>();
+    if(_authors.empty())
     {
-        authors = {"Unknown author(s)"};
+        _authors = {"Unknown author(s)"};
     }
 
-    title = json["title"].as_string();
-    if(title.empty())
+    decltype(title) _title = json["title"].as_string();
+    if(_title.empty())
     {
-        title = "No title.";
+        _title = "No title.";
     }
 
-    description = json["description"].as_string();
-    if(description.empty())
+    decltype(description) _description = json["description"].as_string();
+    if(_description.empty())
     {
-        description = "No description.";
+        _description = "No description.";
     }
 
-    dependencies = json["dependencies"].as_list<std::string>();
+    decltype(dependencies) _dependencies = json["dependencies"].as_list<std::string>();
 
-    modname = json["modname"].as_string();
-    if(!is_name_valid(modname))
+    decltype(modname) _modname = json["modname"].as_string();
+    if(!is_name_valid(_modname))
     {
         throw InvalidFieldException("Mod name can only contain ascii characters, numbers and underscore. Mod name cannot start with a number.");
     }
 
     std::vector<sfex::Multitype> entityData = json["entities"].as_list();
+
+    authors = _authors;
+    title = _title;
+    description = _description;
+    dependencies = _dependencies;
+    modname = _modname;
+
     entites.clear();
     entites.reserve(entityData.size());
-
     for (auto& entityJson : entityData)
     {
         EntityData ed;

@@ -36,12 +36,10 @@ set(SFML_STATIC_LIBRARIES TRUE)
 set(TGUI_BUILD_GUI_BUILDER FALSE)
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/mods DESTINATION ${CMAKE_BINARY_DIR})
 set(BUILD_SHARED_LIBS OFF)
-set(THOR_SHARED_LIBS FALSE CACHE BOOL "Build shared libraries (use shared SFML librares)")
 set(SFEX_USE_UPDATE_BASED_INPUT_HANDLING ON)
 set(BUILD_TESTS OFF)
-set(BOX2D_BUILD_UNIT_TESTS OFF)
-set(BOX2D_BUILD_TESTBED OFF)
 
 function(fetch_library library_name repo_url git_tag)
     FetchContent_Declare(
@@ -57,9 +55,7 @@ find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
 fetch_library(TGUI https://github.com/texus/TGUI.git 0.9)
 fetch_library(FMT https://github.com/fmtlib/fmt.git a0b8a92e3d1532361c2f7feb63babc5c18d00ef2)
-fetch_library(BOX2D https://github.com/erincatto/box2d.git 411acc32eb6d4f2e96fc70ddbdf01fe5f9b16230)
 fetch_library(IMGUISFML https://github.com/SFML/imgui-sfml.git 15753d56403a7aeb1cae12fd930cfb1d2eac5e74)
-fetch_library(THOR https://github.com/Bromeon/Thor 3e320cb52606f0b44fd9d2bb272b3cb6d01d7f20)
 fetch_library(SFEX https://github.com/DolphyWind/SFML-Extended b69732972b21b8ae8f55b0b8a842d49e91e5dc67)
 
 if(WIN32)
@@ -81,10 +77,8 @@ add_dependencies(${SG_BINARY_NAME} sfml-network)
 add_dependencies(${SG_BINARY_NAME} tgui)
 add_dependencies(${SG_BINARY_NAME} fmt)
 add_dependencies(${SG_BINARY_NAME} clip)
-add_dependencies(${SG_BINARY_NAME} box2d)
 add_dependencies(${SG_BINARY_NAME} ImGui-SFML)
 add_dependencies(${SG_BINARY_NAME} SFEX)
-add_dependencies(${SG_BINARY_NAME} thor)
 
 include_directories(${SG_BINARY_NAME} PRIVATE ${Boost_INCLUDE_DIR})
 include_directories(${SG_BINARY_NAME} PRIVATE ${CURL_SOURCE_DIR}/include)
@@ -93,11 +87,9 @@ target_link_libraries(${SG_BINARY_NAME} sfml-graphics sfml-system sfml-audio sfm
 target_link_libraries(${SG_BINARY_NAME} tgui)
 target_link_libraries(${SG_BINARY_NAME} fmt)
 target_link_libraries(${SG_BINARY_NAME} clip)
-target_link_libraries(${SG_BINARY_NAME} box2d)
 target_link_libraries(${SG_BINARY_NAME} CURL::libcurl)
 target_link_libraries(${SG_BINARY_NAME} ImGui-SFML)
 target_link_libraries(${SG_BINARY_NAME} SFEX)
-target_link_libraries(${SG_BINARY_NAME} thor)
 target_link_libraries(${SG_BINARY_NAME} "${CMAKE_SOURCE_DIR}/lib/liblua.a")
 
 # Os-Specific Linking

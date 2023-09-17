@@ -8,6 +8,7 @@
 #include <InGame/Scenes/ExtendedScene.hpp>
 #include <InGame/Entity.hpp>
 #include <InGame/GameManager.hpp>
+#include <Modding/Mod.hpp>
 
 class Game;
 class DebugScene : public ExtendedScene
