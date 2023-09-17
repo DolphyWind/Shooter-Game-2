@@ -45,16 +45,8 @@ void DebugScene::start()
     m_gameManager.getEntities()[0]->setPosition({100, 100});
     m_gameManager.getEntities()[1]->setPosition({300, 300});
 
-    Mod coreMod;
-    try
-    {
-        coreMod.load("./mods/CoreMod");
-        coreMod.config.printModConfig();
-    }
-    catch(const std::runtime_error& e)
-    {
-        std::cerr << fmt::format("Error when loading {}: {}", "./mods/CoreMod", e.what()) << std::endl;
-    }
+    ModLoader modLoader(fs::current_path() / "mods");
+    std::cout << "Loaded " << modLoader.getMods().size() << " mods total." << std::endl;
 }
 
 void DebugScene::update(const sf::Time& deltaTime)
