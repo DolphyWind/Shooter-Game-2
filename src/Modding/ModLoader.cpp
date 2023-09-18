@@ -27,7 +27,7 @@ bool ModLoader::isLoaded(const std::string& modName)
     return false;
 }
 
-void ModLoader::loadMod(const fs::path& modPath)
+void ModLoader::loadMod(const fs::path& modPath, std::vector<std::string> dependencyStack)
 {
     Mod currentMod;
     currentMod.load(modPath);
@@ -44,7 +44,12 @@ void ModLoader::loadMod(const fs::path& modPath)
         fs::path dependencyPath = m_modsFolder / dependencyName;
         if(fs::exists(dependencyPath) && fs::is_directory(dependencyPath))
         {
-            loadMod(dependencyPath);
+            if(std::find(dependencyStack.begin(), dependencyStack.end(), dependencyName) != dependencyStack.end())
+            {
+                throw std::runtime_error("Circular dependency detected!");
+            }
+            dependencyStack.push_back(dependencyName);
+            loadMod(dependencyPath, dependencyStack);
         }
         else
         {

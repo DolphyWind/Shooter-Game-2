@@ -9,7 +9,7 @@ public:
     const std::vector<Mod>& getMods();
     bool isLoaded(const std::string& modName);
 private:
-    void loadMod(const fs::path& modPath);
+    void loadMod(const fs::path& modPath, std::vector<std::string> dependencyStack={});
 
     std::vector<Mod> m_mods;
     fs::path m_modsFolder;
