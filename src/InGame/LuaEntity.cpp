@@ -1,6 +1,7 @@
 #include <lua.hpp>
 #include <InGame/LuaEntity.hpp>
 #include <Modding/ShooterGameExporter.hpp>
+#include <Modding/Exporters/EntityExporter.hpp>
 #include <Modding/Exporters/EventExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 
@@ -15,7 +16,9 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
     lua_setglobal(m_entityLuaState, ASSETSPATH_VARNAME);
     lua_pushcfunction(m_entityLuaState, LuaHelper::GetMainWindow);
     lua_setglobal(m_entityLuaState, "GetMainWindow");
-    LuaHelper::push(m_entityLuaState, this);
+    thisPtr = new LuaEntity*(this);
+    LuaHelper::push(m_entityLuaState, thisPtr, sizeof(LuaEntity*), LUA_ENTITY_METATABLENAME);
+//    LuaHelper::push(m_entityLuaState, thisPtr);
     lua_setglobal(m_entityLuaState, "this");
     lua_pushcfunction(m_entityLuaState, LuaHelper::InterpretLUdataAs);
     lua_setglobal(m_entityLuaState, "InterpretLUdataAs");
@@ -44,6 +47,7 @@ LuaEntity::~LuaEntity()
 {
     m_onDestroyFunction();
     lua_close(m_entityLuaState);
+    delete thisPtr;
 }
 
 void LuaEntity::start()

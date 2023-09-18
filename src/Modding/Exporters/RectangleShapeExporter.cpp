@@ -363,9 +363,9 @@ int RectangleShapeExporter::getInverseTransform(lua_State* L)
 int RectangleShapeExporter::attachTo(lua_State* L)
 {
     Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Entity* entityPtr = static_cast<LuaEntity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
 
-    rectangleShapePtr->attachTo(dynamic_cast<Entity*>(entityPtr));
+    rectangleShapePtr->attachTo(dynamic_cast<Entity*>(*entityPtr));
     return 0;
 }
 

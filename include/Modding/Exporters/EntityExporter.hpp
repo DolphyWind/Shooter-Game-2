@@ -4,7 +4,7 @@
 class LuaEntity;
 #define LUA_ENTITY_CLASSNAME "Entity"
 #define LUA_ENTITY_METATABLENAME LUA_ENTITY_CLASSNAME"_metatable"
-typedef LuaEntity Lua_Entity;
+typedef LuaEntity* Lua_Entity;
 
 class LuaExporter;
 struct EntityExporter

@@ -315,9 +315,9 @@ int SpriteExporter::getInverseTransform(lua_State* L)
 int SpriteExporter::attachTo(lua_State* L)
 {
     Lua_Sprite* spritePtr = static_cast<Lua_Sprite*>( LuaHelper::checkudata_WithError(L, 1, LUA_SPRITE_METATABLENAME) );
-    Lua_Entity* entityPtr = static_cast<LuaEntity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
 
-    spritePtr->attachTo(dynamic_cast<Entity*>(entityPtr));
+    spritePtr->attachTo(dynamic_cast<Entity*>(*entityPtr));
     return 0;
 }
 

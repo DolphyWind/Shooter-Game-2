@@ -18,7 +18,7 @@ int EntityExporter::__index(lua_State* L)
 int EntityExporter::setHealth(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    entityPtr->setHealth(luaL_checknumber(L, 2));
+    (*entityPtr)->setHealth(luaL_checknumber(L, 2));
 
     return 0;
 }
@@ -26,7 +26,7 @@ int EntityExporter::setHealth(lua_State* L)
 int EntityExporter::changeHealth(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    entityPtr->changeHealth(luaL_checknumber(L, 2));
+    (*entityPtr)->changeHealth(luaL_checknumber(L, 2));
 
     return 0;
 }
@@ -34,7 +34,7 @@ int EntityExporter::changeHealth(lua_State* L)
 int EntityExporter::getHealth(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    lua_pushnumber(L, entityPtr->getHealth());
+    lua_pushnumber(L, (*entityPtr)->getHealth());
 
     return 1;
 }
@@ -43,7 +43,7 @@ int EntityExporter::setPosition(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
-    entityPtr->setPosition(*vecPtr);
+    (*entityPtr)->setPosition(*vecPtr);
 
     return 0;
 }
@@ -51,7 +51,7 @@ int EntityExporter::setPosition(lua_State* L)
 int EntityExporter::getPosition(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    Vector2Exporter::createVector(L, entityPtr->getPosition());
+    Vector2Exporter::createVector(L, (*entityPtr)->getPosition());
 
     return 1;
 }
@@ -60,7 +60,7 @@ int EntityExporter::move(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
-    entityPtr->move(*vecPtr);
+    (*entityPtr)->move(*vecPtr);
 
     return 0;
 }
@@ -68,7 +68,7 @@ int EntityExporter::move(lua_State* L)
 int EntityExporter::getName(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    lua_pushstring(L, entityPtr->getName().c_str());
+    lua_pushstring(L, (*entityPtr)->getName().c_str());
 
     return 1;
 }
@@ -76,7 +76,7 @@ int EntityExporter::getName(lua_State* L)
 int EntityExporter::setMetadata(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    entityPtr->setMetadata(luaL_checkstring(L, 2));
+    (*entityPtr)->setMetadata(luaL_checkstring(L, 2));
 
     return 0;
 }
@@ -84,7 +84,7 @@ int EntityExporter::setMetadata(lua_State* L)
 int EntityExporter::getMetadata(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    lua_pushstring(L, entityPtr->getMetadata().c_str());
+    lua_pushstring(L, (*entityPtr)->getMetadata().c_str());
 
     return 1;
 }
@@ -94,7 +94,7 @@ int EntityExporter::setCollider(lua_State* L)
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     Lua_Collider* colliderPtr = static_cast<Lua_Collider*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLLIDER_METATABLENAME) );
 
-    entityPtr->setCollider(*colliderPtr);
+    (*entityPtr)->setCollider(*colliderPtr);
 
     return 0;
 }
@@ -102,7 +102,7 @@ int EntityExporter::setCollider(lua_State* L)
 int EntityExporter::getGlobal(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    lua_State* sourceState = entityPtr->getLuaState();
+    lua_State* sourceState = (*entityPtr)->getLuaState();
     std::string varname = lua_tostring(L, 2);
 
     lua_getglobal(sourceState, varname.c_str());
@@ -112,7 +112,7 @@ int EntityExporter::getGlobal(lua_State* L)
 int EntityExporter::setGlobal(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    lua_State* targetState = entityPtr->getLuaState();
+    lua_State* targetState = (*entityPtr)->getLuaState();
     std::string varname = lua_tostring(L, 2);
     int returnVal = LuaHelper::MoveData(L, targetState, 3);
     if(!returnVal) return 0;
@@ -124,7 +124,7 @@ int EntityExporter::setGlobal(lua_State* L)
 int EntityExporter::runCode(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    lua_State* entityState = entityPtr->getLuaState();
+    lua_State* entityState = (*entityPtr)->getLuaState();
     std::string code = luaL_checkstring(L, 2);
     luaL_dostring(entityState, code.c_str());
 

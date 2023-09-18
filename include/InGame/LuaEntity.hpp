@@ -38,4 +38,5 @@ private:
     LuaFunction m_onCollisionExitFunction;
 
     std::filesystem::path m_assetsFolderPath;
+    LuaEntity** thisPtr;
 };

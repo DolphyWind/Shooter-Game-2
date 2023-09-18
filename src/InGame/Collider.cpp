@@ -2,17 +2,20 @@
 #include <InGame/Entity.hpp>
 
 Collider::Collider(Entity* entity):
-    m_isStatic(false), m_colliderCenter(), m_points(), m_innerLines(), m_outerLines()
+    m_colliderCenter(), m_points(), m_innerLines(), m_outerLines()
 {
     setEntity(entity);
+    setStatic(false);
+    setImmovable(false);
 }
 
 Collider::Collider(const std::vector<sfex::Vec2>& points, bool isStatic, Entity* entity):
-    m_points(), m_innerLines(), m_outerLines()
+    m_colliderCenter(), m_points(), m_innerLines(), m_outerLines()
 {
     setEntity(entity);
     setPoints(points);
     setStatic(isStatic);
+    setImmovable(false);
 }
 
 void Collider::setPoints(const std::vector<sfex::Vec2>& points)

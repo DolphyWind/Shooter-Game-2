@@ -4,8 +4,8 @@
 
 void ContextSettingsExporter::createContextSetting(lua_State *L, const Lua_ContextSettings& settings)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_ContextSettings));
-    new (data) Lua_ContextSettings(settings);
+    void* data = lua_newuserdata(L, sizeof(Lua_ContextSettings*));
+    new (data) Lua_ContextSettings*(new Lua_ContextSettings(settings));
     luaL_getmetatable(L, LUA_CONTEXTSETTINGS_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -36,49 +36,50 @@ int ContextSettingsExporter::__new(lua_State *L)
 
 int ContextSettingsExporter::__destroy(lua_State *L)
 {
-    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
-    contextSettingsPtr->~Lua_ContextSettings();
+    Lua_ContextSettings** contextSettingsPtr = static_cast<Lua_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    (*contextSettingsPtr)->~Lua_ContextSettings();
+    delete (*contextSettingsPtr);
     return 0;
 }
 
 int ContextSettingsExporter::__index(lua_State *L)
 {
-    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    Lua_ContextSettings** contextSettingsPtr = static_cast<Lua_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "depthBits")
     {
-        lua_pushinteger(L, contextSettingsPtr->depthBits);
+        lua_pushinteger(L, (*contextSettingsPtr)->depthBits);
         return 1;
     }
     else if(indexStr == "stencilBits")
     {
-        lua_pushinteger(L, contextSettingsPtr->stencilBits);
+        lua_pushinteger(L, (*contextSettingsPtr)->stencilBits);
         return 1;
     }
     else if(indexStr == "antialiasingLevel")
     {
-        lua_pushinteger(L, contextSettingsPtr->antialiasingLevel);
+        lua_pushinteger(L, (*contextSettingsPtr)->antialiasingLevel);
         return 1;
     }
     else if(indexStr == "majorVersion")
     {
-        lua_pushinteger(L, contextSettingsPtr->majorVersion);
+        lua_pushinteger(L, (*contextSettingsPtr)->majorVersion);
         return 1;
     }
     else if(indexStr == "minorVersion")
     {
-        lua_pushinteger(L, contextSettingsPtr->minorVersion);
+        lua_pushinteger(L, (*contextSettingsPtr)->minorVersion);
         return 1;
     }
     else if(indexStr == "attributeFlags")
     {
-        lua_pushinteger(L, contextSettingsPtr->attributeFlags);
+        lua_pushinteger(L, (*contextSettingsPtr)->attributeFlags);
         return 1;
     }
     else if(indexStr == "sRgbCapable")
     {
-        lua_pushboolean(L, contextSettingsPtr->sRgbCapable);
+        lua_pushboolean(L, (*contextSettingsPtr)->sRgbCapable);
         return 1;
     }
     else if(indexStr == "Attribute_Default")
@@ -105,42 +106,42 @@ int ContextSettingsExporter::__index(lua_State *L)
 
 int ContextSettingsExporter::__newindex(lua_State *L)
 {
-    Lua_ContextSettings* contextSettingsPtr = static_cast<Lua_ContextSettings*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    Lua_ContextSettings** contextSettingsPtr = static_cast<Lua_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "depthBits")
     {
-        lua_numbertointeger(luaL_checknumber(L, 3), &contextSettingsPtr->depthBits);
+        lua_numbertointeger(luaL_checknumber(L, 3), &(*contextSettingsPtr)->depthBits);
         return 0;
     }
     else if(indexStr == "stencilBits")
     {
-        lua_numbertointeger(luaL_checknumber(L, 3), &contextSettingsPtr->stencilBits);
+        lua_numbertointeger(luaL_checknumber(L, 3), &(*contextSettingsPtr)->stencilBits);
         return 0;
     }
     else if(indexStr == "antialiasingLevel")
     {
-        lua_numbertointeger(luaL_checknumber(L, 3), &contextSettingsPtr->antialiasingLevel);
+        lua_numbertointeger(luaL_checknumber(L, 3), &(*contextSettingsPtr)->antialiasingLevel);
         return 0;
     }
     else if(indexStr == "majorVersion")
     {
-        lua_numbertointeger(luaL_checknumber(L, 3), &contextSettingsPtr->majorVersion);
+        lua_numbertointeger(luaL_checknumber(L, 3), &(*contextSettingsPtr)->majorVersion);
         return 0;
     }
     else if(indexStr == "minorVersion")
     {
-        lua_numbertointeger(luaL_checknumber(L, 3), &contextSettingsPtr->minorVersion);
+        lua_numbertointeger(luaL_checknumber(L, 3), &(*contextSettingsPtr)->minorVersion);
         return 0;
     }
     else if(indexStr == "attributeFlags")
     {
-        lua_numbertointeger(luaL_checknumber(L, 3), &contextSettingsPtr->attributeFlags);
+        lua_numbertointeger(luaL_checknumber(L, 3), &(*contextSettingsPtr)->attributeFlags);
         return 0;
     }
     else if(indexStr == "sRgbCapable")
     {
-        contextSettingsPtr->sRgbCapable = lua_toboolean(L, 3);
+        (*contextSettingsPtr)->sRgbCapable = lua_toboolean(L, 3);
         return 0;
     }
 
