@@ -129,7 +129,7 @@ int TextureExporter::update(lua_State* L)
     else if(LuaHelper::checkudata_orNull(L, 2, LUA_RENDERWINDOW_METATABLENAME))
     {
         Lua_RenderWindow* windowToCopyPtr = static_cast<Lua_RenderWindow*>(lua_touserdata(L, 2));
-        texturePtr->update(*windowToCopyPtr, x, y);
+        texturePtr->update(**windowToCopyPtr, x, y);
     }
 
     return 0;

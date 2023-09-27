@@ -1,6 +1,9 @@
-#include <Modding/ModLoader.hpp>
+#include <Modding/ModManager.hpp>
+#include <InGame/GameManager.hpp>
+#include <InGame/Entity.hpp>
+#include <Global.hpp>
 
-ModLoader::ModLoader(const fs::path& modsFolder):
+ModManager::ModManager(const fs::path& modsFolder):
     m_mods(), m_modsFolder(modsFolder)
 {
     for(auto& entry : fs::directory_iterator(modsFolder))
@@ -17,7 +20,7 @@ ModLoader::ModLoader(const fs::path& modsFolder):
     }
 }
 
-bool ModLoader::isLoaded(const std::string& modName)
+bool ModManager::isLoaded(const std::string& modName)
 {
     for(auto& mod : m_mods)
     {
@@ -27,7 +30,7 @@ bool ModLoader::isLoaded(const std::string& modName)
     return false;
 }
 
-void ModLoader::loadMod(const fs::path& modPath, std::vector<std::string> dependencyStack)
+void ModManager::loadMod(const fs::path& modPath, std::vector<std::string> dependencyStack)
 {
     Mod currentMod;
     currentMod.load(modPath);
@@ -60,7 +63,35 @@ void ModLoader::loadMod(const fs::path& modPath, std::vector<std::string> depend
     m_mods.push_back(currentMod);
 }
 
-const std::vector<Mod>& ModLoader::getMods()
+const std::vector<Mod>& ModManager::getMods()
 {
     return m_mods;
+}
+
+std::optional<std::pair<Mod, EntityData>> ModManager::getEntityData(const std::string& modName, const std::string& entityName)
+{
+    for(auto& mod : m_mods)
+    {
+        if(mod.config.getModName() == modName)
+        {
+            for(auto& entity : mod.config.getEntities())
+            {
+                if(entity.name == entityName)
+                    return std::pair{mod, entity};
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
+Entity* ModManager::spawnEntity(const std::string& modName, const std::string& entityName)
+{
+    std::optional<std::pair<Mod, EntityData>> entityData = getEntityData(modName, entityName);
+    if(!entityData.has_value())
+    {
+        return nullptr;
+    }
+
+    return Global::defaultGameManager.spawnEntity(entityData.value());
 }

@@ -9,7 +9,7 @@
 #include <InGame/Entity.hpp>
 #include <InGame/GameManager.hpp>
 #include <Modding/Mod.hpp>
-#include <Modding/ModLoader.hpp>
+#include <Modding/ModManager.hpp>
 
 class Game;
 class DebugScene : public ExtendedScene
@@ -30,5 +30,4 @@ private:
     tgui::ToggleButton::Ptr m_drawCollidersToggle; 
 
     sf::Clock m_f3Clock;
-    GameManager m_gameManager;
 };

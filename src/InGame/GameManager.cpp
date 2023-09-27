@@ -1,7 +1,10 @@
 #include <InGame/GameManager.hpp>
+#include <InGame/Entity.hpp>
+#include <InGame/LuaEntity.hpp>
+#include <InGame/Game.hpp>
 
-GameManager::GameManager():
-    m_entities()
+GameManager::GameManager(Game* game):
+    m_entities(), m_parent(game)
 {
 
 }
@@ -45,6 +48,16 @@ void GameManager::destroy()
 {
     // This will call entity->onDestroy()
     m_entities.clear();
+}
+
+void GameManager::setParent(Game* parent)
+{
+    m_parent = parent;
+}
+
+Game* GameManager::getParent()
+{
+    return m_parent;
 }
 
 void GameManager::checkCollisions()
@@ -94,4 +107,9 @@ void GameManager::handleEvent(const sf::Event& e)
 std::vector<std::unique_ptr<Entity>>& GameManager::getEntities()
 {
     return m_entities;
+}
+
+Entity* GameManager::spawnEntity(const std::pair<Mod, EntityData>& entityData)
+{
+    return addEntity<LuaEntity>(m_parent, entityData.first.entitiesFolderPath / entityData.second.file, entityData.first.assetsFolderPath);
 }

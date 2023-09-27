@@ -4,7 +4,7 @@
 
 #define LUA_RENDERWINDOW_CLASSNAME "RenderWindow"
 #define LUA_RENDERWINDOW_METATABLENAME LUA_RENDERWINDOW_CLASSNAME"_metatable"
-typedef sf::RenderWindow Lua_RenderWindow;
+typedef sf::RenderWindow* Lua_RenderWindow;
 
 class LuaExporter;
 struct RenderWindowExporter

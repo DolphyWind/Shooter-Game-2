@@ -10,8 +10,8 @@ class LuaExporter;
 struct EntityExporter
 {
     // These will be implemented later when I create the mod manager.
-//    static void createEntity(lua_State* L, const Lua_ContextSettings& settings);
-//    static int __new(lua_State* L);
+    static void createEntity(lua_State* L, const std::string& modName, const std::string& entityName);
+    static int __new(lua_State* L);
 //    static int __destroy(lua_State* L);
     static int __index(lua_State* L);
 //    static int __newindex(lua_State* L);

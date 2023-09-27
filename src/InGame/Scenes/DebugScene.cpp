@@ -28,7 +28,7 @@ void DebugScene::handleEvent(const sf::Event &e)
         m_welcomeLabel->setTextSize(18 * scale_percentage);
     }
 
-    m_gameManager.handleEvent(e);
+    Global::defaultGameManager.handleEvent(e);
 }
 
 void DebugScene::start()
@@ -38,15 +38,12 @@ void DebugScene::start()
     gui->add(m_welcomeLabel);
     gui->add(m_drawCollidersToggle);
 
-    m_gameManager.addEntity<Player>(getParent(), true);
-    m_gameManager.addEntity<Player>(getParent(), false);
-    m_gameManager.addEntity<LuaEntity>(getParent(), "entity.lua", ".");
+    Global::defaultGameManager.addEntity<Player>(getParent(), true);
+    Global::defaultGameManager.addEntity<Player>(getParent(), false);
+    Global::defaultGameManager.addEntity<LuaEntity>(getParent(), "entity.lua", ".");
 
-    m_gameManager.getEntities()[0]->setPosition({100, 100});
-    m_gameManager.getEntities()[1]->setPosition({300, 300});
-
-    ModLoader modLoader(fs::current_path() / "mods");
-    std::cout << "Loaded " << modLoader.getMods().size() << " mods total." << std::endl;
+    Global::defaultGameManager.getEntities()[0]->setPosition({100, 100});
+    Global::defaultGameManager.getEntities()[1]->setPosition({300, 300});
 }
 
 void DebugScene::update(const sf::Time& deltaTime)
@@ -60,21 +57,21 @@ void DebugScene::update(const sf::Time& deltaTime)
         getParent()->switchScene("main_menu");
     }
 
-    m_gameManager.update(deltaTime);
+    Global::defaultGameManager.update(deltaTime);
 }
 
 void DebugScene::lateUpdate(const sf::Time& deltaTime)
 {
-    m_gameManager.lateUpdate(deltaTime);
+    Global::defaultGameManager.lateUpdate(deltaTime);
 }
 
 void DebugScene::render(sf::RenderTarget &target)
 {
-    m_gameManager.render(target, m_drawCollidersToggle->isDown());
+    Global::defaultGameManager.render(target, m_drawCollidersToggle->isDown());
 }
 
 void DebugScene::destroy()
 {
     getParent()->getGUI()->removeAllWidgets();
-    m_gameManager.destroy();
+    Global::defaultGameManager.destroy();
 }

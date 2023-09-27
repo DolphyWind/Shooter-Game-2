@@ -3,6 +3,7 @@
 #include <Modding/LuaFunction.hpp>
 #include <filesystem>
 
+class Game;
 struct lua_State;
 class LuaEntity : public Entity
 {

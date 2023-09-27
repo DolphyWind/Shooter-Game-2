@@ -1,8 +1,35 @@
 #include <Modding/LuaExporter.hpp>
 #include <InGame/LuaEntity.hpp>
+#include <InGame/GameManager.hpp>
 #include <Modding/Exporters/EntityExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <Modding/Exporters/ColliderExporter.hpp>
+
+void EntityExporter::createEntity(lua_State* L, const std::string& modName, const std::string& entityName)
+{
+    void* data = lua_newuserdata(L, sizeof(Lua_Entity));
+    Entity* spawnedPtr = Global::defaultModManager.spawnEntity(modName, entityName);
+    LuaEntity* luaEntityPtr = dynamic_cast<LuaEntity*>(spawnedPtr);
+
+    new (data) Lua_Entity(luaEntityPtr);
+    luaL_getmetatable(L, LUA_ENTITY_METATABLENAME);
+    lua_setmetatable(L, -2);
+}
+
+int EntityExporter::__new(lua_State* L)
+{
+    int arg_count = lua_gettop(L);
+    if(arg_count != 2)
+    {
+        return 0;
+    }
+
+    std::string modName = luaL_checkstring(L, 1);
+    std::string entityName = luaL_checkstring(L, 2);
+    createEntity(L, modName, entityName);
+
+    return 1;
+}
 
 int EntityExporter::__index(lua_State* L)
 {
@@ -135,7 +162,7 @@ LuaExporter EntityExporter::toLuaExporter()
 {
     LuaExporter exporter(
         LUA_ENTITY_CLASSNAME,
-        nullptr,
+        __new,
         {
             {"setHealth", EntityExporter::setHealth},
             {"changeHealth", EntityExporter::changeHealth},

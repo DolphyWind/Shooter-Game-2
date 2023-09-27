@@ -34,7 +34,7 @@ int ColorExporter::__new(lua_State *L)
         luaL_error(L, "Given argument should have type userdata, not %d", lua_typename(L, lua_type(L, 1)));
         return 0;
     }
-    else if(arg_count == 3 || arg_count == 4)
+    else if(arg_count >= 3)
     {
         lua_Number r_num = luaL_checknumber(L, 1);
         lua_Number g_num = luaL_checknumber(L, 2);
@@ -50,7 +50,7 @@ int ColorExporter::__new(lua_State *L)
         sf::Uint8 a = 255;
 
         lua_Number a_num;
-        if(arg_count == 4)
+        if(arg_count >= 4)
         {
             a_num = luaL_checknumber(L, 4);
             a_num = std::clamp(a_num, lua_Number(0), lua_Number(255));

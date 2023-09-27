@@ -1,8 +1,10 @@
 #include <lua.hpp>
 #include <InGame/LuaEntity.hpp>
+#include <InGame/Game.hpp>
 #include <Modding/ShooterGameExporter.hpp>
 #include <Modding/Exporters/EntityExporter.hpp>
 #include <Modding/Exporters/EventExporter.hpp>
+#include <Modding/Exporters/RenderWindowExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 
 LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath):
@@ -14,11 +16,12 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
 
     lua_pushstring(m_entityLuaState, assetsFolderPath.string().c_str());
     lua_setglobal(m_entityLuaState, ASSETSPATH_VARNAME);
-    lua_pushcfunction(m_entityLuaState, LuaHelper::GetMainWindow);
-    lua_setglobal(m_entityLuaState, "GetMainWindow");
+
+    LuaHelper::push(m_entityLuaState, &Global::mainWindow, sizeof(sf::RenderWindow**), LUA_RENDERWINDOW_METATABLENAME);
+    lua_setglobal(m_entityLuaState, "main_window");
+
     thisPtr = new LuaEntity*(this);
     LuaHelper::push(m_entityLuaState, thisPtr, sizeof(LuaEntity*), LUA_ENTITY_METATABLENAME);
-//    LuaHelper::push(m_entityLuaState, thisPtr);
     lua_setglobal(m_entityLuaState, "this");
     lua_pushcfunction(m_entityLuaState, LuaHelper::InterpretLUdataAs);
     lua_setglobal(m_entityLuaState, "InterpretLUdataAs");
@@ -34,7 +37,7 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
     m_updateFunction.load(m_entityLuaState, "update", 1, 0);
     m_lateUpdateFunction.load(m_entityLuaState, "lateUpdate", 1, 0);
     m_onDestroyFunction.load(m_entityLuaState, "onDestroy", 0, 0);
-    m_renderFunction.load(m_entityLuaState, "render", 1, 0);
+    m_renderFunction.load(m_entityLuaState, "render", 0, 0);
     m_onCollisionEnterFunction.load(m_entityLuaState, "onCollisionEnter", 1, 0);
     m_onCollisionStayFunction.load(m_entityLuaState, "onCollisionStay", 1, 0);
     m_onCollisionExitFunction.load(m_entityLuaState, "onCollisionExit", 1, 0);
@@ -77,8 +80,7 @@ void LuaEntity::onDestroy()
 
 void LuaEntity::render(sf::RenderTarget& target)
 {
-    // For some reason passing the target gives a segfault. So I had to pass the global window here
-    m_renderFunction((void*)Global::mainWindow);
+    m_renderFunction();
 }
 
 void LuaEntity::onDeath()

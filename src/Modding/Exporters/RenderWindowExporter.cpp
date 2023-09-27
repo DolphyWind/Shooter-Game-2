@@ -14,7 +14,7 @@
 void RenderWindowExporter::createRenderWindow(lua_State *L, sf::VideoMode mode, const std::string& title, sf::Uint32 style, const sf::ContextSettings& settings)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_RenderWindow));
-    new (data) Lua_RenderWindow(mode, title, style, settings);
+    new (data) Lua_RenderWindow(new sf::RenderWindow(mode, title, style, settings));
     luaL_getmetatable(L, LUA_RENDERWINDOW_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -88,14 +88,14 @@ int RenderWindowExporter::__index(lua_State *L)
 int RenderWindowExporter::__destroy(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->~Lua_RenderWindow();
+    (*renderWindowPtr)->~RenderWindow();
     return 0;
 }
 
 int RenderWindowExporter::getSize(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Vector2Exporter::createVector(L, renderWindowPtr->getSize());
+    Vector2Exporter::createVector(L, (*renderWindowPtr)->getSize());
     return 1;
 }
 
@@ -110,28 +110,28 @@ int RenderWindowExporter::setActive(lua_State *L)
         active = lua_toboolean(L, 2);
     }
 
-    renderWindowPtr->setActive(active);
+    (*renderWindowPtr)->setActive(active);
     return 0;
 }
 
 int RenderWindowExporter::close(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->close();
+    (*renderWindowPtr)->close();
     return 0;
 }
 
 int RenderWindowExporter::isOpen(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    lua_pushboolean(L, renderWindowPtr->isOpen());
+    lua_pushboolean(L, (*renderWindowPtr)->isOpen());
     return 1;
 }
 
 int RenderWindowExporter::getSettings(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    ContextSettingsExporter::createContextSetting(L, renderWindowPtr->getSettings());
+    ContextSettingsExporter::createContextSetting(L, (*renderWindowPtr)->getSettings());
     return 1;
 }
 
@@ -139,7 +139,7 @@ int RenderWindowExporter::pollEvent(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_Event* eventPtr = static_cast<Lua_Event*>( LuaHelper::checkudata_WithError(L, 2, LUA_EVENT_METATABLENAME) );
-    lua_pushboolean(L, renderWindowPtr->pollEvent(*eventPtr));
+    lua_pushboolean(L, (*renderWindowPtr)->pollEvent(*eventPtr));
 
     return 1;
 }
@@ -148,14 +148,14 @@ int RenderWindowExporter::waitEvent(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_Event* eventPtr = static_cast<Lua_Event*>( LuaHelper::checkudata_WithError(L, 2, LUA_EVENT_METATABLENAME) );
-    lua_pushboolean(L, renderWindowPtr->waitEvent(*eventPtr));
+    lua_pushboolean(L, (*renderWindowPtr)->waitEvent(*eventPtr));
     return 1;
 }
 
 int RenderWindowExporter::getPosition(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Vector2Exporter::createVector(L, renderWindowPtr->getPosition());
+    Vector2Exporter::createVector(L, (*renderWindowPtr)->getPosition());
     return 1;
 }
 
@@ -163,7 +163,7 @@ int RenderWindowExporter::setPosition(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_Vector2* positionPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
-    renderWindowPtr->setPosition( *positionPtr );
+    (*renderWindowPtr)->setPosition( *positionPtr );
     return 0;
 }
 
@@ -171,7 +171,7 @@ int RenderWindowExporter::setSize(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_Vector2* sizePtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
-    renderWindowPtr->setSize( *sizePtr );
+    (*renderWindowPtr)->setSize( *sizePtr );
 
     return 0;
 }
@@ -180,7 +180,7 @@ int RenderWindowExporter::setTitle(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     std::string titleStr = luaL_checkstring(L, 2);
-    renderWindowPtr->setTitle(titleStr);
+    (*renderWindowPtr)->setTitle(titleStr);
 
     return 0;
 }
@@ -189,7 +189,7 @@ int RenderWindowExporter::setIcon(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_Image* iconPtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
-    renderWindowPtr->setIcon(iconPtr->getSize().x, iconPtr->getSize().y, iconPtr->getPixelsPtr());
+    (*renderWindowPtr)->setIcon(iconPtr->getSize().x, iconPtr->getSize().y, iconPtr->getPixelsPtr());
 
     return 0;
 }
@@ -197,7 +197,7 @@ int RenderWindowExporter::setIcon(lua_State *L)
 int RenderWindowExporter::setVisible(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->setVisible( lua_toboolean(L, 2) );
+    (*renderWindowPtr)->setVisible( lua_toboolean(L, 2) );
 
     return 0;
 }
@@ -205,7 +205,7 @@ int RenderWindowExporter::setVisible(lua_State *L)
 int RenderWindowExporter::setVerticalSyncEnabled(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->setVerticalSyncEnabled( lua_toboolean(L, 2) );
+    (*renderWindowPtr)->setVerticalSyncEnabled( lua_toboolean(L, 2) );
     
     return 0;
 }
@@ -213,7 +213,7 @@ int RenderWindowExporter::setVerticalSyncEnabled(lua_State *L)
 int RenderWindowExporter::setMouseCursorVisible(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->setMouseCursorVisible( lua_toboolean(L, 2) );
+    (*renderWindowPtr)->setMouseCursorVisible( lua_toboolean(L, 2) );
     
     return 0;
 }
@@ -221,7 +221,7 @@ int RenderWindowExporter::setMouseCursorVisible(lua_State *L)
 int RenderWindowExporter::setMouseCursorGrabbed(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->setMouseCursorGrabbed( lua_toboolean(L, 2) );
+    (*renderWindowPtr)->setMouseCursorGrabbed( lua_toboolean(L, 2) );
     
     return 0;
 }
@@ -231,14 +231,14 @@ int RenderWindowExporter::setMouseCursor(lua_State *L)
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( LuaHelper::checkudata_WithError(L, 2, LUA_CURSOR_METATABLENAME) );
 
-    renderWindowPtr->setMouseCursor(*cursorPtr);
+    (*renderWindowPtr)->setMouseCursor(*cursorPtr);
     return 0;
 }
 
 int RenderWindowExporter::setKeyRepeatEnabled(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->setKeyRepeatEnabled( lua_toboolean(L, 2) );
+    (*renderWindowPtr)->setKeyRepeatEnabled( lua_toboolean(L, 2) );
     
     return 0;
 }
@@ -248,7 +248,7 @@ int RenderWindowExporter::setFramerateLimit(lua_State *L)
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     lua_Integer framerateLimit;
     lua_numbertointeger(luaL_checknumber(L, 2), &framerateLimit);
-    renderWindowPtr->setFramerateLimit(framerateLimit);
+    (*renderWindowPtr)->setFramerateLimit(framerateLimit);
 
     return 0;
 }
@@ -256,28 +256,28 @@ int RenderWindowExporter::setFramerateLimit(lua_State *L)
 int RenderWindowExporter::setJoystickTreshold(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->setJoystickThreshold( luaL_checknumber(L, 2) );
+    (*renderWindowPtr)->setJoystickThreshold( luaL_checknumber(L, 2) );
     return 0;
 }
 
 int RenderWindowExporter::requestFocus(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->requestFocus();
+    (*renderWindowPtr)->requestFocus();
     return 0;
 }
 
 int RenderWindowExporter::hasFocus(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    lua_pushboolean(L, renderWindowPtr->hasFocus());
+    lua_pushboolean(L, (*renderWindowPtr)->hasFocus());
     return 1;
 }
 
 int RenderWindowExporter::display(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->display();
+    (*renderWindowPtr)->display();
     return 0;
 }
 
@@ -290,7 +290,7 @@ int RenderWindowExporter::clear(lua_State *L)
     {
         clearColor = *static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     }
-    renderWindowPtr->clear(clearColor);
+    (*renderWindowPtr)->clear(clearColor);
 
     return 0;
 }
@@ -299,7 +299,7 @@ int RenderWindowExporter::setView(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIEW_METATABLENAME) );
-    renderWindowPtr->setView(*viewPtr);
+    (*renderWindowPtr)->setView(*viewPtr);
 
     return 0;
 }
@@ -307,7 +307,7 @@ int RenderWindowExporter::setView(lua_State *L)
 int RenderWindowExporter::getView(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    ViewExporter::createView(L, renderWindowPtr->getView());
+    ViewExporter::createView(L, (*renderWindowPtr)->getView());
     
     return 1;
 }
@@ -315,7 +315,7 @@ int RenderWindowExporter::getView(lua_State *L)
 int RenderWindowExporter::getDefaultView(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    ViewExporter::createView(L, renderWindowPtr->getDefaultView());
+    ViewExporter::createView(L, (*renderWindowPtr)->getDefaultView());
     
     return 1;
 }
@@ -324,7 +324,7 @@ int RenderWindowExporter::getViewPort(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIEW_METATABLENAME) );
-    IntRectExporter::createIntRect(L, renderWindowPtr->getViewport(*viewPtr));
+    IntRectExporter::createIntRect(L, (*renderWindowPtr)->getViewport(*viewPtr));
     
     return 1;
 }
@@ -337,12 +337,12 @@ int RenderWindowExporter::mapPixelToCoords(lua_State *L)
 
     if(arg_count == 2)
     {
-        Vector2Exporter::createVector(L, renderWindowPtr->mapPixelToCoords(*pointPtr));
+        Vector2Exporter::createVector(L, (*renderWindowPtr)->mapPixelToCoords(*pointPtr));
         return 1;
     }
 
     Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 3, LUA_VIEW_METATABLENAME) );
-    Vector2Exporter::createVector(L, renderWindowPtr->mapPixelToCoords(*pointPtr, *viewPtr));
+    Vector2Exporter::createVector(L, (*renderWindowPtr)->mapPixelToCoords(*pointPtr, *viewPtr));
 
     return 1;
 }
@@ -355,12 +355,12 @@ int RenderWindowExporter::mapCoordsToPixel(lua_State *L)
 
     if(arg_count == 2)
     {
-        Vector2Exporter::createVector(L, renderWindowPtr->mapCoordsToPixel(*pointPtr));
+        Vector2Exporter::createVector(L, (*renderWindowPtr)->mapCoordsToPixel(*pointPtr));
         return 1;
     }
 
     Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 3, LUA_VIEW_METATABLENAME) );
-    Vector2Exporter::createVector(L, renderWindowPtr->mapCoordsToPixel(*pointPtr, *viewPtr));
+    Vector2Exporter::createVector(L, (*renderWindowPtr)->mapCoordsToPixel(*pointPtr, *viewPtr));
 
     return 1;
 }
@@ -370,28 +370,28 @@ int RenderWindowExporter::draw(lua_State *L)
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
     sf::Drawable* drawablePtr = static_cast<sf::Drawable*>( lua_touserdata(L, 2) );
 
-    renderWindowPtr->draw(*drawablePtr);
+    (*renderWindowPtr)->draw(*drawablePtr);
     return 0;
 }
 
 int RenderWindowExporter::pushGLStates(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->pushGLStates();
+    (*renderWindowPtr)->pushGLStates();
     return 0;
 }
 
 int RenderWindowExporter::popGLStates(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->popGLStates();
+    (*renderWindowPtr)->popGLStates();
     return 0;
 }
 
 int RenderWindowExporter::resetGLStates(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    renderWindowPtr->resetGLStates();
+    (*renderWindowPtr)->resetGLStates();
     return 0;
 }
 
