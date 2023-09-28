@@ -9,6 +9,11 @@ GameManager::GameManager(Game* game):
 
 }
 
+GameManager::~GameManager()
+{
+
+}
+
 void GameManager::start()
 {
     for(auto& e : m_entities)
@@ -46,8 +51,9 @@ void GameManager::render(sf::RenderTarget& target, bool debugRender)
 
 void GameManager::destroy()
 {
-    // This will call entity->onDestroy()
     m_entities.clear();
+    m_collisionTable.clear();
+    m_parent = nullptr;
 }
 
 void GameManager::setParent(Game* parent)
@@ -104,7 +110,7 @@ void GameManager::handleEvent(const sf::Event& e)
     }
 }
 
-std::vector<std::unique_ptr<Entity>>& GameManager::getEntities()
+std::vector<std::shared_ptr<Entity>>& GameManager::getEntities()
 {
     return m_entities;
 }

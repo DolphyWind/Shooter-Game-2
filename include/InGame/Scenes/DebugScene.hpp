@@ -12,7 +12,7 @@
 #include <Modding/ModManager.hpp>
 
 class Game;
-class DebugScene : public ExtendedScene
+class DebugScene final : public ExtendedScene
 {
 public:
     DebugScene(Game* parent);

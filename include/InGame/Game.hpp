@@ -5,7 +5,7 @@
 #include <InGame/Scenes/AboutScene.hpp>
 #include <InGame/Scenes/DebugScene.hpp>
 #include <OsSpecific/WindowFunctionalities.hpp>
-#include <imgui-SFML.h>
+// #include <imgui-SFML.h>
 #include <ResourceManagement/TGUIFontManager.hpp>
 #include <OsSpecific/Config.hpp>
 #include "Version.hpp"

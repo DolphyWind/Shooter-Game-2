@@ -88,7 +88,6 @@ int EntityExporter::move(lua_State* L)
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     (*entityPtr)->move(*vecPtr);
-
     return 0;
 }
 

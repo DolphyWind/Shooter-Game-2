@@ -10,6 +10,7 @@ private:
     Game* m_parent;
 public:
     ExtendedScene(Game* parent);
+    virtual ~ExtendedScene() = default;
 
     virtual void handleEvent(const sf::Event &e) override;
     virtual void start() override;

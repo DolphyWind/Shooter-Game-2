@@ -7,6 +7,7 @@ donutSize = Vector2.new(0, 0)
 local outerCircleRadius = 0
 
 function start()
+    print("Wall spawned")
     if donutTexture:loadFromFile("donut.png") then
         donutLoaded = true
         donutSprite:setTexture(donutTexture)
@@ -25,14 +26,10 @@ function start()
         donutCollider:setImmovable(true)
         donutCollider:setStatic(true)
         this:setCollider(donutCollider)
-
-        outerCircleRadius = donutSize:magnitude() / 2
     end
 end
 
 function update(dt)
-    InterpretLUdataAs("Entity")
-
     playerSpeed.x = 0
     playerSpeed.y = 0
 
@@ -49,7 +46,7 @@ function update(dt)
         if Keyboard.getKey(Keyboard.Up) then
             playerSpeed.y = playerSpeed.y - playerVelocity
         end
-
+        
         this:move(playerSpeed * dt)
     end
 end

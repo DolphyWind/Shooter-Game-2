@@ -10,8 +10,7 @@
 
 
 class Game;
-
-class MainMenuScene : public ExtendedScene
+class MainMenuScene final : public ExtendedScene
 {
 private:
     MovingGradient m_titleGradient;

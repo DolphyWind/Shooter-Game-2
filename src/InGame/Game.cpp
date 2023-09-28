@@ -27,7 +27,12 @@ Game::Game():
 
 Game::~Game()
 {
-    if(m_window.isOpen()) m_window.close();
+    if(m_window.isOpen())
+    {
+        m_currentScene->destroy();
+        Global::defaultGameManager.destroy();
+        m_window.close();
+    }
 }
 
 void Game::handleEvents()
@@ -36,12 +41,14 @@ void Game::handleEvents()
     {
         if(m_event.type == sf::Event::Closed)
         {
+            m_currentScene->destroy();
+            Global::defaultGameManager.destroy();
             m_window.close();
         }
         else if(m_event.type == sf::Event::Resized)
         {
             sfex::Vec2u newSize = {m_event.size.width, m_event.size.height};
-            
+
             // Draw vertical bar if the aspect ratio is different than m_targetAspectRatio
             float area_based_on_width = newSize.x * newSize.x / m_targetAspectRatio;
             float area_based_on_height = newSize.y * newSize.y * m_targetAspectRatio;
@@ -98,7 +105,7 @@ void Game::handleEvents()
             }
 #endif
         }
-        ImGui::SFML::ProcessEvent(m_window, m_event);
+        // ImGui::SFML::ProcessEvent(m_window, m_event);
         m_defaultSceneManager.handleEvent(m_event);
         m_gameGui.handleEvent(m_event);
         m_lastWindowPosition = m_window.getPosition();
@@ -127,7 +134,7 @@ void Game::run()
 {
     sf::Clock frameClock;
     sf::Time total_time = sf::Time::Zero;
-    ImGui::SFML::Init(m_window);
+    // ImGui::SFML::Init(m_window);
     
     if(!m_FPS)
     {
@@ -136,7 +143,7 @@ void Game::run()
             handleEvents();
 
             m_deltaTime = total_time = frameClock.restart();
-            ImGui::SFML::Update(m_window, m_deltaTime);
+            // ImGui::SFML::Update(m_window, m_deltaTime);
     
             update(total_time);
             lateUpdate(total_time);
@@ -159,7 +166,7 @@ void Game::run()
             total_time += frameClock.restart();
             while(total_time >= frameTime)
             {
-                ImGui::SFML::Update(m_window, frameTime);
+                // ImGui::SFML::Update(m_window, frameTime);
                 update(frameTime);
                 lateUpdate(frameTime);
 
@@ -174,7 +181,7 @@ void Game::run()
         }
     }
 
-    ImGui::SFML::Shutdown();
+    // ImGui::SFML::Shutdown();
 }
 
 void Game::switchScene(const std::string& sceneName)

@@ -2,12 +2,12 @@
 #include <InGame/Rendering/MovingGradient.hpp>
 #include <InGame/Scenes/ExtendedScene.hpp>
 #include <TGUI/TGUI.hpp>
-#include <thirdparty/imgui/imgui.h>
-#include <imgui-SFML.h>
+// #include <thirdparty/imgui/imgui.h>
+// #include <imgui-SFML.h>
 
 
 class Game;
-class AboutScene : public ExtendedScene
+class AboutScene final : public ExtendedScene
 {
 private:
     MovingGradient m_aboutGradient;
