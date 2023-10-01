@@ -7,7 +7,6 @@ donutSize = Vector2.new(0, 0)
 local outerCircleRadius = 0
 
 function start()
-    print("Wall spawned")
     if donutTexture:loadFromFile("donut.png") then
         donutLoaded = true
         donutSprite:setTexture(donutTexture)

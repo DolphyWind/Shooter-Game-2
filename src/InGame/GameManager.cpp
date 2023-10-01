@@ -47,6 +47,7 @@ void GameManager::render(sf::RenderTarget& target, bool debugRender)
         e->render(target);
         if(debugRender) e->debugRender(target);
     }
+    moveNewEntities();
 }
 
 void GameManager::destroy()
@@ -110,7 +111,7 @@ void GameManager::handleEvent(const sf::Event& e)
     }
 }
 
-std::vector<std::shared_ptr<Entity>>& GameManager::getEntities()
+std::vector<std::unique_ptr<Entity>>& GameManager::getEntities()
 {
     return m_entities;
 }
@@ -118,4 +119,13 @@ std::vector<std::shared_ptr<Entity>>& GameManager::getEntities()
 Entity* GameManager::spawnEntity(const std::pair<Mod, EntityData>& entityData)
 {
     return addEntity<LuaEntity>(m_parent, entityData.first.entitiesFolderPath / entityData.second.file, entityData.first.assetsFolderPath);
+}
+
+void GameManager::moveNewEntities()
+{
+    for(auto& e : m_newEntities)
+    {
+        m_entities.push_back(std::move(e));
+    }
+    m_newEntities.clear();
 }

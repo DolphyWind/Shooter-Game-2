@@ -42,13 +42,12 @@ LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::files
     m_onCollisionStayFunction.load(m_entityLuaState, "onCollisionStay", 1, 0);
     m_onCollisionExitFunction.load(m_entityLuaState, "onCollisionExit", 1, 0);
     m_onDeathFunction.load(m_entityLuaState, "onDeath", 0, 0);
-
     start();
 }
 
 LuaEntity::~LuaEntity()
 {
-    m_onDestroyFunction();
+    onDestroy();
     lua_close(m_entityLuaState);
     delete thisPtr;
 }

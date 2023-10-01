@@ -42,8 +42,8 @@ public:
     bool checkCollisions(const Collider& other) const;
 
 
-    bool operator==(const Collider& collider);
-    bool operator!=(const Collider& collider);
+    bool operator==(const Collider& collider) const;
+    bool operator!=(const Collider& collider) const;
 private:
     bool m_isStatic;
     bool m_isImmovable;

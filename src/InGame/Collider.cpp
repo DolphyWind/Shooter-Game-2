@@ -188,19 +188,24 @@ bool Collider::checkCollisions(const Collider& other) const
 
     if(isStatic() && other.isStatic() && !isImmovable() && getEntity())
     {
+        constexpr float maxDisplacement = 4.f;
+        if(displacementVector.magnitude2() >= maxDisplacement * maxDisplacement)
+        {
+            displacementVector.setMagnitude(maxDisplacement);
+        }
         getEntity()->move(displacementVector);
     }
     return collidedAtLeastOnce;
 }
 
-bool Collider::operator==(const Collider& collider)
+bool Collider::operator==(const Collider& collider) const
 {
     return collider.getPoints() == this->getPoints() &&
            collider.isStatic() == this->isStatic() &&
            collider.isImmovable() == this->isImmovable();
 }
 
-bool Collider::operator!=(const Collider& collider)
+bool Collider::operator!=(const Collider& collider) const
 {
     return !this->operator==(collider);
 }

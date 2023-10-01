@@ -31,10 +31,13 @@ public:
     template<class T, typename... Args>
     T* addEntity(Args&&... args);
     void checkCollisions();
-    std::vector<std::shared_ptr<Entity>>& getEntities();
+    std::vector<std::unique_ptr<Entity>>& getEntities();
     Entity* spawnEntity(const std::pair<Mod, EntityData>& entityData);
+    void moveNewEntities();
 private:
-    std::vector<std::shared_ptr<Entity>> m_entities;
+    std::vector<std::unique_ptr<Entity>> m_entities;
+    std::vector<std::unique_ptr<Entity>> m_newEntities;
+
     std::unordered_map<Entity*, std::unordered_set<Entity*>> m_collisionTable;
     Game* m_parent;
 };
@@ -42,6 +45,6 @@ private:
 template<class T, typename... Args>
 T* GameManager::addEntity(Args&& ... args)
 {
-    m_entities.push_back( std::make_shared<T>(std::forward<Args>(args)...) );
-    return static_cast<T*>(m_entities[m_entities.size() - 1].get());
+    m_newEntities.push_back( std::make_unique<T>(std::forward<Args>(args)...) );
+    return static_cast<T*>(m_newEntities[m_newEntities.size() - 1].get());
 }

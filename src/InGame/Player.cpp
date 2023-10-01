@@ -20,6 +20,11 @@ Player::Player(Game* parent, bool isCurrentPlayer):
     start();
 }
 
+Player::~Player() noexcept
+{
+    onDestroy();
+}
+
 void Player::start()
 {
     std::vector<sfex::Vec2> points;

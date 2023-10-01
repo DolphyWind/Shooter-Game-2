@@ -5,30 +5,43 @@
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <Modding/Exporters/ColliderExporter.hpp>
 
-void EntityExporter::createEntity(lua_State* L, const std::string& modName, const std::string& entityName)
+void EntityExporter::createEntity(lua_State* L, const std::string& modName, const std::string& entityName, const sfex::Vec2& position)
 {
     void* data = lua_newuserdata(L, sizeof(Lua_Entity));
-    Entity* spawnedPtr = Global::defaultModManager.spawnEntity(modName, entityName);
-    LuaEntity* luaEntityPtr = dynamic_cast<LuaEntity*>(spawnedPtr);
-
-    new (data) Lua_Entity(luaEntityPtr);
     luaL_getmetatable(L, LUA_ENTITY_METATABLENAME);
     lua_setmetatable(L, -2);
+
+    Entity* spawnedPtr = Global::defaultModManager.spawnEntity(modName, entityName);
+    spawnedPtr->setPosition(position);
+    auto* luaEntityPtr = dynamic_cast<LuaEntity*>(spawnedPtr);
+    if(!luaEntityPtr) return;
+    new (data) Lua_Entity(luaEntityPtr);
 }
 
 int EntityExporter::__new(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    if(arg_count != 2)
+    if(arg_count < 2)
     {
         return 0;
     }
 
     std::string modName = luaL_checkstring(L, 1);
     std::string entityName = luaL_checkstring(L, 2);
-    createEntity(L, modName, entityName);
+    sfex::Vec2 position = sfex::Vec2::zero;
+    if(arg_count >= 3)
+    {
+        position = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
+    }
+
+    createEntity(L, modName, entityName, position);
 
     return 1;
+}
+
+int EntityExporter::__destroy(lua_State* L)
+{
+    return 0;
 }
 
 int EntityExporter::__index(lua_State* L)
@@ -179,6 +192,7 @@ LuaExporter EntityExporter::toLuaExporter()
         },
         {
             {"__index", EntityExporter::__index},
+            {"__gc", EntityExporter::__destroy},
         }
     );
 

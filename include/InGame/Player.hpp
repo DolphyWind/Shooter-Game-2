@@ -1,11 +1,11 @@
 #pragma once
 #include <InGame/Entity.hpp>
 
-class Player : public Entity
+class Player final : public Entity
 {
 public:
     Player(Game* parent, bool isCurrentPlayer);
-    virtual ~Player() = default;
+    virtual ~Player() noexcept;
 
     virtual void start() override;
     virtual void update(const sf::Time& deltaTime) override;

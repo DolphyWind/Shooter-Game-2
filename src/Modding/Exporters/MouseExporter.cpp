@@ -1,8 +1,9 @@
 #include <Modding/Exporters/MouseExporter.hpp>
 #include <Modding/LuaExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
+#include <Modding/Exporters/RenderWindowExporter.hpp>
 #include <SFEX/General/Mouse.hpp>
-#include "Modding/LuaHelper.hpp"
+#include <Modding/LuaHelper.hpp>
 
 int MouseExporter::getButton(lua_State *L)
 {
@@ -30,8 +31,19 @@ int MouseExporter::getButtonUp(lua_State *L)
 
 int MouseExporter::getPosition(lua_State *L)
 {
-    // TODO: Add support for getting position relative to window
-    Vector2Exporter::createVector(L, sfex::Mouse::getPosition());
+    int arg_count = lua_gettop(L);
+    Lua_Vector2 mousePos;
+    if(arg_count == 1)
+    {
+        Lua_RenderWindow* renderWindow = static_cast<Lua_RenderWindow*>(LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME));
+        mousePos = sf::Mouse::getPosition(**renderWindow);
+    }
+    else
+    {
+        mousePos = sf::Mouse::getPosition();
+    }
+
+    Vector2Exporter::createVector(L, mousePos);
     return 1;
 }
 

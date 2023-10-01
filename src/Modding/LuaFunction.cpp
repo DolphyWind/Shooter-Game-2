@@ -1,4 +1,5 @@
 #include <Modding/LuaFunction.hpp>
+#include <iostream>
 
 std::function<void(void)> LuaFunction::empty_function = [](){};
 
@@ -11,16 +12,12 @@ void LuaFunction::load(lua_State* L, const std::string& funcName, int numberOfAr
 {
     lua_getglobal(L, funcName.c_str());
 
-    // If the function is absent do nothing and set the function as empty
-    // Maybe throwing an exception can be implemented in the future but istead of throwing an exception I recommend checking
+    // If the function is absent, do nothing and set the function as empty
+    // Maybe throwing an exception can be implemented in the future but instead of throwing an exception I recommend checking
     // the return value of LuaFunction::isLoaded after calling this function
     if(lua_isnil(L, -1))
     {
-        m_isLoaded = false;
-        m_func = LuaFunction::empty_function;
-        m_currentLuaState = nullptr;
-        m_numberOfArguments = 0;
-        m_numberOfReturns = 0;
+        reset();
         lua_pop(L, 1);
         return;
     }
@@ -39,6 +36,7 @@ void LuaFunction::load(lua_State* L, const std::string& funcName, int numberOfAr
     m_isLoaded = true;
     m_numberOfArguments = numberOfArgs;
     m_numberOfReturns = numberOfReturns;
+    m_functionName = funcName;
 }
 
 bool LuaFunction::isLoaded() const
@@ -94,4 +92,14 @@ std::vector<LuaHelper::LuaVariable> LuaFunction::operator()()
     }
 
     return result;
+}
+
+void LuaFunction::reset()
+{
+    m_isLoaded = false;
+    m_func = LuaFunction::empty_function;
+    m_currentLuaState = nullptr;
+    m_numberOfArguments = 0;
+    m_numberOfReturns = 0;
+    m_functionName = "";
 }

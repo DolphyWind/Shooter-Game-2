@@ -41,11 +41,17 @@ public:
     /// @return The return values of the underlying lua function as a std::vector<LuaHelper::LuaVariable>
     [[maybe_unused]] std::vector<LuaHelper::LuaVariable> operator()();
 
+    // @brief Resets the function object
+    void reset();
+
+private:
     /// @brief A std::function object that does absolutely nothing
     static std::function<void(void)> empty_function;
-private:
+
+
     std::function<void(void)> m_func;
     bool m_isLoaded;
+    std::string m_functionName;
 
     lua_State* m_currentLuaState;
     int m_numberOfArguments;

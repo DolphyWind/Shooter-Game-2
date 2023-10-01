@@ -4,12 +4,12 @@
 Entity::Entity(Game* parent):
     m_health(100), m_position(), m_collider(this), m_parent(parent), m_name(), m_metadata()
 {
-    start();
+
 }
 
 Entity::~Entity()
 {
-    onDestroy();
+
 }
 
 void Entity::setHealth(float newHealth)

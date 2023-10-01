@@ -5,7 +5,7 @@
 
 class Game;
 struct lua_State;
-class LuaEntity : public Entity
+class LuaEntity final : public Entity
 {
 public:
     LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath);
