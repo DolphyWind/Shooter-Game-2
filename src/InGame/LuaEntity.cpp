@@ -7,8 +7,8 @@
 #include <Modding/Exporters/RenderWindowExporter.hpp>
 #include <Modding/Exporters/Vector2Exporter.hpp>
 
-LuaEntity::LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath):
-    Entity(parent), m_assetsFolderPath(assetsFolderPath)
+LuaEntity::LuaEntity(Game* parent, const std::string& modName, const std::string& name, const std::string& filename, const std::filesystem::path& assetsFolderPath):
+    Entity(parent, modName, name), m_assetsFolderPath(assetsFolderPath)
 {
     m_entityLuaState = luaL_newstate();
     luaL_openlibs(m_entityLuaState);

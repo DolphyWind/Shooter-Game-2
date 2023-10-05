@@ -1,15 +1,13 @@
 #include <InGame/Entity.hpp>
 #include <InGame/Game.hpp>
 
-Entity::Entity(Game* parent):
-    m_health(100), m_position(), m_collider(this), m_parent(parent), m_name(), m_metadata()
+Entity::Entity(Game* parent, const std::string& modName, const std::string& name):
+    m_health(100), m_position(), m_collider(this), m_parent(parent), m_modName(modName), m_name(name), m_metadata()
 {
-
 }
 
 Entity::~Entity()
 {
-
 }
 
 void Entity::setHealth(float newHealth)
@@ -82,14 +80,14 @@ void Entity::debugRender(sf::RenderTarget& target)
     }
 }
 
-void Entity::setName(const std::string& newName)
-{
-    m_name = newName;
-}
-
 std::string Entity::getName() const
 {
     return m_name;
+}
+
+std::string Entity::getModName() const
+{
+    return m_modName;
 }
 
 void Entity::setMetadata(const std::string& newMetadata)

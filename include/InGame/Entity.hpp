@@ -9,7 +9,7 @@ class Game;
 class Entity
 {
 public:
-    Entity(Game* parent);
+    Entity(Game* parent, const std::string& modname, const std::string& name);
     virtual ~Entity();
 
     virtual void start() {};
@@ -23,11 +23,11 @@ public:
     
     void setHealth(float newHealth);
     void changeHealth(float delta);
-    float getHealth() const;
+    [[nodiscard]] float getHealth() const;
 
     virtual void setPosition(const sfex::Vec2& newPos);
     virtual void move(const sfex::Vec2& delta);
-    sfex::Vec2 getPosition() const;
+    [[nodiscard]] sfex::Vec2 getPosition() const;
 
     Game* getParent();
 
@@ -40,11 +40,11 @@ public:
     void setCollider(const Collider& collider);
     Collider& getCollider();
 
-    void setName(const std::string& newName);
-    std::string getName() const;
+    [[nodiscard]] std::string getName() const;
+    [[nodiscard]] std::string getModName() const;
 
     void setMetadata(const std::string& newMetadata);
-    std::string getMetadata() const;
+    [[nodiscard]] std::string getMetadata() const;
 
 protected:
     float m_health;
@@ -53,6 +53,7 @@ protected:
     Collider m_collider;
 
     Game* m_parent;
+    std::string m_modName;
     std::string m_name;
     std::string m_metadata;
 };

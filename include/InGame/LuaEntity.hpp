@@ -8,7 +8,7 @@ struct lua_State;
 class LuaEntity final : public Entity
 {
 public:
-    LuaEntity(Game* parent, const std::string& filename, const std::filesystem::path& assetsFolderPath);
+    LuaEntity(Game* parent, const std::string& modName, const std::string& name, const std::string& filename, const std::filesystem::path& assetsFolderPath);
     virtual ~LuaEntity();
 
     virtual void start() override;

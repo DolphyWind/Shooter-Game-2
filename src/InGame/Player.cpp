@@ -2,7 +2,7 @@
 #include <InGame/Game.hpp>
 
 Player::Player(Game* parent, bool isCurrentPlayer):
-    Entity(parent), m_playerRadius(25.0f), m_gunSize(43.0f, 18.0f), m_playerVelocity(200.0f),
+    Entity(parent, "", "Player"), m_playerRadius(25.0f), m_gunSize(43.0f, 18.0f), m_playerVelocity(200.0f),
     m_isCurrentPlayer(isCurrentPlayer)
 {
     m_playerCircle.setRadius(m_playerRadius);

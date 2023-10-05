@@ -18,6 +18,20 @@ void EntityExporter::createEntity(lua_State* L, const std::string& modName, cons
     new (data) Lua_Entity(luaEntityPtr);
 }
 
+void EntityExporter::pushEntity(lua_State* L, Entity* entity)
+{
+    if(!entity)
+    {
+        lua_pushnil(L);
+        return;
+    }
+
+    void* data = lua_newuserdata(L, sizeof(Entity*));
+    new (data) Entity*(entity);
+    luaL_getmetatable(L, LUA_ENTITY_METATABLENAME);
+    lua_setmetatable(L, -2);
+}
+
 int EntityExporter::__new(lua_State* L)
 {
     int arg_count = lua_gettop(L);
@@ -112,6 +126,14 @@ int EntityExporter::getName(lua_State* L)
     return 1;
 }
 
+int EntityExporter::getModName(lua_State* L)
+{
+    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
+    lua_pushstring(L, (*entityPtr)->getModName().c_str());
+
+    return 1;
+}
+
 int EntityExporter::setMetadata(lua_State* L)
 {
     Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
@@ -136,6 +158,27 @@ int EntityExporter::setCollider(lua_State* L)
     (*entityPtr)->setCollider(*colliderPtr);
 
     return 0;
+}
+
+int EntityExporter::findEntitiesWithName(lua_State* L)
+{
+    auto& entities = Global::defaultGameManager.getEntities();
+    std::string entityName = luaL_checkstring(L, 1);
+    lua_newtable(L);
+    lua_Integer currentIndex = 1;
+    for (auto& entity : entities)
+    {
+        if(entity->getName() == entityName)
+        {
+            lua_pushinteger(L, currentIndex);
+            Entity* underlyingPointer = entity.get();
+            EntityExporter::pushEntity(L, underlyingPointer);
+            lua_settable(L, -3);
+            ++currentIndex;
+        }
+    }
+
+    return 1;
 }
 
 int EntityExporter::getGlobal(lua_State* L)
@@ -183,9 +226,11 @@ LuaExporter EntityExporter::toLuaExporter()
             {"getPosition", EntityExporter::getPosition},
             {"move", EntityExporter::move},
             {"getName", EntityExporter::getName},
+            {"getModName", EntityExporter::getModName},
             {"setMetadata", EntityExporter::setMetadata},
             {"getMetadata", EntityExporter::getMetadata},
             {"setCollider", EntityExporter::setCollider},
+            {"findEntitiesWithName", EntityExporter::findEntitiesWithName},
             {"getGlobal", EntityExporter::getGlobal},
             {"setGlobal", EntityExporter::setGlobal},
             {"runCode", EntityExporter::runCode},

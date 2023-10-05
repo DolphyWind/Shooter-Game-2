@@ -118,7 +118,10 @@ std::vector<std::unique_ptr<Entity>>& GameManager::getEntities()
 
 Entity* GameManager::spawnEntity(const std::pair<Mod, EntityData>& entityData)
 {
-    return addEntity<LuaEntity>(m_parent, entityData.first.entitiesFolderPath / entityData.second.file, entityData.first.assetsFolderPath);
+    Mod mod = entityData.first;
+    EntityData data = entityData.second;
+
+    return addEntity<LuaEntity>(m_parent, mod.config.getModName(), data.name, mod.entitiesFolderPath / data.file, mod.assetsFolderPath);
 }
 
 void GameManager::moveNewEntities()
