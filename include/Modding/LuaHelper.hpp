@@ -2,6 +2,7 @@
 #include <lua.hpp>
 #include <string>
 
+class Entity;
 class LuaHelper
 {
 public:
@@ -18,6 +19,7 @@ public:
     static void push(lua_State* L, lua_CFunction val);
     static void push(lua_State* L, void* val, std::size_t size, const std::string& metatableName);
     static void push(lua_State* L, const std::tuple<void*, std::size_t, std::string>& udataTuple);
+    static void push(lua_State* L, Entity* e);
 
     static int GetMainWindow(lua_State* L);
     static int InterpretLUdataAs(lua_State* L);

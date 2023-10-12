@@ -1,6 +1,6 @@
 #include <Modding/LuaHelper.hpp>
 #include <Global.hpp>
-#include <Modding/Exporters/RenderWindowExporter.hpp>
+#include <Modding/Exporters/EntityExporter.hpp>
 
 void LuaHelper::push(lua_State* L, int val)
 {
@@ -68,6 +68,10 @@ void LuaHelper::push(lua_State* L, const std::tuple<void*, std::size_t, std::str
     LuaHelper::push(L, newData, size, metatableName);
 }
 
+void LuaHelper::push(lua_State* L, Entity* e)
+{
+    EntityExporter::pushEntity(L, e);
+}
 
 int LuaHelper::GetMainWindow(lua_State* L)
 {

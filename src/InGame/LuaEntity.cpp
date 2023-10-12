@@ -89,17 +89,17 @@ void LuaEntity::onDeath()
 
 void LuaEntity::onCollisionEnter(Entity* other)
 {
-    m_onCollisionEnterFunction((void*)other);
+    m_onCollisionEnterFunction(other);
 }
 
 void LuaEntity::onCollisionStay(Entity* other)
 {
-    m_onCollisionStayFunction((void*)other);
+    m_onCollisionStayFunction(other);
 }
 
 void LuaEntity::onCollisionExit(Entity* other)
 {
-    m_onCollisionExitFunction((void*)other);
+    m_onCollisionExitFunction(other);
 }
 
 lua_State* LuaEntity::getLuaState() const
