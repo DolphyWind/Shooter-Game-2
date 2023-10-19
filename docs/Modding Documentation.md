@@ -72,7 +72,7 @@ The Shooter Game 2 exports some of its features to Lua. Here's a list of the cla
 
 + [Vector2](./Vector2.md)
 + [Color](./Color.md)
-+ [Stopwatch]()
++ [Stopwatch](./Stopwatch.md)
 + [Transform]()
 + [RectangleShape]()
 + [CircleShape]()
