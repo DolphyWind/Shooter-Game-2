@@ -16,6 +16,7 @@ void Entity::setHealth(float newHealth)
     if(m_health <= 0)
     {
         this->onDeath();
+        Global::defaultGameManager.destroyEntity(this);
     }
 }
 
@@ -90,6 +91,11 @@ std::string Entity::getModName() const
     return m_modName;
 }
 
+std::string Entity::getFullName() const
+{
+    return m_modName + "/" + m_name;
+}
+
 void Entity::setMetadata(const std::string& newMetadata)
 {
     m_metadata = newMetadata;
@@ -99,3 +105,4 @@ std::string Entity::getMetadata() const
 {
     return m_metadata;
 }
+

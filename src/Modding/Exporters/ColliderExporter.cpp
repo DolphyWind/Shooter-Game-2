@@ -17,7 +17,7 @@ void ColliderExporter::createCollider(lua_State* L, const Lua_Collider& collider
 int ColliderExporter::__new(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Entity* entityPtr = nullptr;
+    Exported_Entity* entityPtr = nullptr;
     if(arg_count == 0)
     {
         createCollider(L, Lua_Collider());
@@ -25,7 +25,7 @@ int ColliderExporter::__new(lua_State* L)
     }
     if(arg_count == 1 && lua_isuserdata(L, 1))
     {
-        entityPtr = static_cast<Lua_Entity*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+        entityPtr = static_cast<Exported_Entity*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
         createCollider(L, Lua_Collider( dynamic_cast<Entity*>(*entityPtr) ));
         return 1;
     }
@@ -58,7 +58,7 @@ int ColliderExporter::__new(lua_State* L)
 
     if(arg_count >= 3)
     {
-        entityPtr = static_cast<Lua_Entity*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+        entityPtr = static_cast<Exported_Entity*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     }
 
     createCollider(L, Lua_Collider(points, isStatic, dynamic_cast<Entity*>(*entityPtr)));
@@ -129,7 +129,7 @@ int ColliderExporter::setImmovable(lua_State* L)
 int ColliderExporter::setEntity(lua_State* L)
 {
     Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>(LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME));
+    Exported_Entity* entityPtr = static_cast<Exported_Entity*>(LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME));
     colliderPtr->setEntity(*entityPtr);
 
     return 0;

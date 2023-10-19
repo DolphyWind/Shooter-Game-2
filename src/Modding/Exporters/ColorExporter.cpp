@@ -49,9 +49,9 @@ int ColorExporter::__new(lua_State *L)
         sf::Uint8 b = static_cast<sf::Uint8>(b_num);
         sf::Uint8 a = 255;
 
-        lua_Number a_num;
         if(arg_count >= 4)
         {
+            lua_Number a_num;
             a_num = luaL_checknumber(L, 4);
             a_num = std::clamp(a_num, lua_Number(0), lua_Number(255));
             a = static_cast<sf::Uint8>(a_num);
@@ -288,8 +288,8 @@ LuaExporter ColorExporter::toLuaExporter()
         LUA_COLOR_CLASSNAME, 
         ColorExporter::__new,
         {
-            { "toHex", ColorExporter::toHex},
-            { "toGrayscale", ColorExporter::toGrayscale},
+            {"toHex", ColorExporter::toHex},
+            {"toGrayscale", ColorExporter::toGrayscale},
             {"mixColors", ColorExporter::mixColors},
         },
         {

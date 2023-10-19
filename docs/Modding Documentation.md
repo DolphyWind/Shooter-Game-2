@@ -47,9 +47,9 @@ I am also planning to add `settings.json` and export an API to Lua that will all
 ## Special LuaEntity Functions
 As I've mentioned before, the lua entities has some special functions. Here are a list of them with their descriptions:
 
-**start()**: Start function is called at the beggining of the game and never runs again unless it is called by another function.  
+**start()**: Start function is called at the beggining of the game and never runs again unless it is called by another function. The `start()` function of manually spawned entities are called at the end of the current frame.  
 
-**handleEvent(e)**: Handle event function is used to interpret the events that it has given. Events will be explained in the [Modding API](#Modding-API) section.
+**handleEvent(e)**: Handle event function is used to interpret the events that it has given. Events will be explained in the [Modding API](#modding-api) section.
 
 **update(dt)**: Update function is called each frame. The `dt` parameter is the amount of time passed between this frame and last frame in seconds.
 
@@ -65,4 +65,37 @@ As I've mentioned before, the lua entities has some special functions. Here are 
 
 **onCollisionExit(other)**: On Collision Exit is called when a collider of another object exits the collider of this object. The other object is passed as the `other` parameter.
 
-**onDeath()**: On Death function is called when the health of an entity is less than or equal to zero. Then the object gets destroyed. Keep in mind that the onDestroy() function is also gets called.
+**onDeath()**: On Death function is called when the health of an entity is less than or equal to zero. Then the object gets destroyed. Keep in mind that the `onDestroy()` function is also getting called.
+
+## Modding API 
+The Shooter Game 2 exports some of its features to Lua. Here's a list of the classes that are exported with their documentations. In the documentations, please note that Lua has an `:` operator. `x:f()` passes x as the `f`'s first parameter.  
+
++ [Vector2](./Vector2.md)
++ [Color](./Color.md)
++ [Stopwatch]()
++ [Transform]()
++ [RectangleShape]()
++ [CircleShape]()
++ [ConvexShape]()
++ [Entity]()
++ [Collider]()
++ [Keyboard]()
++ [Mouse]()
++ [Cursor]()
++ [Joystick]()
++ [SoundBuffer]()
++ [Sound]()
++ [Music]()
++ [Image]()
++ [Texture]()
++ [Sprite]()
++ [IntRect]()
++ [FloatRect]()
++ [Glyph]()
++ [Font]()
++ [Text]()
++ [RenderWindow]()
++ [ContextSettings]()
++ [VideoMode]()
++ [Event]()
++ [View]()

@@ -442,7 +442,7 @@ int TextExporter::getInverseTransform(lua_State* L)
 int TextExporter::attachTo(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Entity* entityPtr = static_cast<Lua_Entity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
+    Exported_Entity* entityPtr = static_cast<Exported_Entity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
 
     textPtr->attachTo(dynamic_cast<Entity*>(*entityPtr));
     return 0;

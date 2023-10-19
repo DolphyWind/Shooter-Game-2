@@ -367,9 +367,9 @@ int CircleShapeExporter::getInverseTransform(lua_State* L)
 int CircleShapeExporter::attachTo(lua_State* L)
 {
     Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    LuaEntity* entityPtr = static_cast<LuaEntity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
+    Exported_Entity* entityPtr = static_cast<Exported_Entity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
 
-    circleShapePtr->attachTo(dynamic_cast<Entity*>(entityPtr));
+    circleShapePtr->attachTo(dynamic_cast<Entity*>(*entityPtr));
     return 0;
 }
 

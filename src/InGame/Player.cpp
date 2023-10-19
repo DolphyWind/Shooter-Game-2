@@ -3,7 +3,7 @@
 
 Player::Player(Game* parent, bool isCurrentPlayer):
     Entity(parent, "", "Player"), m_playerRadius(25.0f), m_gunSize(43.0f, 18.0f), m_playerVelocity(200.0f),
-    m_isCurrentPlayer(isCurrentPlayer)
+    m_isCurrentPlayer(isCurrentPlayer), m_playerId()
 {
     m_playerCircle.setRadius(m_playerRadius);
     m_playerCircle.setOrigin(m_playerRadius, m_playerRadius);
@@ -17,7 +17,6 @@ Player::Player(Game* parent, bool isCurrentPlayer):
     m_gunRectangle.setOutlineThickness(1.0f);
     m_gunRectangle.setOutlineColor(sfex::Color::Black);
     setPosition(m_position);
-    start();
 }
 
 Player::~Player() noexcept
@@ -32,7 +31,7 @@ void Player::start()
 
     for(std::size_t i = 0; i < m_playerCircle.getPointCount(); ++i)
     {
-        points.push_back(m_playerCircle.getPoint(i) - m_playerRadius*sfex::Vec2::one);
+        points.push_back(m_playerCircle.getPoint(i) - m_playerRadius * sfex::Vec2::one);
     }
     setCollider(Collider(points, true, this));
 }
@@ -127,4 +126,14 @@ void Player::onCollisionStay(Entity* other)
 void Player::onCollisionExit(Entity* other)
 {
 
+}
+
+unsigned Player::getPlayerId() const noexcept
+{
+    return m_playerId;
+}
+
+void Player::setPlayerId(unsigned pId) noexcept
+{
+    m_playerId = pId;
 }

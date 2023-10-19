@@ -47,7 +47,9 @@ void GameManager::render(sf::RenderTarget& target, bool debugRender)
         e->render(target);
         if(debugRender) e->debugRender(target);
     }
+
     moveNewEntities();
+    destroyEntities();
 }
 
 void GameManager::destroy()
@@ -69,9 +71,18 @@ Game* GameManager::getParent()
 
 void GameManager::checkCollisions()
 {
+    enum CollisionState
+    {
+        COLLISION_ENTER,
+        COLLISION_STAY,
+        COLLISION_EXIT
+    };
+
+    std::vector<std::tuple<Entity*, Entity*, CollisionState>> collidedEntities;
+
     for(std::size_t i = 0; i < m_entities.size(); ++i)
     {
-        for(std::size_t j = 0; j < m_entities.size(); ++j)
+        for(std::size_t j = i + 1; j < m_entities.size(); ++j)
         {
             if(i == j) continue;
 
@@ -83,21 +94,50 @@ void GameManager::checkCollisions()
             {
                 if(!m_collisionTable.contains(e1.get()) || !m_collisionTable[e1.get()].contains(e2.get()))
                 {
-                    m_collisionTable[e1.get()].insert(e2.get());
-                    e1->onCollisionEnter(e2.get());
+                    collidedEntities.emplace_back(e1.get(), e2.get(), COLLISION_ENTER);
                 }
                 else
                 {
-                    e1->onCollisionStay(e2.get());
+                    collidedEntities.emplace_back(e1.get(), e2.get(), COLLISION_STAY);
                 }
             }
             else
             {
                 if(m_collisionTable.contains(e1.get()) && m_collisionTable.at(e1.get()).contains(e2.get()))
                 {
-                    m_collisionTable[e1.get()].erase(e2.get());
-                    e1->onCollisionExit(e2.get());
+                    collidedEntities.emplace_back(e1.get(), e2.get(), COLLISION_EXIT);
                 }
+            }
+        }
+    }
+
+    for(auto& collisionInfo : collidedEntities)
+    {
+        Entity* e1 = std::get<0>(collisionInfo);
+        Entity* e2 = std::get<1>(collisionInfo);
+        CollisionState collisionState = std::get<2>(collisionInfo);
+
+        switch (collisionState)
+        {
+            case COLLISION_ENTER:
+            {
+                m_collisionTable[e1].insert(e2);
+                e1->onCollisionEnter(e2);
+                e2->onCollisionEnter(e1);
+                break;
+            }
+            case COLLISION_STAY:
+            {
+                e1->onCollisionStay(e2);
+                e2->onCollisionStay(e1);
+                break;
+            }
+            case COLLISION_EXIT:
+            {
+                m_collisionTable[e1].erase(e2);
+                e1->onCollisionExit(e2);
+                e2->onCollisionExit(e1);
+                break;
             }
         }
     }
@@ -128,7 +168,34 @@ void GameManager::moveNewEntities()
 {
     for(auto& e : m_newEntities)
     {
+        e->start();
         m_entities.push_back(std::move(e));
     }
     m_newEntities.clear();
+}
+
+void GameManager::destroyEntity(Entity* entityPtr)
+{
+    m_destroyedEntities.emplace_back(entityPtr);
+}
+
+void GameManager::destroyEntities()
+{
+    for(auto& e : m_destroyedEntities)
+    {
+        auto it = std::find_if(
+            m_entities.begin(),
+            m_entities.end(),
+            [e](auto& item){
+                return item.get() == e;
+            }
+        );
+
+        if(it != m_entities.end())
+        {
+            m_entities.erase(it);
+        }
+    }
+
+    m_destroyedEntities.clear();
 }

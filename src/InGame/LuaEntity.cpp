@@ -42,7 +42,6 @@ LuaEntity::LuaEntity(Game* parent, const std::string& modName, const std::string
     m_onCollisionStayFunction.load(m_entityLuaState, "onCollisionStay", 1, 0);
     m_onCollisionExitFunction.load(m_entityLuaState, "onCollisionExit", 1, 0);
     m_onDeathFunction.load(m_entityLuaState, "onDeath", 0, 0);
-    start();
 }
 
 LuaEntity::~LuaEntity()

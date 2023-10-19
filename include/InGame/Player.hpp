@@ -22,6 +22,9 @@ public:
     virtual void onCollisionEnter(Entity* other) override;
     virtual void onCollisionStay(Entity* other) override;
     virtual void onCollisionExit(Entity* other) override;
+
+    unsigned getPlayerId() const noexcept;
+    void setPlayerId(unsigned pId) noexcept;
 private:
     sf::CircleShape m_playerCircle;
     sf::RectangleShape m_gunRectangle;
@@ -30,4 +33,5 @@ private:
     const sfex::Vec2 m_gunSize;
     const float m_playerVelocity;
     bool m_isCurrentPlayer;
+    unsigned m_playerId;
 };

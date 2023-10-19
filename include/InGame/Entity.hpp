@@ -42,6 +42,7 @@ public:
 
     [[nodiscard]] std::string getName() const;
     [[nodiscard]] std::string getModName() const;
+    [[nodiscard]] std::string getFullName() const;
 
     void setMetadata(const std::string& newMetadata);
     [[nodiscard]] std::string getMetadata() const;

@@ -46,6 +46,7 @@ void DebugScene::start()
     Global::defaultGameManager.getEntities()[0]->setPosition({100, 100});
     Global::defaultGameManager.getEntities()[1]->setPosition({300, 300});
     Global::defaultGameManager.getEntities()[2]->setPosition({0, 0});
+    //Global::defaultGameManager.start();
 }
 
 void DebugScene::update(const sf::Time& deltaTime)

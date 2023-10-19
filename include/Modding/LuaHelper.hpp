@@ -38,7 +38,7 @@ public:
     /// \return
     static void* checkudata_WithError(lua_State* L, int index, const std::string& metatableName);
 
-    static int MoveData(lua_State* sourceState, lua_State* targetState, int dataIndex);
+    static int CopyData(lua_State* sourceState, lua_State* targetState, int dataIndex);
 
     union LuaVariable
     {

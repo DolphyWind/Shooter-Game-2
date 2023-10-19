@@ -221,7 +221,7 @@ int Vector2Exporter::magnitude2(lua_State* L)
     return 1;
 }
 
-int Vector2Exporter::setmagnitude(lua_State* L)
+int Vector2Exporter::setMagnitude(lua_State* L)
 {
     Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     vecPtr->setMagnitude( luaL_checknumber(L, 2) );
@@ -356,7 +356,7 @@ int Vector2Exporter::rotate(lua_State* L)
     Lua_Vector2 rotateAround = Lua_Vector2::zero;
     if(lua_gettop(L) == 3)
     {
-        if(!lua_isuserdata(L, 1))
+        if(!lua_isuserdata(L, 3))
         {
             luaL_error(L, "The third parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 3)) );
             return 0;
@@ -386,7 +386,7 @@ int Vector2Exporter::rotated(lua_State* L)
     Lua_Vector2 rotateAround = Lua_Vector2::zero;
     if(lua_gettop(L) == 3)
     {
-        if(!lua_isuserdata(L, 1))
+        if(!lua_isuserdata(L, 3))
         {
             luaL_error(L, "The third parameter has be a userdata, not %s", lua_typename(L, lua_type(L, 3)) );
             return 0;
@@ -473,7 +473,7 @@ LuaExporter Vector2Exporter::toLuaExporter()
         {
             {"magnitude", Vector2Exporter::magnitude},
             {"magnitude2", Vector2Exporter::magnitude2},
-            {"setMagnitude", Vector2Exporter::setmagnitude},
+            {"setMagnitude", Vector2Exporter::setMagnitude},
             {"normalize", Vector2Exporter::normalize},
             {"normalized", Vector2Exporter::normalized},
             {"dot", Vector2Exporter::dot},

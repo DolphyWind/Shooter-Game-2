@@ -137,7 +137,7 @@ void* LuaHelper::checkudata_WithError(lua_State* L, int index, const std::string
     return nullptr;
 }
 
-int LuaHelper::MoveData(lua_State* sourceState, lua_State* targetState, int dataIndex)
+int LuaHelper::CopyData(lua_State* sourceState, lua_State* targetState, int dataIndex)
 {
     if(lua_isnil(sourceState, dataIndex))
     {

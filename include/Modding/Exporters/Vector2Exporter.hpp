@@ -27,7 +27,7 @@ struct Vector2Exporter
     /// Regular Functions
     static int magnitude(lua_State* L);
     static int magnitude2(lua_State* L);
-    static int setmagnitude(lua_State* L);
+    static int setMagnitude(lua_State* L);
     static int normalize(lua_State* L);
     static int normalized(lua_State* L);
     static int dot(lua_State* L);
