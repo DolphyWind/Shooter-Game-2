@@ -152,7 +152,7 @@ int TransformExporter::combine(lua_State *L)
     Lua_Transform* secondTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
     firstTransform->combine(*secondTransform);
 
-    LuaHelper::push(L, (void*)firstTransform);
+    LuaHelper::push(L, (void*)firstTransform, LUA_TRANSFORM_METATABLENAME);
     return 1;
 }
 
@@ -177,7 +177,7 @@ int TransformExporter::translate(lua_State *L)
         return 0;
     }
     transformPtr->translate(vecToTranslate);
-    LuaHelper::push(L, (void*)transformPtr);
+    LuaHelper::push(L, (void*)transformPtr, LUA_TRANSFORM_METATABLENAME);
 
     return 1;
 }
@@ -212,7 +212,7 @@ int TransformExporter::rotate(lua_State *L)
         luaL_error(L, "You can't call %s with this amount of arguments", __func__);
         return 0;
     }
-    LuaHelper::push(L, (void*)transformPtr);
+    LuaHelper::push(L, (void*)transformPtr, LUA_TRANSFORM_METATABLENAME);
     
     return 1;
 }
@@ -257,7 +257,7 @@ int TransformExporter::scale(lua_State *L)
         luaL_error(L, "You can't call %s with this amount of arguments", __func__);
         return 0;
     }
-    LuaHelper::push(L, (void*)transformPtr);
+    LuaHelper::push(L, (void*)transformPtr, LUA_TRANSFORM_METATABLENAME);
     
     return 1;
 }

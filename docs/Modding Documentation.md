@@ -68,12 +68,12 @@ As I've mentioned before, the lua entities has some special functions. Here are 
 **onDeath()**: On Death function is called when the health of an entity is less than or equal to zero. Then the object gets destroyed. Keep in mind that the `onDestroy()` function is also getting called.
 
 ## Modding API 
-The Shooter Game 2 exports some of its features to Lua. Here's a list of the classes that are exported with their documentations. In the documentations, please note that Lua has an `:` operator. `x:f()` passes x as the `f`'s first parameter.  
+The Shooter Game 2 exports some of its features to Lua. Here's a list of the classes that are exported with their documentations. In the documentations, please note that Lua has an `:` operator. `x:f()` passes x as the `f`'s first parameter. When you see this operator in the documentation, please interpret the variable on the left as an instance of that type. Also, I denoted the types of the some function arguments. If you see an argumat that isn't associated with a type, please assume that it is a number.  
 
-+ [Vector2](./Vector2.md)
-+ [Color](./Color.md)
-+ [Stopwatch](./Stopwatch.md)
-+ [Transform]()
++ [Vector2](./Vector2Documentation.md)
++ [Color](./ColorDocumentation.md)
++ [Stopwatch](./StopwatchDocumentation.md)
++ [Transform](./TransformDocumentation.md)
 + [RectangleShape]()
 + [CircleShape]()
 + [ConvexShape]()
