@@ -1,4 +1,4 @@
-bulletSpeed = 200
+bulletSpeed = 500
 bulletDamage = 10
 bulletRadius = 10
 playerId = -2
@@ -14,8 +14,9 @@ function start()
     bulletCollider = Collider.new()
     
     local colliderPoints = {}
-    for i = 1, bulletCircle:getPointCount(), 1 do
-        colliderPoints[i] = bulletCircle:getPoint(i - 1) - bulletCircle:getOrigin()
+    local POINT_COUNT_DIVIDER = 3
+    for i = 1, bulletCircle:getPointCount() // POINT_COUNT_DIVIDER, 1 do
+        colliderPoints[i] = bulletCircle:getPoint(POINT_COUNT_DIVIDER * (i - 1) ) - bulletCircle:getOrigin()
     end
     bulletCollider:setPoints(colliderPoints)
     this:setCollider(bulletCollider)

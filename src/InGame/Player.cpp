@@ -29,9 +29,10 @@ void Player::start()
     std::vector<sfex::Vec2> points;
     points.reserve(m_playerCircle.getPointCount());
 
-    for(std::size_t i = 0; i < m_playerCircle.getPointCount(); ++i)
+    constexpr std::size_t POINT_COUNT_DIVIDER = 2;
+    for(std::size_t i = 0; i < m_playerCircle.getPointCount() / POINT_COUNT_DIVIDER; ++i)
     {
-        points.push_back(m_playerCircle.getPoint(i) - m_playerRadius * sfex::Vec2::one);
+        points.push_back(m_playerCircle.getPoint(i * POINT_COUNT_DIVIDER) - m_playerRadius * sfex::Vec2::one);
     }
     setCollider(Collider(points, true, this));
 }
