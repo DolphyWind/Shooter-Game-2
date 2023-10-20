@@ -45,7 +45,7 @@ int EntityExporter::__new(lua_State* L)
     sfex::Vec2 position = sfex::Vec2::zero;
     if(arg_count >= 3)
     {
-        position = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
+        position = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
     }
 
     createEntity(L, modName, entityName, position);
@@ -104,7 +104,7 @@ int EntityExporter::getPosition(lua_State* L)
 int EntityExporter::setPosition(lua_State* L)
 {
     Exported_Entity* entityPtr = static_cast<Exported_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* vecPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     (*entityPtr)->setPosition(*vecPtr);
 
     return 0;
@@ -113,7 +113,7 @@ int EntityExporter::setPosition(lua_State* L)
 int EntityExporter::move(lua_State* L)
 {
     Exported_Entity* entityPtr = static_cast<Exported_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* vecPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     (*entityPtr)->move(*vecPtr);
     return 0;
 }

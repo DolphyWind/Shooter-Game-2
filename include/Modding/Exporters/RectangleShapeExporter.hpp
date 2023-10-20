@@ -6,7 +6,7 @@
 
 #define LUA_RECTANGLESHAPE_CLASSNAME "RectangleShape"
 #define LUA_RECTANGLESHAPE_METATABLENAME LUA_RECTANGLESHAPE_CLASSNAME"_metatable"
-typedef AttachableObject<sf::RectangleShape> Lua_RectangleShape;
+typedef AttachableObject<sf::RectangleShape> Exported_RectangleShape;
 
 class LuaExporter;
 struct RectangleShapeExporter

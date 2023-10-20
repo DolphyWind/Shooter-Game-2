@@ -12,8 +12,8 @@
 
 void RectangleShapeExporter::createRectangleShape(lua_State* L, const sf::Vector2f& size)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_RectangleShape));
-    new (data) Lua_RectangleShape(nullptr, size);
+    void* data = lua_newuserdata(L, sizeof(Exported_RectangleShape));
+    new (data) Exported_RectangleShape(nullptr, size);
     luaL_getmetatable(L, LUA_RECTANGLESHAPE_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -21,11 +21,11 @@ void RectangleShapeExporter::createRectangleShape(lua_State* L, const sf::Vector
 int RectangleShapeExporter::__new(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Vector2 size{0, 0};
+    Exported_Vector2 size{0, 0};
 
     if(arg_count >= 1)
     {
-        size = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+        size = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
     }
 
     createRectangleShape(L, size);
@@ -34,14 +34,14 @@ int RectangleShapeExporter::__new(lua_State *L)
 
 int RectangleShapeExporter::__destroy(lua_State *L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    rectangleShapePtr->~Lua_RectangleShape();
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    rectangleShapePtr->~Exported_RectangleShape();
     return 0;
 }
 
 int RectangleShapeExporter::__index(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     std::string indexStr = lua_tostring(L, 2);
 
     lua_getglobal(L, LUA_RECTANGLESHAPE_CLASSNAME);
@@ -52,8 +52,8 @@ int RectangleShapeExporter::__index(lua_State* L)
 
 int RectangleShapeExporter::setSize(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_Vector2* vecPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     (*rectangleShapePtr)->setSize(*vecPtr);
 
     return 0;
@@ -61,7 +61,7 @@ int RectangleShapeExporter::setSize(lua_State* L)
 
 int RectangleShapeExporter::getSize(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     Vector2Exporter::createVector(L, (*rectangleShapePtr)->getSize());
 
     return 1;
@@ -69,7 +69,7 @@ int RectangleShapeExporter::getSize(lua_State* L)
 
 int RectangleShapeExporter::getPointCount(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     lua_pushinteger(L, (*rectangleShapePtr)->getPointCount());
 
     return 1;
@@ -77,7 +77,7 @@ int RectangleShapeExporter::getPointCount(lua_State* L)
 
 int RectangleShapeExporter::getPoint(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     lua_Integer index;
     lua_numbertointeger(luaL_checknumber(L, 2), &index);
     Vector2Exporter::createVector(L, (*rectangleShapePtr)->getPoint(index));
@@ -88,7 +88,7 @@ int RectangleShapeExporter::getPoint(lua_State* L)
 int RectangleShapeExporter::setTexture(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 2, LUA_TEXTURE_METATABLENAME) );
     bool resetRect = false;
 
@@ -103,7 +103,7 @@ int RectangleShapeExporter::setTexture(lua_State* L)
 
 int RectangleShapeExporter::setTextureRect(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     Lua_IntRect* rectPtr = static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_INTRECT_METATABLENAME) );
     (*rectangleShapePtr)->setTextureRect(*rectPtr);
 
@@ -112,8 +112,8 @@ int RectangleShapeExporter::setTextureRect(lua_State* L)
 
 int RectangleShapeExporter::setFillColor(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*rectangleShapePtr)->setFillColor(*colorPtr);
 
     return 0;
@@ -121,8 +121,8 @@ int RectangleShapeExporter::setFillColor(lua_State* L)
 
 int RectangleShapeExporter::setOutlineColor(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*rectangleShapePtr)->setOutlineColor(*colorPtr);
 
     return 0;
@@ -130,7 +130,7 @@ int RectangleShapeExporter::setOutlineColor(lua_State* L)
 
 int RectangleShapeExporter::setOutlineThickness(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     (*rectangleShapePtr)->setOutlineThickness(luaL_checknumber(L, 2));
 
     return 0;
@@ -138,7 +138,7 @@ int RectangleShapeExporter::setOutlineThickness(lua_State* L)
 
 int RectangleShapeExporter::getTexture(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     LuaHelper::push(L, (void*)(*rectangleShapePtr)->getTexture(), LUA_TEXTURE_METATABLENAME);
 
     return 1;
@@ -146,7 +146,7 @@ int RectangleShapeExporter::getTexture(lua_State* L)
 
 int RectangleShapeExporter::getTextureRect(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     IntRectExporter::createIntRect(L, (*rectangleShapePtr)->getTextureRect());
 
     return 1;
@@ -154,7 +154,7 @@ int RectangleShapeExporter::getTextureRect(lua_State* L)
 
 int RectangleShapeExporter::getFillColor(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     ColorExporter::createColor(L, (*rectangleShapePtr)->getFillColor());
 
     return 1;
@@ -162,7 +162,7 @@ int RectangleShapeExporter::getFillColor(lua_State* L)
 
 int RectangleShapeExporter::getOutlineColor(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     ColorExporter::createColor(L, (*rectangleShapePtr)->getOutlineColor());
 
     return 1;
@@ -170,7 +170,7 @@ int RectangleShapeExporter::getOutlineColor(lua_State* L)
 
 int RectangleShapeExporter::getOutlineThickness(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     lua_pushnumber(L, (*rectangleShapePtr)->getOutlineThickness());
 
     return 1;
@@ -178,7 +178,7 @@ int RectangleShapeExporter::getOutlineThickness(lua_State* L)
 
 int RectangleShapeExporter::getLocalBounds(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, (*rectangleShapePtr)->getLocalBounds());
 
     return 1;
@@ -186,7 +186,7 @@ int RectangleShapeExporter::getLocalBounds(lua_State* L)
 
 int RectangleShapeExporter::getGlobalBounds(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, rectangleShapePtr->getGlobalBounds());
 
     return 1;
@@ -195,10 +195,10 @@ int RectangleShapeExporter::getGlobalBounds(lua_State* L)
 int RectangleShapeExporter::setPosition(lua_State* L)
 {
     int arg_count = lua_gettop(L);
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*rectangleShapePtr)->setPosition(*vecPtr);
@@ -214,7 +214,7 @@ int RectangleShapeExporter::setPosition(lua_State* L)
 
 int RectangleShapeExporter::setRotation(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     (*rectangleShapePtr)->setRotation(luaL_checknumber(L, 2) );
 
     return 0;
@@ -222,10 +222,10 @@ int RectangleShapeExporter::setRotation(lua_State* L)
 
 int RectangleShapeExporter::setScale(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*rectangleShapePtr)->setScale(*vecPtr);
@@ -241,10 +241,10 @@ int RectangleShapeExporter::setScale(lua_State* L)
 
 int RectangleShapeExporter::setOrigin(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*rectangleShapePtr)->setOrigin(*vecPtr);
@@ -260,7 +260,7 @@ int RectangleShapeExporter::setOrigin(lua_State* L)
 
 int RectangleShapeExporter::getLocalPosition(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     Vector2Exporter::createVector(L, (*rectangleShapePtr)->getPosition());
 
     return 1;
@@ -268,7 +268,7 @@ int RectangleShapeExporter::getLocalPosition(lua_State* L)
 
 int RectangleShapeExporter::getWorldPosition(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     Vector2Exporter::createVector(L, rectangleShapePtr->getPosition());
 
     return 1;
@@ -276,7 +276,7 @@ int RectangleShapeExporter::getWorldPosition(lua_State* L)
 
 int RectangleShapeExporter::getRotation(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     lua_pushnumber(L, (*rectangleShapePtr)->getRotation());
 
     return 1;
@@ -284,7 +284,7 @@ int RectangleShapeExporter::getRotation(lua_State* L)
 
 int RectangleShapeExporter::getScale(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     Vector2Exporter::createVector(L, (*rectangleShapePtr)->getScale());
 
     return 1;
@@ -292,7 +292,7 @@ int RectangleShapeExporter::getScale(lua_State* L)
 
 int RectangleShapeExporter::getOrigin(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     Vector2Exporter::createVector(L, (*rectangleShapePtr)->getOrigin());
 
     return 1;
@@ -300,10 +300,10 @@ int RectangleShapeExporter::getOrigin(lua_State* L)
 
 int RectangleShapeExporter::move(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*rectangleShapePtr)->move(*vecPtr);
@@ -319,7 +319,7 @@ int RectangleShapeExporter::move(lua_State* L)
 
 int RectangleShapeExporter::rotate(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     (*rectangleShapePtr)->rotate(luaL_checknumber(L, 2));
 
     return 0;
@@ -327,10 +327,10 @@ int RectangleShapeExporter::rotate(lua_State* L)
 
 int RectangleShapeExporter::scale(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*rectangleShapePtr)->scale(*vecPtr);
@@ -346,7 +346,7 @@ int RectangleShapeExporter::scale(lua_State* L)
 
 int RectangleShapeExporter::getTransform(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     TransformExporter::createTransform(L, (*rectangleShapePtr)->getTransform());
 
     return 1;
@@ -354,7 +354,7 @@ int RectangleShapeExporter::getTransform(lua_State* L)
 
 int RectangleShapeExporter::getInverseTransform(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     TransformExporter::createTransform(L, (*rectangleShapePtr)->getInverseTransform());
 
     return 1;
@@ -362,7 +362,7 @@ int RectangleShapeExporter::getInverseTransform(lua_State* L)
 
 int RectangleShapeExporter::attachTo(lua_State* L)
 {
-    Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
+    Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
     Exported_Entity* entityPtr = static_cast<Exported_Entity*>( LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME) );
 
     rectangleShapePtr->attachTo(dynamic_cast<Entity*>(*entityPtr));

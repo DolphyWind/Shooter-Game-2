@@ -4,12 +4,12 @@
 
 #define LUA_STOPWATCH_CLASSNAME "Stopwatch"
 #define LUA_STOPWATCH_METATABLENAME LUA_STOPWATCH_CLASSNAME"_metatable"
-typedef sfex::Stopwatch Lua_Stopwatch;
+typedef sfex::Stopwatch Exported_Stopwatch;
 
 class LuaExporter;
 struct StopwatchExporter
 {
-    static void createStopwatch(lua_State* L, const Lua_Stopwatch& stopwatch);
+    static void createStopwatch(lua_State* L, const Exported_Stopwatch& stopwatch);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);

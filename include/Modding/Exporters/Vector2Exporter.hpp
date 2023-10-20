@@ -4,13 +4,13 @@
 
 #define LUA_VECTOR2_CLASSNAME "Vector2"
 #define LUA_VECTOR2_METATABLENAME LUA_VECTOR2_CLASSNAME"_metatable"
-typedef sfex::Vector2<lua_Number> Lua_Vector2;
+typedef sfex::Vector2<lua_Number> Exported_Vector2;
 
 class LuaExporter;
 struct Vector2Exporter
 {
     /// Lua Functions
-    static void createVector(lua_State* L, const Lua_Vector2& vec);
+    static void createVector(lua_State* L, const Exported_Vector2& vec);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);

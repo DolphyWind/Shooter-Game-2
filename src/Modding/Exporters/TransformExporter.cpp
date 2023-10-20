@@ -6,10 +6,10 @@
 #include <iostream>
 #include <Modding/LuaHelper.hpp>
 
-void TransformExporter::createTransform(lua_State *L, const Lua_Transform &transform)
+void TransformExporter::createTransform(lua_State *L, const Exported_Transform &transform)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_Transform));
-    new (data) Lua_Transform(transform);
+    void* data = lua_newuserdata(L, sizeof(Exported_Transform));
+    new (data) Exported_Transform(transform);
     luaL_getmetatable(L, LUA_TRANSFORM_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -38,21 +38,19 @@ int TransformExporter::__new(lua_State *L)
         return 1;
     }
 
-    luaL_error(L, "You can't create a transform with that amount of arguments!");
-    
     return 0;
 }
 
 int TransformExporter::__destroy(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    transformPtr->~Lua_Transform();
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    transformPtr->~Exported_Transform();
     return 0;
 }
 
 int TransformExporter::__index(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "identity")
@@ -69,8 +67,8 @@ int TransformExporter::__index(lua_State *L)
 
 int TransformExporter::__mul(lua_State *L)
 {
-    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* firstTransform = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* secondTransform = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
 
     createTransform(L, (*firstTransform) * (*secondTransform));
     return 1;
@@ -84,8 +82,8 @@ int TransformExporter::__eq(lua_State *L)
         return 1;
     }
 
-    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* firstTransform = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* secondTransform = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
 
     lua_pushboolean(L, (*firstTransform) == (*secondTransform));
     return 1;
@@ -93,7 +91,7 @@ int TransformExporter::__eq(lua_State *L)
 
 int TransformExporter::getMatrix(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
 
     const float* mat = transformPtr->getMatrix();
     for(std::size_t i = 0; i < 16; ++i)
@@ -106,7 +104,7 @@ int TransformExporter::getMatrix(lua_State *L)
 
 int TransformExporter::getInverse(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     createTransform(L, transformPtr->getInverse());
     return 1;
 }
@@ -114,12 +112,12 @@ int TransformExporter::getInverse(lua_State *L)
 int TransformExporter::transformPoint(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Vector2 vecToTransform;
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Vector2 vecToTransform;
 
     if(arg_count == 2)
     {
-        vecToTransform = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+        vecToTransform = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     }
     else if(arg_count == 3)
     {
@@ -140,7 +138,7 @@ int TransformExporter::transformPoint(lua_State *L)
 
 int TransformExporter::transformRect(lua_State *L)
 {
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, transformPtr->transformRect(*floatRectPtr));
     return 1;
@@ -148,8 +146,8 @@ int TransformExporter::transformRect(lua_State *L)
 
 int TransformExporter::combine(lua_State *L)
 {
-    Lua_Transform* firstTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Transform* secondTransform = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* firstTransform = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* secondTransform = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 2, LUA_TRANSFORM_METATABLENAME) );
     firstTransform->combine(*secondTransform);
 
     LuaHelper::push(L, (void*)firstTransform, LUA_TRANSFORM_METATABLENAME);
@@ -159,22 +157,17 @@ int TransformExporter::combine(lua_State *L)
 int TransformExporter::translate(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Vector2 vecToTranslate;
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Vector2 vecToTranslate;
 
     if(arg_count == 2)
     {
-        vecToTranslate = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
-    }
-    else if(arg_count == 3)
-    {
-        vecToTranslate.x = luaL_checknumber(L, 2);
-        vecToTranslate.y = luaL_checknumber(L, 3);
+        vecToTranslate = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     }
     else
     {
-        luaL_error(L, "You can't call %s with this amount of arguments", __func__);
-        return 0;
+        vecToTranslate.x = luaL_checknumber(L, 2);
+        vecToTranslate.y = luaL_checknumber(L, 3);
     }
     transformPtr->translate(vecToTranslate);
     LuaHelper::push(L, (void*)transformPtr, LUA_TRANSFORM_METATABLENAME);
@@ -185,9 +178,9 @@ int TransformExporter::translate(lua_State *L)
 int TransformExporter::rotate(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
     lua_Number angle;
-    Lua_Vector2 center;
+    Exported_Vector2 center;
 
     if(arg_count == 2)
     {
@@ -197,20 +190,15 @@ int TransformExporter::rotate(lua_State *L)
     else if(arg_count == 3)
     {
         angle = luaL_checknumber(L, 2);
-        center = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
+        center = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
         transformPtr->rotate(angle, center);
     }
-    else if(arg_count == 4)
+    else
     {
         angle = luaL_checknumber(L, 2);
         center.x = luaL_checknumber(L, 3);
         center.y = luaL_checknumber(L, 4);
         transformPtr->rotate(angle, center);
-    }
-    else
-    {
-        luaL_error(L, "You can't call %s with this amount of arguments", __func__);
-        return 0;
     }
     LuaHelper::push(L, (void*)transformPtr, LUA_TRANSFORM_METATABLENAME);
     
@@ -220,21 +208,21 @@ int TransformExporter::rotate(lua_State *L)
 int TransformExporter::scale(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Transform* transformPtr = static_cast<Lua_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_Vector2 factors;
-    Lua_Vector2 center;
+    Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
+    Exported_Vector2 factors;
+    Exported_Vector2 center;
 
     if(arg_count == 2)
     {
-        factors = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+        factors = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
         transformPtr->scale(factors);
     }
     else if(arg_count == 3)
     {
         if(lua_isuserdata(L, 2) && lua_isuserdata(L, 3))
         {
-            factors = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
-            center = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
+            factors = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+            center = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
             transformPtr->scale(factors, center);
         }
         else
@@ -244,18 +232,13 @@ int TransformExporter::scale(lua_State *L)
             transformPtr->scale(factors);
         }
     }
-    else if(arg_count == 5)
+    else
     {
         factors.x = luaL_checknumber(L, 2);
         factors.y = luaL_checknumber(L, 3);
         center.x = luaL_checknumber(L, 4);
         center.y = luaL_checknumber(L, 5);
         transformPtr->scale(factors, center);
-    }
-    else
-    {
-        luaL_error(L, "You can't call %s with this amount of arguments", __func__);
-        return 0;
     }
     LuaHelper::push(L, (void*)transformPtr, LUA_TRANSFORM_METATABLENAME);
     
@@ -264,7 +247,7 @@ int TransformExporter::scale(lua_State *L)
 
 int TransformExporter::identity(lua_State* L)
 {
-    createTransform(L, Lua_Transform::Identity);
+    createTransform(L, Exported_Transform::Identity);
     return 1;
 }
 

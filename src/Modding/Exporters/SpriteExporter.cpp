@@ -98,7 +98,7 @@ int SpriteExporter::setTextureRect(lua_State* L)
 int SpriteExporter::setColor(lua_State* L)
 {
     Lua_Sprite* spritePtr = static_cast<Lua_Sprite*>( LuaHelper::checkudata_WithError(L, 1, LUA_SPRITE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*spritePtr)->setColor(*colorPtr);
 
     return 0;
@@ -148,9 +148,9 @@ int SpriteExporter::setPosition(lua_State* L)
 {
     int arg_count = lua_gettop(L);
     Lua_Sprite* spritePtr = static_cast<Lua_Sprite*>( LuaHelper::checkudata_WithError(L, 1, LUA_SPRITE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*spritePtr)->setPosition(*vecPtr);
@@ -175,9 +175,9 @@ int SpriteExporter::setRotation(lua_State* L)
 int SpriteExporter::setScale(lua_State* L)
 {
     Lua_Sprite* spritePtr = static_cast<Lua_Sprite*>( LuaHelper::checkudata_WithError(L, 1, LUA_SPRITE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*spritePtr)->setScale(*vecPtr);
@@ -194,9 +194,9 @@ int SpriteExporter::setScale(lua_State* L)
 int SpriteExporter::setOrigin(lua_State* L)
 {
     Lua_Sprite* spritePtr = static_cast<Lua_Sprite*>( LuaHelper::checkudata_WithError(L, 1, LUA_SPRITE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*spritePtr)->setOrigin(*vecPtr);
@@ -253,9 +253,9 @@ int SpriteExporter::getOrigin(lua_State* L)
 int SpriteExporter::move(lua_State* L)
 {
     Lua_Sprite* spritePtr = static_cast<Lua_Sprite*>( LuaHelper::checkudata_WithError(L, 1, LUA_SPRITE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*spritePtr)->move(*vecPtr);
@@ -280,9 +280,9 @@ int SpriteExporter::rotate(lua_State* L)
 int SpriteExporter::scale(lua_State* L)
 {
     Lua_Sprite* spritePtr = static_cast<Lua_Sprite*>( LuaHelper::checkudata_WithError(L, 1, LUA_SPRITE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*spritePtr)->scale(*vecPtr);

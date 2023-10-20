@@ -41,7 +41,7 @@ int ColliderExporter::__new(lua_State* L)
     for(int i = 1; i <= arrLen; ++i)
     {
         lua_rawgeti(L, 1, i);
-        Lua_Vector2* currentPoint = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, -1, LUA_VECTOR2_METATABLENAME) );
+        Exported_Vector2* currentPoint = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, -1, LUA_VECTOR2_METATABLENAME) );
         points.push_back(
             {
                 static_cast<float>(currentPoint->x),
@@ -97,7 +97,7 @@ int ColliderExporter::setPoints(lua_State* L)
     for(int i = 1; i <= arrLen; ++i)
     {
         lua_rawgeti(L, 2, i);
-        Lua_Vector2* currentPoint = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, -1, LUA_VECTOR2_METATABLENAME) );
+        Exported_Vector2* currentPoint = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, -1, LUA_VECTOR2_METATABLENAME) );
         points.push_back(
             {
                 static_cast<float>(currentPoint->x),

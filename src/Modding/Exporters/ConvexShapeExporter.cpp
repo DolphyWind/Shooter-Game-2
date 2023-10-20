@@ -72,9 +72,9 @@ int ConvexShapeExporter::setPoint(lua_State* L)
 {
     Lua_ConvexShape* convexShapePtr = static_cast<Lua_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
     std::size_t index;
-    Lua_Vector2 point;
+    Exported_Vector2 point;
     lua_numbertointeger(luaL_checknumber(L, 2), &index);
-    point = *static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
+    point = *static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
 
     (*convexShapePtr)->setPoint(index, point);
 
@@ -119,7 +119,7 @@ int ConvexShapeExporter::setTextureRect(lua_State* L)
 int ConvexShapeExporter::setFillColor(lua_State* L)
 {
     Lua_ConvexShape* convexShapePtr = static_cast<Lua_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*convexShapePtr)->setFillColor(*colorPtr);
 
     return 0;
@@ -128,7 +128,7 @@ int ConvexShapeExporter::setFillColor(lua_State* L)
 int ConvexShapeExporter::setOutlineColor(lua_State* L)
 {
     Lua_ConvexShape* convexShapePtr = static_cast<Lua_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*convexShapePtr)->setOutlineColor(*colorPtr);
 
     return 0;
@@ -202,9 +202,9 @@ int ConvexShapeExporter::setPosition(lua_State* L)
 {
     int arg_count = lua_gettop(L);
     Lua_ConvexShape* convexShapePtr = static_cast<Lua_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*convexShapePtr)->setPosition(*vecPtr);
@@ -229,9 +229,9 @@ int ConvexShapeExporter::setRotation(lua_State* L)
 int ConvexShapeExporter::setScale(lua_State* L)
 {
     Lua_ConvexShape* convexShapePtr = static_cast<Lua_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*convexShapePtr)->setScale(*vecPtr);
@@ -248,9 +248,9 @@ int ConvexShapeExporter::setScale(lua_State* L)
 int ConvexShapeExporter::setOrigin(lua_State* L)
 {
     Lua_ConvexShape* convexShapePtr = static_cast<Lua_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*convexShapePtr)->setOrigin(*vecPtr);
@@ -307,9 +307,9 @@ int ConvexShapeExporter::getOrigin(lua_State* L)
 int ConvexShapeExporter::move(lua_State* L)
 {
     Lua_ConvexShape* convexShapePtr = static_cast<Lua_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*convexShapePtr)->move(*vecPtr);
@@ -334,9 +334,9 @@ int ConvexShapeExporter::rotate(lua_State* L)
 int ConvexShapeExporter::scale(lua_State* L)
 {
     Lua_ConvexShape* convexShapePtr = static_cast<Lua_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*convexShapePtr)->scale(*vecPtr);

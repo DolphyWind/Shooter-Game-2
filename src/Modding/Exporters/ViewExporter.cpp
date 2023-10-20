@@ -27,8 +27,8 @@ int ViewExporter::__new(lua_State *L)
         createView(L, Lua_View(*rectanglePtr));
         return 1;
     }
-    Lua_Vector2* centerPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
-    Lua_Vector2* sizePtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* centerPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* sizePtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     createView(L, Lua_View(*centerPtr, *sizePtr));
 
     return 1;
@@ -59,7 +59,7 @@ int ViewExporter::setCenter(lua_State *L)
     
     if(arg_count == 2)
     {
-        Lua_Vector2* centerPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Exported_Vector2* centerPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         viewPtr->setCenter(*centerPtr);
         return 0;
     }
@@ -78,7 +78,7 @@ int ViewExporter::setSize(lua_State *L)
 
     if(arg_count == 2)
     {
-        Lua_Vector2* sizePtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Exported_Vector2* sizePtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         viewPtr->setCenter(*sizePtr);
         return 0;
     }
@@ -150,7 +150,7 @@ int ViewExporter::move(lua_State *L)
     
     if(arg_count == 2)
     {
-        Lua_Vector2* offsetPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Exported_Vector2* offsetPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         viewPtr->move(*offsetPtr);
         return 1;
     }

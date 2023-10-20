@@ -4,12 +4,12 @@
 
 #define LUA_TRANSFORM_CLASSNAME "Transform"
 #define LUA_TRANSFORM_METATABLENAME LUA_TRANSFORM_CLASSNAME"_metatable"
-typedef sf::Transform Lua_Transform;
+typedef sf::Transform Exported_Transform;
 
 class LuaExporter;
 struct TransformExporter
 {
-    static void createTransform(lua_State* L, const Lua_Transform& transform);
+    static void createTransform(lua_State* L, const Exported_Transform& transform);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);

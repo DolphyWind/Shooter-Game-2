@@ -162,7 +162,7 @@ int RenderWindowExporter::getPosition(lua_State *L)
 int RenderWindowExporter::setPosition(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_Vector2* positionPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* positionPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     (*renderWindowPtr)->setPosition( *positionPtr );
     return 0;
 }
@@ -170,7 +170,7 @@ int RenderWindowExporter::setPosition(lua_State *L)
 int RenderWindowExporter::setSize(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_Vector2* sizePtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* sizePtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
     (*renderWindowPtr)->setSize( *sizePtr );
 
     return 0;
@@ -285,10 +285,10 @@ int RenderWindowExporter::clear(lua_State *L)
 {
     int arg_count = lua_gettop(L);
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_Color clearColor(0, 0, 0, 255);
+    Exported_Color clearColor(0, 0, 0, 255);
     if(arg_count >= 2)
     {
-        clearColor = *static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+        clearColor = *static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     }
     (*renderWindowPtr)->clear(clearColor);
 
@@ -333,7 +333,7 @@ int RenderWindowExporter::mapPixelToCoords(lua_State *L)
 {
     int arg_count = lua_gettop(L);
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_Vector2* pointPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* pointPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
 
     if(arg_count == 2)
     {
@@ -351,7 +351,7 @@ int RenderWindowExporter::mapCoordsToPixel(lua_State *L)
 {
     int arg_count = lua_gettop(L);
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_Vector2* pointPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* pointPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
 
     if(arg_count == 2)
     {

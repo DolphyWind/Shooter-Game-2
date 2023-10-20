@@ -28,8 +28,8 @@ int IntRectExporter::__new(lua_State *L)
     }
     else if(arg_count == 2)
     {
-        Lua_Vector2* positionVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
-        Lua_Vector2* sizeVec = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Exported_Vector2* positionVec = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME) );
+        Exported_Vector2* sizeVec = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         createIntRect(L, Lua_IntRect(*positionVec, *sizeVec));
         return 1;
     }
@@ -142,7 +142,7 @@ int IntRectExporter::contains(lua_State *L)
 
     if(arg_count == 2)
     {
-        Lua_Vector2* vecPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
+        Exported_Vector2* vecPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 2, LUA_VECTOR2_METATABLENAME) );
         lua_pushboolean(L, intRectPtr->contains(*vecPtr));
         return 1;
     }
@@ -185,14 +185,14 @@ int IntRectExporter::intersects(lua_State *L)
 int IntRectExporter::getPosition(lua_State *L)
 {
     Lua_IntRect* intRectPtr = static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_INTRECT_METATABLENAME) );
-    Vector2Exporter::createVector(L, Lua_Vector2(intRectPtr->left, intRectPtr->top));
+    Vector2Exporter::createVector(L, Exported_Vector2(intRectPtr->left, intRectPtr->top));
     return 1;
 }
 
 int IntRectExporter::getSize(lua_State *L)
 {
     Lua_IntRect* intRectPtr = static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_INTRECT_METATABLENAME) );
-    Vector2Exporter::createVector(L, Lua_Vector2(intRectPtr->width, intRectPtr->height));
+    Vector2Exporter::createVector(L, Exported_Vector2(intRectPtr->width, intRectPtr->height));
     return 1;
 }
 

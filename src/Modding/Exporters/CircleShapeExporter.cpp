@@ -117,7 +117,7 @@ int CircleShapeExporter::setTextureRect(lua_State* L)
 int CircleShapeExporter::setFillColor(lua_State* L)
 {
     Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*circleShapePtr)->setFillColor(*colorPtr);
 
     return 0;
@@ -126,7 +126,7 @@ int CircleShapeExporter::setFillColor(lua_State* L)
 int CircleShapeExporter::setOutlineColor(lua_State* L)
 {
     Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*circleShapePtr)->setOutlineColor(*colorPtr);
 
     return 0;
@@ -200,9 +200,9 @@ int CircleShapeExporter::setPosition(lua_State* L)
 {
     int arg_count = lua_gettop(L);
     Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*circleShapePtr)->setPosition(*vecPtr);
@@ -227,9 +227,9 @@ int CircleShapeExporter::setRotation(lua_State* L)
 int CircleShapeExporter::setScale(lua_State* L)
 {
     Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*circleShapePtr)->setScale(*vecPtr);
@@ -246,9 +246,9 @@ int CircleShapeExporter::setScale(lua_State* L)
 int CircleShapeExporter::setOrigin(lua_State* L)
 {
     Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*circleShapePtr)->setOrigin(*vecPtr);
@@ -305,9 +305,9 @@ int CircleShapeExporter::getOrigin(lua_State* L)
 int CircleShapeExporter::move(lua_State* L)
 {
     Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*circleShapePtr)->move(*vecPtr);
@@ -332,9 +332,9 @@ int CircleShapeExporter::rotate(lua_State* L)
 int CircleShapeExporter::scale(lua_State* L)
 {
     Lua_CircleShape* circleShapePtr = static_cast<Lua_CircleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CIRCLESHAPE_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*circleShapePtr)->scale(*vecPtr);

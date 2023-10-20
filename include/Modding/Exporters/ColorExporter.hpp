@@ -4,7 +4,7 @@
 
 #define LUA_COLOR_CLASSNAME "Color"
 #define LUA_COLOR_METATABLENAME LUA_COLOR_CLASSNAME"_metatable"
-typedef sfex::Color Lua_Color;
+typedef sfex::Color Exported_Color;
 
 class LuaExporter;
 struct ColorExporter

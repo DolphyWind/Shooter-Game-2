@@ -46,11 +46,11 @@ int ImageExporter::create(lua_State *L)
     lua_Integer height;
     lua_numbertointeger(luaL_checknumber(L, 2), &width);
     lua_numbertointeger(luaL_checknumber(L, 3), &height);
-    Lua_Color color(0, 0, 0);
+    Exported_Color color(0, 0, 0);
 
     if(arg_count > 3)
     {
-        color = *static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 4, LUA_COLOR_METATABLENAME) );
+        color = *static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 4, LUA_COLOR_METATABLENAME) );
     }
     imagePtr->create(width, height, color);
 
@@ -86,7 +86,7 @@ int ImageExporter::saveToFile(lua_State *L)
 int ImageExporter::getSize(lua_State *L)
 {
     Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
-    Lua_Vector2 size = imagePtr->getSize();
+    Exported_Vector2 size = imagePtr->getSize();
     Vector2Exporter::createVector(L, size);
     return 1;
 }
@@ -95,7 +95,7 @@ int ImageExporter::createMaskFromColor(lua_State *L)
 {
     int arg_count = lua_gettop(L);
     Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     lua_Integer alpha = 0;
     
     if(arg_count > 2)
@@ -137,11 +137,11 @@ int ImageExporter::setPixel(lua_State *L)
     Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_Integer x;
     lua_Integer y;
-    Lua_Color color;
+    Exported_Color color;
     
     lua_numbertointeger(luaL_checknumber(L, 2), &x);
     lua_numbertointeger(luaL_checknumber(L, 3), &y);
-    color = *static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 4, LUA_COLOR_METATABLENAME) );
+    color = *static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 4, LUA_COLOR_METATABLENAME) );
     imagePtr->setPixel(x, y, color);
 
     return 0;

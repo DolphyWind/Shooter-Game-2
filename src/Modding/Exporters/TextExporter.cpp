@@ -148,7 +148,7 @@ int TextExporter::setStyle(lua_State* L)
 int TextExporter::setFillColor(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*textPtr)->setFillColor(*colorPtr);
 
     return 0;
@@ -157,7 +157,7 @@ int TextExporter::setFillColor(lua_State* L)
 int TextExporter::setOutlineColor(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Color* colorPtr = static_cast<Lua_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
+    Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     (*textPtr)->setOutlineColor(*colorPtr);
 
     return 0;
@@ -275,9 +275,9 @@ int TextExporter::setPosition(lua_State* L)
 {
     int arg_count = lua_gettop(L);
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*)LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*textPtr)->setPosition(*vecPtr);
@@ -302,9 +302,9 @@ int TextExporter::setRotation(lua_State* L)
 int TextExporter::setScale(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*textPtr)->setScale(*vecPtr);
@@ -321,9 +321,9 @@ int TextExporter::setScale(lua_State* L)
 int TextExporter::setOrigin(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*textPtr)->setOrigin(*vecPtr);
@@ -380,9 +380,9 @@ int TextExporter::getOrigin(lua_State* L)
 int TextExporter::move(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*textPtr)->move(*vecPtr);
@@ -407,9 +407,9 @@ int TextExporter::rotate(lua_State* L)
 int TextExporter::scale(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Vector2* vecPtr;
+    Exported_Vector2* vecPtr;
 
-    vecPtr = (Lua_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
+    vecPtr = (Exported_Vector2*) LuaHelper::checkudata_orNull(L, 2, LUA_VECTOR2_METATABLENAME);
     if(vecPtr)
     {
         (*textPtr)->scale(*vecPtr);

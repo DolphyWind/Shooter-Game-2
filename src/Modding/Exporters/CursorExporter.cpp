@@ -106,7 +106,7 @@ int CursorExporter::loadFromImage(lua_State* L)
 {
     Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( LuaHelper::checkudata_WithError(L, 1, LUA_CURSOR_METATABLENAME) );
     Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
-    Lua_Vector2* hotspotPtr = static_cast<Lua_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
+    Exported_Vector2* hotspotPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
 
     bool result = cursorPtr->loadFromPixels(imagePtr->getPixelsPtr(), imagePtr->getSize(), *hotspotPtr);
     lua_pushboolean(L, result);
