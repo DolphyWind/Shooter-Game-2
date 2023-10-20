@@ -139,7 +139,7 @@ int RectangleShapeExporter::setOutlineThickness(lua_State* L)
 int RectangleShapeExporter::getTexture(lua_State* L)
 {
     Lua_RectangleShape* rectangleShapePtr = static_cast<Lua_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    LuaHelper::push(L, (void*)(*rectangleShapePtr)->getTexture());
+    LuaHelper::push(L, (void*)(*rectangleShapePtr)->getTexture(), LUA_TEXTURE_METATABLENAME);
 
     return 1;
 }

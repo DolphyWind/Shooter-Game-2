@@ -4,6 +4,7 @@ bulletRadius = 10
 playerId = -2
 parentPlayer = nil
 
+counter = 0
 direction = Vector2.new(1, 0)
 bulletCircle = CircleShape.new(bulletRadius)
 
@@ -39,6 +40,11 @@ end
 
 function update(dt)
     this:move(bulletSpeed * direction * dt)
+    counter = counter + dt
+
+    if counter > 5 then
+        this:destroy()
+    end
 end
 
 function render()
