@@ -1,5 +1,5 @@
 # RectangleShape
-Exports AttachableObject\<sfex::RectangleShape\> API to Lua. An attachable object is an object that can be attached to an entity. When an attachable object is attached to an entity, the origin of its coordinate system becomes that entity's global position.
+Exports AttachableObject\<sf::RectangleShape\> API to Lua. An attachable object is an object that can be attached to an entity. When an attachable object is attached to an entity, the origin of its coordinate system becomes that entity's global position.
 
 ### Methods
 `RectangleShape.new()`: Creates an empty rectangle shape with size (0, 0)  
@@ -7,7 +7,7 @@ Exports AttachableObject\<sfex::RectangleShape\> API to Lua. An attachable objec
 `rshape:setSize(newSize: Vector2)`: Sets `rshape`'s size to newSize.  
 `rshape:getSize()`: Returns `rshape`'s size as Vector2.  
 `rshape:getPointCount()`: Returns the number of points used to compose the `rshape`.  
-`rshape:getPoint(index: integer)`: Returns a point of the rectangle based on the given index.  
+`rshape:getPoint(index: integer)`: Returns a point of the `rshape` that corresponds to given index.  
 `rshape:setTexture(texture: Texture)`: Sets the texture of `rshape`.  
 `rshape:setTexture(texture: Texture, resetRect: bool)`: Set the texture of `rshape`.  
 `rshape:setTextureRect(rect: IntRect)`: Sets the sub-rectangle of the texture that the `rshape` will display.  

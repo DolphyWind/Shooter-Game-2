@@ -6,7 +6,7 @@
 
 #define LUA_CONVEXSHAPE_CLASSNAME "ConvexShape"
 #define LUA_CONVEXSHAPE_METATABLENAME LUA_CONVEXSHAPE_CLASSNAME"_metatable"
-typedef AttachableObject<sf::ConvexShape> Lua_ConvexShape;
+typedef AttachableObject<sf::ConvexShape> Exported_ConvexShape;
 
 class LuaExporter;
 struct ConvexShapeExporter

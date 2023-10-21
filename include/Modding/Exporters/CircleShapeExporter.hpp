@@ -6,7 +6,7 @@
 
 #define LUA_CIRCLESHAPE_CLASSNAME "CircleShape"
 #define LUA_CIRCLESHAPE_METATABLENAME LUA_CIRCLESHAPE_CLASSNAME"_metatable"
-typedef AttachableObject<sf::CircleShape> Lua_CircleShape;
+typedef AttachableObject<sf::CircleShape> Exported_CircleShape;
 
 class LuaExporter;
 struct CircleShapeExporter

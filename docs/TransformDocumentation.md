@@ -1,5 +1,5 @@
 # Transform
-Exports sf::Transform API to Lua. It represents translation, scale and rotation as a 3D matrix.
+Exports `sf::Transform` API to Lua. It represents translation, scale and rotation as a 3D matrix.
 
 ### Operators
 `*`: Combines two transforms.  

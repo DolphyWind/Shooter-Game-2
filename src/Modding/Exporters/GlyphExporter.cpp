@@ -4,10 +4,10 @@
 #include <Modding/Exporters/IntRectExporter.hpp>
 #include "Modding/LuaHelper.hpp"
 
-void GlyphExporter::createGlyph(lua_State *L, const Lua_Glyph &glyph)
+void GlyphExporter::createGlyph(lua_State *L, const Exported_Glyph &glyph)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_Glyph));
-    new (data) Lua_Glyph(glyph);
+    void* data = lua_newuserdata(L, sizeof(Exported_Glyph));
+    new (data) Exported_Glyph(glyph);
     luaL_getmetatable(L, LUA_GLYPH_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -20,14 +20,14 @@ int GlyphExporter::__new(lua_State *L)
 
 int GlyphExporter::__destroy(lua_State *L)
 {
-    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
-    glyphPtr->~Lua_Glyph();
+    Exported_Glyph* glyphPtr = static_cast<Exported_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
+    glyphPtr->~Exported_Glyph();
     return 0;
 }
 
 int GlyphExporter::__index(lua_State *L)
 {
-    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
+    Exported_Glyph* glyphPtr = static_cast<Exported_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "advance")
@@ -54,7 +54,7 @@ int GlyphExporter::__index(lua_State *L)
 
 int GlyphExporter::__newindex(lua_State *L)
 {
-    Lua_Glyph* glyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
+    Exported_Glyph* glyphPtr = static_cast<Exported_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "advance")
@@ -84,8 +84,8 @@ int GlyphExporter::__eq(lua_State *L)
         lua_pushboolean(L, false);
         return 1;
     }
-    Lua_Glyph* firstGlyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
-    Lua_Glyph* secondGlyphPtr = static_cast<Lua_Glyph*>( LuaHelper::checkudata_WithError(L, 2, LUA_GLYPH_METATABLENAME) );
+    Exported_Glyph* firstGlyphPtr = static_cast<Exported_Glyph*>( LuaHelper::checkudata_WithError(L, 1, LUA_GLYPH_METATABLENAME) );
+    Exported_Glyph* secondGlyphPtr = static_cast<Exported_Glyph*>( LuaHelper::checkudata_WithError(L, 2, LUA_GLYPH_METATABLENAME) );
     lua_pushboolean(L,
         (firstGlyphPtr->advance == secondGlyphPtr->advance) &&
         (firstGlyphPtr->bounds == secondGlyphPtr->bounds) && 

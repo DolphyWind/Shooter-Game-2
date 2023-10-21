@@ -1,6 +1,6 @@
 # Vector2
 
-Vector2 exports sfex::Vector2<float> API to Lua. It represents 2D mathematical vectors. 
+Vector2 exports `sfex::Vector2\<float\>` API to Lua. It represents 2D mathematical vectors. 
 
 ### Fields
 `x`: X component of the Vector2.  
