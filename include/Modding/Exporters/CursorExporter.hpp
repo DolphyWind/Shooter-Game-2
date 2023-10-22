@@ -5,7 +5,7 @@
 
 #define LUA_CURSOR_CLASSNAME "Cursor"
 #define LUA_CURSOR_METATABLENAME LUA_CURSOR_CLASSNAME"_metatable"
-typedef sf::Cursor Lua_Cursor;
+typedef sf::Cursor Exported_Cursor;
 
 class LuaExporter;
 struct CursorExporter

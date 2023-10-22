@@ -229,7 +229,7 @@ int RenderWindowExporter::setMouseCursorGrabbed(lua_State *L)
 int RenderWindowExporter::setMouseCursor(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_Cursor* cursorPtr = static_cast<Lua_Cursor*>( LuaHelper::checkudata_WithError(L, 2, LUA_CURSOR_METATABLENAME) );
+    Exported_Cursor* cursorPtr = static_cast<Exported_Cursor*>( LuaHelper::checkudata_WithError(L, 2, LUA_CURSOR_METATABLENAME) );
 
     (*renderWindowPtr)->setMouseCursor(*cursorPtr);
     return 0;

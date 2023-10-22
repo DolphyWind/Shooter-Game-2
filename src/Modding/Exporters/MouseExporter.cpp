@@ -33,6 +33,7 @@ int MouseExporter::getPosition(lua_State *L)
 {
     int arg_count = lua_gettop(L);
     Exported_Vector2 mousePos;
+
     if(arg_count == 1)
     {
         Lua_RenderWindow* renderWindow = static_cast<Lua_RenderWindow*>(LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME));
@@ -49,11 +50,18 @@ int MouseExporter::getPosition(lua_State *L)
 
 int MouseExporter::setPosition(lua_State *L)
 {
-    // TODO: Add support for setting position relative to window
-    if(lua_isuserdata(L, 1))
+    int arg_count = lua_gettop(L);
+    Exported_Vector2 newPos;
+    newPos = *static_cast<Exported_Vector2*>(LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME));
+
+    if(arg_count == 1)
     {
-        Exported_Vector2* newPos = static_cast<Exported_Vector2*>(LuaHelper::checkudata_WithError(L, 1, LUA_VECTOR2_METATABLENAME));
-        sfex::Mouse::setPosition(*newPos);
+        sfex::Mouse::setPosition(newPos);
+    }
+    else
+    {
+        Lua_RenderWindow* renderWindow = static_cast<Lua_RenderWindow*>(LuaHelper::checkudata_WithError(L, 2, LUA_RENDERWINDOW_METATABLENAME));
+        sfex::Mouse::setPosition(newPos, *renderWindow);
     }
     return 0;
 }
