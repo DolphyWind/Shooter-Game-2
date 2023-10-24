@@ -42,10 +42,10 @@ int SpriteExporter::__new(lua_State *L)
     }
 
     Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
-    Lua_IntRect* rectanglePtr = nullptr;
+    Exported_IntRect* rectanglePtr = nullptr;
     if(arg_count >= 2)
     {
-        rectanglePtr = static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_TEXTURE_METATABLENAME) );
+        rectanglePtr = static_cast<Exported_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_TEXTURE_METATABLENAME) );
     }
 
     createSprite(L, texturePtr, rectanglePtr);
@@ -89,7 +89,7 @@ int SpriteExporter::setTexture(lua_State* L)
 int SpriteExporter::setTextureRect(lua_State* L)
 {
     Lua_Sprite* spritePtr = static_cast<Lua_Sprite*>( LuaHelper::checkudata_WithError(L, 1, LUA_SPRITE_METATABLENAME) );
-    Lua_IntRect* rectPtr = static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_INTRECT_METATABLENAME) );
+    Exported_IntRect* rectPtr = static_cast<Exported_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_INTRECT_METATABLENAME) );
     (*spritePtr)->setTextureRect(*rectPtr);
 
     return 0;

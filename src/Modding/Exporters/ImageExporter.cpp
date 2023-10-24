@@ -121,7 +121,7 @@ int ImageExporter::copy(lua_State *L)
     lua_numbertointeger(luaL_checknumber(L, 4), &destY);
     if(arg_count > 4)
     {
-        sourceRect = *static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 5, LUA_INTRECT_METATABLENAME) );
+        sourceRect = *static_cast<Exported_IntRect*>( LuaHelper::checkudata_WithError(L, 5, LUA_INTRECT_METATABLENAME) );
         if(arg_count > 5)
         {
             applyAlpha = lua_toboolean(L, 2);

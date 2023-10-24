@@ -16,10 +16,25 @@ GameManager::~GameManager()
 
 void GameManager::start()
 {
+    std::vector<Mod> mods = Global::defaultModManager.getMods();
+    for(auto& mod : mods)
+    {
+        for(auto& ed : mod.config.getEntities())
+        {
+            // TODO: Check if the entity exists or not in the map
+            if(ed.spawn_if_not_exists)
+            {
+                spawnEntity({mod, ed});
+            }
+        }
+    }
+    moveNewEntities();
+
     for(auto& e : m_entities)
     {
         e->start();
     }
+    ranStart = true;
 }
 
 void GameManager::update(const sf::Time& deltaTime)
@@ -159,16 +174,33 @@ std::vector<std::unique_ptr<Entity>>& GameManager::getEntities()
 Entity* GameManager::spawnEntity(const std::pair<Mod, EntityData>& entityData)
 {
     Mod mod = entityData.first;
-    EntityData data = entityData.second;
+    EntityData eData = entityData.second;
 
-    return addEntity<LuaEntity>(m_parent, mod.config.getModName(), data.name, mod.entitiesFolderPath / data.file, mod.assetsFolderPath);
+    // Maybe we can use unordered maps to reduce this code to O(1) time.
+    if(eData.one_instance_only)
+    {
+        for(auto& e : m_entities)
+        {
+            if(e->getName() == eData.name) return nullptr;
+        }
+        for(auto& e : m_newEntities)
+        {
+            if(e->getName() == eData.name) return nullptr;
+        }
+    }
+
+    return addEntity<LuaEntity>(m_parent, mod.config.getModName(), eData.name, mod.entitiesFolderPath / eData.file, mod.assetsFolderPath);
 }
 
 void GameManager::moveNewEntities()
 {
     for(auto& e : m_newEntities)
     {
-        e->start();
+        // If we ran the start() of game manager, we call the start method of the entity. Otherwise, the start() method will call the entity's start() method
+        if(ranStart)
+        {
+            e->start();
+        }
         m_entities.push_back(std::move(e));
     }
     m_newEntities.clear();

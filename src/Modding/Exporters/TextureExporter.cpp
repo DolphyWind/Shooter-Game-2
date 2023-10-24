@@ -75,11 +75,11 @@ int TextureExporter::loadFromImage(lua_State* L)
     int arg_count = lua_gettop(L);
     Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
     Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
-    Lua_IntRect rect;
+    Exported_IntRect rect;
 
     if(arg_count >= 3)
     {
-        rect = *static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_INTRECT_METATABLENAME) );
+        rect = *static_cast<Exported_IntRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_INTRECT_METATABLENAME) );
     }
 
     bool result = texturePtr->loadFromImage(*imagePtr, rect);

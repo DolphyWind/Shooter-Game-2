@@ -48,6 +48,7 @@ private:
 
     std::unordered_map<Entity*, std::unordered_set<Entity*>> m_collisionTable;
     Game* m_parent;
+    bool ranStart = false;
 };
 
 template<class T, typename... Args>
@@ -57,7 +58,6 @@ T* GameManager::addEntity(Args&& ... args)
     static std::mt19937 engine(dev());
 
     std::unique_ptr<T> newEntity = std::make_unique<T>(std::forward<Args>(args)...);
-
     if(std::is_same_v<T, Player>)
     {
         unsigned id = 0;

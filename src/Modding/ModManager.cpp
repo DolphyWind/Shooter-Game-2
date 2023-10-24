@@ -77,8 +77,11 @@ std::optional<std::pair<Mod, EntityData>> ModManager::getEntityData(const std::s
             for(auto& entity : mod.config.getEntities())
             {
                 if(entity.name == entityName)
+                {
                     return std::pair{mod, entity};
+                }
             }
+            return std::nullopt;
         }
     }
 
@@ -94,4 +97,9 @@ Entity* ModManager::spawnEntity(const std::string& modName, const std::string& e
     }
 
     return Global::defaultGameManager.spawnEntity(entityData.value());
+}
+
+Entity* ModManager::spawnEntity(const std::pair<Mod, EntityData>& entityPair)
+{
+    return Global::defaultGameManager.spawnEntity(entityPair);
 }

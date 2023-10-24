@@ -40,13 +40,11 @@ void DebugScene::start()
 
     Global::defaultGameManager.addEntity<Player>(getParent(), true);
     Global::defaultGameManager.addEntity<Player>(getParent(), false);
-    Global::defaultGameManager.addEntity<LuaEntity>(getParent(), "coremod", "wall", "entity.lua", ".");
     Global::defaultGameManager.moveNewEntities();
 
     Global::defaultGameManager.getEntities()[0]->setPosition({100, 100});
     Global::defaultGameManager.getEntities()[1]->setPosition({300, 300});
-    Global::defaultGameManager.getEntities()[2]->setPosition({0, 0});
-    //Global::defaultGameManager.start();
+    Global::defaultGameManager.start();
 }
 
 void DebugScene::update(const sf::Time& deltaTime)

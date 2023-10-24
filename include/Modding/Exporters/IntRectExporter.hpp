@@ -4,12 +4,12 @@
 
 #define LUA_INTRECT_CLASSNAME "IntRect"
 #define LUA_INTRECT_METATABLENAME LUA_INTRECT_CLASSNAME"_metatable"
-typedef sf::IntRect Lua_IntRect;
+typedef sf::IntRect Exported_IntRect;
 
 class LuaExporter;
 struct IntRectExporter
 {
-    static void createIntRect(lua_State* L, const Lua_IntRect& intRect);
+    static void createIntRect(lua_State* L, const Exported_IntRect& intRect);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);

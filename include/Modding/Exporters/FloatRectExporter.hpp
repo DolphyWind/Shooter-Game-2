@@ -4,12 +4,12 @@
 
 #define LUA_FLOATRECT_CLASSNAME "FloatRect"
 #define LUA_FLOATRECT_METATABLENAME LUA_FLOATRECT_CLASSNAME"_metatable"
-typedef sf::FloatRect Lua_FloatRect;
+typedef sf::FloatRect Exported_FloatRect;
 
 class LuaExporter;
 struct FloatRectExporter
 {
-    static void createFloatRect(lua_State* L, const Lua_FloatRect& floatRect);
+    static void createFloatRect(lua_State* L, const Exported_FloatRect& floatRect);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);

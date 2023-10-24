@@ -35,11 +35,11 @@ It contains information about the mod in the JSON format. The structure of the f
     "name": "bullet",
     "file": "bullet.lua",
     "hidden_in_mapmaker": false,
-    "exists_single": false,
+    "one_instance_only": false,
     "spawn_if_not_exists": false
 }
 ```
-Here, the **name** field contains the name used to refer this entity in scripts. The **file** field contains the lua file that this entity will run. **hidden_in_mapmaker** hides the entity from map maker menu. **exists_single** makes entity at most have one instance. **spawn_if_not_exists** spawns the entity if it doesn't exists in the map at the beginning of the game. The last three options are more targeted to a GameManager-like entities.
+Here, the **name** field contains the name used to refer this entity in scripts. The **file** field contains the lua file that this entity will run. **hidden_in_mapmaker** hides the entity from map maker menu. **one_instance_only** makes entity at most have one instance. **spawn_if_not_exists** spawns the entity if it doesn't exists in the map at the beginning of the game. The last three options are more targeted to a GameManager-like entities.
 
 #### Future Of The Mods
 I am also planning to add `settings.json` and export an API to Lua that will allow you to retrieve your settings.
@@ -89,8 +89,8 @@ The Shooter Game 2 exports some of its features to Lua. Here's a list of the cla
 + [Image]()
 + [Texture]()
 + [Sprite]()
-+ [IntRect]()
-+ [FloatRect]()
++ [IntRect](./IntRectDocumentation.md)
++ [FloatRect](./FloatRectDocumentation.md)
 + [Glyph](./GlyphDocumentation.md)
 + [Font]()
 + [Text]()

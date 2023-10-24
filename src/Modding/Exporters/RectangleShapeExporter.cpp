@@ -104,7 +104,7 @@ int RectangleShapeExporter::setTexture(lua_State* L)
 int RectangleShapeExporter::setTextureRect(lua_State* L)
 {
     Exported_RectangleShape* rectangleShapePtr = static_cast<Exported_RectangleShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_RECTANGLESHAPE_METATABLENAME) );
-    Lua_IntRect* rectPtr = static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_INTRECT_METATABLENAME) );
+    Exported_IntRect* rectPtr = static_cast<Exported_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_INTRECT_METATABLENAME) );
     (*rectangleShapePtr)->setTextureRect(*rectPtr);
 
     return 0;

@@ -23,7 +23,7 @@ int ViewExporter::__new(lua_State *L)
     }
     else if(arg_count == 1)
     {
-        Lua_FloatRect* rectanglePtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
+        Exported_FloatRect* rectanglePtr = static_cast<Exported_FloatRect*>( LuaHelper::checkudata_WithError(L, 1, LUA_FLOATRECT_METATABLENAME) );
         createView(L, Lua_View(*rectanglePtr));
         return 1;
     }
@@ -100,7 +100,7 @@ int ViewExporter::setRotatin(lua_State *L)
 int ViewExporter::setViewport(lua_State *L)
 {
     Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
-    Lua_FloatRect* viewportPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
+    Exported_FloatRect* viewportPtr = static_cast<Exported_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
     viewPtr->setViewport(*viewportPtr);
 
     return 0;
@@ -109,7 +109,7 @@ int ViewExporter::setViewport(lua_State *L)
 int ViewExporter::reset(lua_State *L)
 {
     Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIEW_METATABLENAME) );
-    Lua_FloatRect* rectanglePtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
+    Exported_FloatRect* rectanglePtr = static_cast<Exported_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
     viewPtr->reset(*rectanglePtr);
     
     return 0;

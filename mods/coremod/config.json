@@ -10,15 +10,22 @@
       "name": "wall",
       "file": "wall.lua",
       "hidden_in_mapmaker": false,
-      "exists_single": false,
+      "one_instance_only": false,
       "spawn_if_not_exists": false
     },
     {
       "name": "bullet",
       "file": "bullet.lua",
       "hidden_in_mapmaker": false,
-      "exists_single": false,
+      "one_instance_only": false,
       "spawn_if_not_exists": false
+    },
+    {
+      "name": "GameManager",
+      "file": "GameManager.lua",
+      "hidden_in_mapmaker": false,
+      "one_instance_only": true,
+      "spawn_if_not_exists": true
     }
   ]
 }

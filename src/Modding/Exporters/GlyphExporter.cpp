@@ -64,12 +64,12 @@ int GlyphExporter::__newindex(lua_State *L)
     }
     else if(indexStr == "bounds")
     {
-        glyphPtr->bounds = *static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_FLOATRECT_METATABLENAME) );
+        glyphPtr->bounds = *static_cast<Exported_FloatRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_FLOATRECT_METATABLENAME) );
         return 0;
     }
     else if(indexStr == "textureRect")
     {
-        glyphPtr->textureRect = *static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_INTRECT_METATABLENAME) );
+        glyphPtr->textureRect = *static_cast<Exported_IntRect*>( LuaHelper::checkudata_WithError(L, 3, LUA_INTRECT_METATABLENAME) );
         return 0;
     }
 

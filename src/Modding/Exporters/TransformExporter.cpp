@@ -139,7 +139,7 @@ int TransformExporter::transformPoint(lua_State *L)
 int TransformExporter::transformRect(lua_State *L)
 {
     Exported_Transform* transformPtr = static_cast<Exported_Transform*>( LuaHelper::checkudata_WithError(L, 1, LUA_TRANSFORM_METATABLENAME) );
-    Lua_FloatRect* floatRectPtr = static_cast<Lua_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
+    Exported_FloatRect* floatRectPtr = static_cast<Exported_FloatRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_FLOATRECT_METATABLENAME) );
     FloatRectExporter::createFloatRect(L, transformPtr->transformRect(*floatRectPtr));
     return 1;
 }

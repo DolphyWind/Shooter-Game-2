@@ -110,7 +110,7 @@ int ConvexShapeExporter::setTexture(lua_State* L)
 int ConvexShapeExporter::setTextureRect(lua_State* L)
 {
     Exported_ConvexShape* convexShapePtr = static_cast<Exported_ConvexShape*>( LuaHelper::checkudata_WithError(L, 1, LUA_CONVEXSHAPE_METATABLENAME) );
-    Lua_IntRect* rectPtr = static_cast<Lua_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_INTRECT_METATABLENAME) );
+    Exported_IntRect* rectPtr = static_cast<Exported_IntRect*>( LuaHelper::checkudata_WithError(L, 2, LUA_INTRECT_METATABLENAME) );
     (*convexShapePtr)->setTextureRect(*rectPtr);
 
     return 0;

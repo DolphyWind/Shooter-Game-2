@@ -7,14 +7,23 @@
 
 void EntityExporter::createEntity(lua_State* L, const std::string& modName, const std::string& entityName, const sfex::Vec2& position)
 {
+    Entity* spawnedPtr = Global::defaultModManager.spawnEntity(modName, entityName);
+    if(!spawnedPtr)
+    {
+        lua_pushnil(L);
+        return;
+    }
+    spawnedPtr->setPosition(position);
+    auto* luaEntityPtr = dynamic_cast<LuaEntity*>(spawnedPtr);
+    if(!luaEntityPtr)
+    {
+        lua_pushnil(L);
+        return;
+    }
+
     void* data = lua_newuserdata(L, sizeof(Exported_Entity));
     luaL_getmetatable(L, LUA_ENTITY_METATABLENAME);
     lua_setmetatable(L, -2);
-
-    Entity* spawnedPtr = Global::defaultModManager.spawnEntity(modName, entityName);
-    spawnedPtr->setPosition(position);
-    auto* luaEntityPtr = dynamic_cast<LuaEntity*>(spawnedPtr);
-    if(!luaEntityPtr) return;
     new (data) Exported_Entity(luaEntityPtr);
 }
 
