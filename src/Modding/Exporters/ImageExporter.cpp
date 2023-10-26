@@ -6,10 +6,10 @@
 #include <iostream>
 #include "Modding/LuaHelper.hpp"
 
-void ImageExporter::createImage(lua_State *L, const Lua_Image &image)
+void ImageExporter::createImage(lua_State *L, const Exported_Image &image)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_Image));
-    new (data) Lua_Image(image);
+    void* data = lua_newuserdata(L, sizeof(Exported_Image));
+    new (data) Exported_Image(image);
     luaL_getmetatable(L, LUA_IMAGE_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -22,7 +22,7 @@ int ImageExporter::__new(lua_State *L)
 
 int ImageExporter::__index(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     lua_getglobal(L, LUA_IMAGE_CLASSNAME);
@@ -33,15 +33,15 @@ int ImageExporter::__index(lua_State *L)
 
 int ImageExporter::__destroy(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
-    imagePtr->~Lua_Image();
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    imagePtr->~Exported_Image();
     return 0;
 }
 
 int ImageExporter::create(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_Integer width;
     lua_Integer height;
     lua_numbertointeger(luaL_checknumber(L, 2), &width);
@@ -59,7 +59,7 @@ int ImageExporter::create(lua_State *L)
 
 int ImageExporter::loadFromFile(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path total_path( luaL_checkstring(L, -1) );
     lua_pop(L, 1);
@@ -72,7 +72,7 @@ int ImageExporter::loadFromFile(lua_State *L)
 
 int ImageExporter::saveToFile(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_getglobal(L, ASSETSPATH_VARNAME);
     std::filesystem::path total_path( luaL_checkstring(L, -1) );
     lua_pop(L, 1);
@@ -85,7 +85,7 @@ int ImageExporter::saveToFile(lua_State *L)
 
 int ImageExporter::getSize(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     Exported_Vector2 size = imagePtr->getSize();
     Vector2Exporter::createVector(L, size);
     return 1;
@@ -94,7 +94,7 @@ int ImageExporter::getSize(lua_State *L)
 int ImageExporter::createMaskFromColor(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     Exported_Color* colorPtr = static_cast<Exported_Color*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLOR_METATABLENAME) );
     lua_Integer alpha = 0;
     
@@ -110,8 +110,8 @@ int ImageExporter::createMaskFromColor(lua_State *L)
 int ImageExporter::copy(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
-    Lua_Image* sourcePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* sourcePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
     lua_Integer destX;
     lua_Integer destY;
     sf::IntRect sourceRect(0, 0, 0, 0);
@@ -134,7 +134,7 @@ int ImageExporter::copy(lua_State *L)
 
 int ImageExporter::setPixel(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_Integer x;
     lua_Integer y;
     Exported_Color color;
@@ -149,7 +149,7 @@ int ImageExporter::setPixel(lua_State *L)
 
 int ImageExporter::getPixel(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     lua_Integer x;
     lua_Integer y;
     
@@ -162,14 +162,14 @@ int ImageExporter::getPixel(lua_State *L)
 
 int ImageExporter::flipHorizontally(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     imagePtr->flipHorizontally();
     return 0;
 }
 
 int ImageExporter::flipVertically(lua_State *L)
 {
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 1, LUA_IMAGE_METATABLENAME) );
     imagePtr->flipVertically();
     return 0;
 }

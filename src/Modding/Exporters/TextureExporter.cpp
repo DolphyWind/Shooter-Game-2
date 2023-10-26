@@ -74,7 +74,7 @@ int TextureExporter::loadFromImage(lua_State* L)
 {
     int arg_count = lua_gettop(L);
     Lua_Texture* texturePtr = static_cast<Lua_Texture*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXTURE_METATABLENAME) );
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
     Exported_IntRect rect;
 
     if(arg_count >= 3)
@@ -123,7 +123,7 @@ int TextureExporter::update(lua_State* L)
     }
     else if(LuaHelper::checkudata_orNull(L, 2, LUA_IMAGE_METATABLENAME))
     {
-        Lua_Image* imageToCopyPtr = static_cast<Lua_Image*>(lua_touserdata(L, 2));
+        Exported_Image* imageToCopyPtr = static_cast<Exported_Image*>(lua_touserdata(L, 2));
         texturePtr->update(*imageToCopyPtr, x, y);
     }
     else if(LuaHelper::checkudata_orNull(L, 2, LUA_RENDERWINDOW_METATABLENAME))

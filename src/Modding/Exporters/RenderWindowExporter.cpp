@@ -36,7 +36,7 @@ int RenderWindowExporter::__new(lua_State *L)
     }
     if(arg_count >= 4)
     {
-        settings = *static_cast<Lua_ContextSettings*>( LuaHelper::checkudata_WithError(L, 4, LUA_CONTEXTSETTINGS_METATABLENAME) );
+        settings = *static_cast<Exported_ContextSettings*>( LuaHelper::checkudata_WithError(L, 4, LUA_CONTEXTSETTINGS_METATABLENAME) );
     }
 
     createRenderWindow(L, mode, title, style, settings);
@@ -188,7 +188,7 @@ int RenderWindowExporter::setTitle(lua_State *L)
 int RenderWindowExporter::setIcon(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_Image* iconPtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* iconPtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
     (*renderWindowPtr)->setIcon(iconPtr->getSize().x, iconPtr->getSize().y, iconPtr->getPixelsPtr());
 
     return 0;

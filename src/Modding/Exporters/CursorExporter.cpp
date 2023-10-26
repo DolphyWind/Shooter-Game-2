@@ -105,7 +105,7 @@ int CursorExporter::__index(lua_State *L)
 int CursorExporter::loadFromImage(lua_State* L)
 {
     Exported_Cursor* cursorPtr = static_cast<Exported_Cursor*>( LuaHelper::checkudata_WithError(L, 1, LUA_CURSOR_METATABLENAME) );
-    Lua_Image* imagePtr = static_cast<Lua_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
+    Exported_Image* imagePtr = static_cast<Exported_Image*>( LuaHelper::checkudata_WithError(L, 2, LUA_IMAGE_METATABLENAME) );
     Exported_Vector2* hotspotPtr = static_cast<Exported_Vector2*>( LuaHelper::checkudata_WithError(L, 3, LUA_VECTOR2_METATABLENAME) );
 
     bool result = cursorPtr->loadFromPixels(imagePtr->getPixelsPtr(), imagePtr->getSize(), *hotspotPtr);

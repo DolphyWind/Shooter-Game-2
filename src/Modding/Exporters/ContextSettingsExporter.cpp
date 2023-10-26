@@ -2,10 +2,10 @@
 #include <Modding/LuaExporter.hpp>
 #include "Modding/LuaHelper.hpp"
 
-void ContextSettingsExporter::createContextSetting(lua_State *L, const Lua_ContextSettings& settings)
+void ContextSettingsExporter::createContextSetting(lua_State *L, const Exported_ContextSettings& settings)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_ContextSettings*));
-    new (data) Lua_ContextSettings*(new Lua_ContextSettings(settings));
+    void* data = lua_newuserdata(L, sizeof(Exported_ContextSettings*));
+    new (data) Exported_ContextSettings*(new Exported_ContextSettings(settings));
     luaL_getmetatable(L, LUA_CONTEXTSETTINGS_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -36,15 +36,15 @@ int ContextSettingsExporter::__new(lua_State *L)
 
 int ContextSettingsExporter::__destroy(lua_State *L)
 {
-    Lua_ContextSettings** contextSettingsPtr = static_cast<Lua_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
-    (*contextSettingsPtr)->~Lua_ContextSettings();
+    Exported_ContextSettings** contextSettingsPtr = static_cast<Exported_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    (*contextSettingsPtr)->~Exported_ContextSettings();
     delete (*contextSettingsPtr);
     return 0;
 }
 
 int ContextSettingsExporter::__index(lua_State *L)
 {
-    Lua_ContextSettings** contextSettingsPtr = static_cast<Lua_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    Exported_ContextSettings** contextSettingsPtr = static_cast<Exported_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "depthBits")
@@ -84,17 +84,17 @@ int ContextSettingsExporter::__index(lua_State *L)
     }
     else if(indexStr == "Attribute_Default")
     {
-        lua_pushinteger(L, Lua_ContextSettings::Attribute::Default);
+        lua_pushinteger(L, Exported_ContextSettings::Attribute::Default);
         return 1;
     }
     else if(indexStr == "Attribute_Core")
     {
-        lua_pushinteger(L, Lua_ContextSettings::Attribute::Core);
+        lua_pushinteger(L, Exported_ContextSettings::Attribute::Core);
         return 1;
     }
     else if(indexStr == "Attribute_Debug")
     {
-        lua_pushinteger(L, Lua_ContextSettings::Attribute::Debug);
+        lua_pushinteger(L, Exported_ContextSettings::Attribute::Debug);
         return 1;
     }
 
@@ -106,7 +106,7 @@ int ContextSettingsExporter::__index(lua_State *L)
 
 int ContextSettingsExporter::__newindex(lua_State *L)
 {
-    Lua_ContextSettings** contextSettingsPtr = static_cast<Lua_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
+    Exported_ContextSettings** contextSettingsPtr = static_cast<Exported_ContextSettings**>( LuaHelper::checkudata_WithError(L, 1, LUA_CONTEXTSETTINGS_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "depthBits")
@@ -163,9 +163,9 @@ LuaExporter ContextSettingsExporter::toLuaExporter()
         }
     );
 
-    exporter.addInteger("Attribute_Default", Lua_ContextSettings::Attribute::Default);
-    exporter.addInteger("Attribute_Core", Lua_ContextSettings::Attribute::Core);
-    exporter.addInteger("Attribute_Debug", Lua_ContextSettings::Attribute::Debug);
+    exporter.addInteger("Attribute_Default", Exported_ContextSettings::Attribute::Default);
+    exporter.addInteger("Attribute_Core", Exported_ContextSettings::Attribute::Core);
+    exporter.addInteger("Attribute_Debug", Exported_ContextSettings::Attribute::Debug);
 
     return exporter;
 }

@@ -5,12 +5,12 @@
 
 #define LUA_IMAGE_CLASSNAME "Image"
 #define LUA_IMAGE_METATABLENAME LUA_IMAGE_CLASSNAME"_metatable"
-typedef sf::Image Lua_Image;
+typedef sf::Image Exported_Image;
 
 class LuaExporter;
 struct ImageExporter
 {
-    static void createImage(lua_State* L, const Lua_Image& image);
+    static void createImage(lua_State* L, const Exported_Image& image);
     static int __new(lua_State* L);
     static int __index(lua_State* L);
     static int __destroy(lua_State* L);
