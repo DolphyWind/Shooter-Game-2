@@ -34,7 +34,7 @@ int TextExporter::__new(lua_State *L)
         return 1;
     }
     sf::String string = lua_tostring(L, 1);
-    Lua_Font* font = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 2, LUA_FONT_METATABLENAME) );
+    Exported_Font* font = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 2, LUA_FONT_METATABLENAME) );
     lua_Integer charSize = 30;
     if(arg_count >= 3)
     {
@@ -101,7 +101,7 @@ int TextExporter::setString(lua_State* L)
 int TextExporter::setFont(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 2, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 2, LUA_FONT_METATABLENAME) );
     (*textPtr)->setFont(*fontPtr);
 
     return 0;
@@ -183,7 +183,7 @@ int TextExporter::getString(lua_State* L)
 int TextExporter::getFont(lua_State* L)
 {
     Lua_Text* textPtr = static_cast<Lua_Text*>( LuaHelper::checkudata_WithError(L, 1, LUA_TEXT_METATABLENAME) );
-    const Lua_Font* fontPtr = (*textPtr)->getFont();
+    const Exported_Font* fontPtr = (*textPtr)->getFont();
     LuaHelper::push(L, (void*)fontPtr);
 
     return 1;

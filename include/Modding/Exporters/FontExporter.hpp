@@ -6,12 +6,12 @@ namespace fs = std::filesystem;
 
 #define LUA_FONT_CLASSNAME "Font"
 #define LUA_FONT_METATABLENAME LUA_FONT_CLASSNAME"_metatable"
-typedef sf::Font Lua_Font;
+typedef sf::Font Exported_Font;
 
 class LuaExporter;
 struct FontExporter
 {
-    static void createFont(lua_State* L, const Lua_Font& font);
+    static void createFont(lua_State* L, const Exported_Font& font);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);

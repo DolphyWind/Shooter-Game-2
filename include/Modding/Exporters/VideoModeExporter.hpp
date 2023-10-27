@@ -4,12 +4,12 @@
 
 #define LUA_VIDEOMODE_CLASSNAME "VideoMode"
 #define LUA_VIDEOMODE_METATABLENAME LUA_VIDEOMODE_CLASSNAME"_metatable"
-typedef sf::VideoMode Lua_VideoMode;
+typedef sf::VideoMode Exported_VideoMode;
 
 class LuaExporter;
 struct VideoModeExporter
 {
-    static void createVideoMode(lua_State* L, const Lua_VideoMode& videoMode);
+    static void createVideoMode(lua_State* L, const Exported_VideoMode& videoMode);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);
@@ -19,6 +19,8 @@ struct VideoModeExporter
     static int __le(lua_State* L);
 
     static int isValid(lua_State* L);
+    static int getDesktopMode(lua_State* L);
+    static int getFullscreenModes(lua_State* L);
 
     static LuaExporter toLuaExporter();
 };

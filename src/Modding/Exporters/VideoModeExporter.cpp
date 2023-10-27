@@ -2,10 +2,10 @@
 #include <Modding/LuaExporter.hpp>
 #include "Modding/LuaHelper.hpp"
 
-void VideoModeExporter::createVideoMode(lua_State *L, const Lua_VideoMode &videoMode)
+void VideoModeExporter::createVideoMode(lua_State *L, const Exported_VideoMode &videoMode)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_VideoMode));
-    new (data) Lua_VideoMode(videoMode);
+    void* data = lua_newuserdata(L, sizeof(Exported_VideoMode));
+    new (data) Exported_VideoMode(videoMode);
     luaL_getmetatable(L, LUA_VIDEOMODE_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -15,7 +15,7 @@ int VideoModeExporter::__new(lua_State *L)
     int arg_count = lua_gettop(L);
     if(arg_count == 0)
     {
-        createVideoMode(L, Lua_VideoMode());
+        createVideoMode(L, Exported_VideoMode());
         return 1;
     }
     else if(arg_count == 2)
@@ -25,7 +25,7 @@ int VideoModeExporter::__new(lua_State *L)
         lua_numbertointeger(luaL_checknumber(L, 1), &modeWidth);
         lua_numbertointeger(luaL_checknumber(L, 2), &modeHeight);
 
-        createVideoMode(L, Lua_VideoMode(modeWidth, modeHeight));
+        createVideoMode(L, Exported_VideoMode(modeWidth, modeHeight));
         return 1;
     }
     else if(arg_count == 3)
@@ -37,7 +37,7 @@ int VideoModeExporter::__new(lua_State *L)
         lua_numbertointeger(luaL_checknumber(L, 2), &modeHeight);
         lua_numbertointeger(luaL_checknumber(L, 3), &modeBitsPerPixel);
 
-        createVideoMode(L, Lua_VideoMode(modeWidth, modeHeight, modeBitsPerPixel));
+        createVideoMode(L, Exported_VideoMode(modeWidth, modeHeight, modeBitsPerPixel));
         return 1;
     }
 
@@ -47,14 +47,14 @@ int VideoModeExporter::__new(lua_State *L)
 
 int VideoModeExporter::__destroy(lua_State *L)
 {
-    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
-    videoModePtr->~Lua_VideoMode();
+    Exported_VideoMode* videoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    videoModePtr->~Exported_VideoMode();
     return 0;
 }
 
 int VideoModeExporter::__index(lua_State *L)
 {
-    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* videoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "width")
@@ -81,7 +81,7 @@ int VideoModeExporter::__index(lua_State *L)
 
 int VideoModeExporter::__newindex(lua_State *L)
 {
-    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* videoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     if(indexStr == "width")
@@ -106,33 +106,50 @@ int VideoModeExporter::__newindex(lua_State *L)
 
 int VideoModeExporter::__eq(lua_State *L)
 {
-    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
-    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* firstVideoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* secondVideoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
     lua_pushboolean(L, (*firstVideoModePtr) == (*secondVideoModePtr));
     return 1;
 }
 
 int VideoModeExporter::__lt(lua_State *L)
 {
-    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
-    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* firstVideoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* secondVideoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
     lua_pushboolean(L, (*firstVideoModePtr) < (*secondVideoModePtr));
     return 1;
 }
 
 int VideoModeExporter::__le(lua_State *L)
 {
-    Lua_VideoMode* firstVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
-    Lua_VideoMode* secondVideoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* firstVideoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* secondVideoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIDEOMODE_METATABLENAME) );
     lua_pushboolean(L, (*firstVideoModePtr) <= (*secondVideoModePtr));
     return 1;
 }
 
 int VideoModeExporter::isValid(lua_State *L)
 {
-    Lua_VideoMode* videoModePtr = static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    Exported_VideoMode* videoModePtr = static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
     lua_pushboolean(L, videoModePtr->isValid());
     return 1;
+}
+
+int VideoModeExporter::getDesktopMode(lua_State* L)
+{
+    createVideoMode(L, Exported_VideoMode::getDesktopMode());
+    return 1;
+}
+
+int VideoModeExporter::getFullscreenModes(lua_State* L)
+{
+    const std::vector<Exported_VideoMode>& fullscreenModes = Exported_VideoMode::getFullscreenModes();
+    for (auto& mode : fullscreenModes)
+    {
+        createVideoMode(L, mode);
+    }
+
+    return static_cast<int>(fullscreenModes.size());
 }
 
 LuaExporter VideoModeExporter::toLuaExporter()
@@ -142,6 +159,8 @@ LuaExporter VideoModeExporter::toLuaExporter()
         VideoModeExporter::__new,
         {
             {"isValid", VideoModeExporter::isValid},
+            {"getDesktopMode", VideoModeExporter::getDesktopMode},
+            {"getFullscreenModes", VideoModeExporter::getFullscreenModes},
         },
         {
             {"__gc", VideoModeExporter::__destroy},

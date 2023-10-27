@@ -3,10 +3,10 @@
 #include <Modding/LuaExporter.hpp>
 #include "Modding/LuaHelper.hpp"
 
-void FontExporter::createFont(lua_State *L, const Lua_Font &font)
+void FontExporter::createFont(lua_State *L, const Exported_Font &font)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_Font));
-    new (data) Lua_Font(font);
+    void* data = lua_newuserdata(L, sizeof(Exported_Font));
+    new (data) Exported_Font(font);
     luaL_getmetatable(L, LUA_FONT_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -16,25 +16,25 @@ int FontExporter::__new(lua_State *L)
     int arg_count = lua_gettop(L);
     if(arg_count == 1)
     {
-        Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+        Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
         createFont(L, *fontPtr);
         return 1;
     }
 
-    createFont(L, Lua_Font());    
+    createFont(L, Exported_Font());
     return 1;
 }
 
 int FontExporter::__destroy(lua_State *L)
 {
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
-    fontPtr->~Lua_Font();
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    fontPtr->~Exported_Font();
     return 0;
 }
 
 int FontExporter::__index(lua_State *L)
 {
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     lua_getglobal(L, LUA_FONT_CLASSNAME);
@@ -45,7 +45,7 @@ int FontExporter::__index(lua_State *L)
 
 int FontExporter::loadFromFile(lua_State *L)
 {
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
     lua_getglobal(L, ASSETSPATH_VARNAME);
     fs::path total_path( luaL_checkstring(L, -1) );
     lua_pop(L, 1);
@@ -57,7 +57,7 @@ int FontExporter::loadFromFile(lua_State *L)
 
 int FontExporter::getFontFamily(lua_State *L)
 {
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
     lua_pushstring(L, fontPtr->getInfo().family.c_str());
     return 1;
 }
@@ -65,7 +65,7 @@ int FontExporter::getFontFamily(lua_State *L)
 int FontExporter::getGlyph(lua_State *L)
 {
     int arg_count = lua_gettop(L);
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
     lua_Integer codePoint;
     lua_Integer characterSize;
     bool bold;
@@ -85,7 +85,7 @@ int FontExporter::getGlyph(lua_State *L)
 
 int FontExporter::getKenning(lua_State *L)
 {
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
     lua_Integer first;
     lua_Integer second;
     lua_Integer characterSize;
@@ -100,7 +100,7 @@ int FontExporter::getKenning(lua_State *L)
 
 int FontExporter::getLineSpacing(lua_State *L)
 {
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
     lua_Integer characterSize;
     lua_numbertointeger(luaL_checknumber(L, 2), &characterSize);
     lua_pushnumber(L, fontPtr->getLineSpacing(characterSize));
@@ -109,7 +109,7 @@ int FontExporter::getLineSpacing(lua_State *L)
 
 int FontExporter::getUnderlinePosition(lua_State *L)
 {
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
     lua_Integer characterSize;
     lua_numbertointeger(luaL_checknumber(L, 2), &characterSize);
     lua_pushnumber(L, fontPtr->getUnderlinePosition(characterSize));
@@ -118,7 +118,7 @@ int FontExporter::getUnderlinePosition(lua_State *L)
 
 int FontExporter::getUnderlineThickness(lua_State *L)
 {
-    Lua_Font* fontPtr = static_cast<Lua_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
+    Exported_Font* fontPtr = static_cast<Exported_Font*>( LuaHelper::checkudata_WithError(L, 1, LUA_FONT_METATABLENAME) );
     lua_Integer characterSize;
     lua_numbertointeger(luaL_checknumber(L, 2), &characterSize);
     lua_pushnumber(L, fontPtr->getUnderlineThickness(characterSize));

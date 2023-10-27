@@ -27,7 +27,7 @@ int RenderWindowExporter::__new(lua_State *L)
     sf::Uint32 style = sf::Style::Default;
     sf::ContextSettings settings = sf::ContextSettings();
 
-    mode = *static_cast<Lua_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
+    mode = *static_cast<Exported_VideoMode*>( LuaHelper::checkudata_WithError(L, 1, LUA_VIDEOMODE_METATABLENAME) );
     title = luaL_checkstring(L, 2);
 
     if(arg_count >= 3)
