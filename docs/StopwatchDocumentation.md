@@ -1,5 +1,5 @@
 # Stopwatch
-Exports sfex::Stopwatch API to Lua. A Stopwatch is basically a stoppable clock.
+Exports `sfex::Stopwatch` API to Lua. A Stopwatch is basically a stoppable clock.
 
 ### Methods
 `Stopwatch.new()`: Creates a new stopwatch object.  

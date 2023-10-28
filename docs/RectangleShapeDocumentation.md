@@ -1,5 +1,5 @@
 # RectangleShape
-Exports AttachableObject\<sf::RectangleShape\> API to Lua. An attachable object is an object that can be attached to an entity. When an attachable object is attached to an entity, the origin of its coordinate system becomes that entity's global position.
+Exports `AttachableObject<sf::RectangleShape>` API to Lua. An attachable object is an object that can be attached to an entity. When an attachable object is attached to an entity, the origin of its coordinate system becomes that entity's global position.
 
 ### Methods
 `RectangleShape.new()`: Creates an empty rectangle shape with size (0, 0)  

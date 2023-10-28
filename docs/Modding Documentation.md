@@ -93,7 +93,7 @@ The Shooter Game 2 exports some of its features to Lua. Here's a list of the cla
 + [FloatRect](./FloatRectDocumentation.md)
 + [Glyph](./GlyphDocumentation.md)
 + [Font](./FontDocumentation.md)
-+ [Text]()
++ [Text](./TextDocumentation.md)
 + [RenderWindow]()
 + [ContextSettings](./ContextSettingsDocumentation.md)
 + [VideoMode](./VideoModeDocumentation.md)

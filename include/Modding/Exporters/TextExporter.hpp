@@ -6,7 +6,7 @@
 
 #define LUA_TEXT_CLASSNAME "Text"
 #define LUA_TEXT_METATABLENAME LUA_TEXT_CLASSNAME"_metatable"
-typedef AttachableObject<sf::Text> Lua_Text;
+typedef AttachableObject<sf::Text> Exported_Text;
 
 class LuaExporter;
 struct TextExporter
@@ -23,19 +23,19 @@ struct TextExporter
     static int setLineSpacing(lua_State* L);
     static int setLetterSpacing(lua_State* L);
     static int setStyle(lua_State* L);
-    static int setFillColor(lua_State* L);
-    static int setOutlineColor(lua_State* L);
-    static int setOutlineThickness(lua_State* L);
     static int getString(lua_State* L);
     static int getFont(lua_State* L);
     static int getCharacterSize(lua_State* L);
     static int getLetterSpacing(lua_State* L);
     static int getLineSpacing(lua_State* L);
     static int getStyle(lua_State* L);
+    static int findCharacterPos(lua_State* L);
+    static int setFillColor(lua_State* L);
+    static int setOutlineColor(lua_State* L);
+    static int setOutlineThickness(lua_State* L);
     static int getFillColor(lua_State* L);
     static int getOutlineColor(lua_State* L);
     static int getOutlineThickness(lua_State* L);
-    static int findCharacterPos(lua_State* L);
     static int getLocalBounds(lua_State* L);
     static int getGlobalBounds(lua_State* L);
     static int setPosition(lua_State* L);
