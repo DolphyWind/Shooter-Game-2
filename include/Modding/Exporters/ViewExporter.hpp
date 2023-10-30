@@ -4,19 +4,19 @@
 
 #define LUA_VIEW_CLASSNAME "View"
 #define LUA_VIEW_METATABLENAME LUA_VIEW_CLASSNAME"_metatable"
-typedef sf::View Lua_View;
+typedef sf::View Exported_View;
 
 class LuaExporter;
 struct ViewExporter
 {
-    static void createView(lua_State* L, const Lua_View& view);
+    static void createView(lua_State* L, const Exported_View& view);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);
 
     static int setCenter(lua_State* L);
     static int setSize(lua_State* L);
-    static int setRotatin(lua_State* L);
+    static int setRotation(lua_State* L);
     static int setViewport(lua_State* L);
     static int reset(lua_State* L);
     static int getCenter(lua_State* L);

@@ -98,4 +98,4 @@ The Shooter Game 2 exports some of its features to Lua. Here's a list of the cla
 + [ContextSettings](./ContextSettingsDocumentation.md)
 + [VideoMode](./VideoModeDocumentation.md)
 + [Event]()
-+ [View]()
++ [View](./ViewDocumentation.md)

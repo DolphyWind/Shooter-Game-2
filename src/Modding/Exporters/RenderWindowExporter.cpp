@@ -298,7 +298,7 @@ int RenderWindowExporter::clear(lua_State *L)
 int RenderWindowExporter::setView(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIEW_METATABLENAME) );
+    Exported_View* viewPtr = static_cast<Exported_View*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIEW_METATABLENAME) );
     (*renderWindowPtr)->setView(*viewPtr);
 
     return 0;
@@ -323,7 +323,7 @@ int RenderWindowExporter::getDefaultView(lua_State *L)
 int RenderWindowExporter::getViewPort(lua_State *L)
 {
     Lua_RenderWindow* renderWindowPtr = static_cast<Lua_RenderWindow*>( LuaHelper::checkudata_WithError(L, 1, LUA_RENDERWINDOW_METATABLENAME) );
-    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIEW_METATABLENAME) );
+    Exported_View* viewPtr = static_cast<Exported_View*>( LuaHelper::checkudata_WithError(L, 2, LUA_VIEW_METATABLENAME) );
     IntRectExporter::createIntRect(L, (*renderWindowPtr)->getViewport(*viewPtr));
     
     return 1;
@@ -341,7 +341,7 @@ int RenderWindowExporter::mapPixelToCoords(lua_State *L)
         return 1;
     }
 
-    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 3, LUA_VIEW_METATABLENAME) );
+    Exported_View* viewPtr = static_cast<Exported_View*>( LuaHelper::checkudata_WithError(L, 3, LUA_VIEW_METATABLENAME) );
     Vector2Exporter::createVector(L, (*renderWindowPtr)->mapPixelToCoords(*pointPtr, *viewPtr));
 
     return 1;
@@ -359,7 +359,7 @@ int RenderWindowExporter::mapCoordsToPixel(lua_State *L)
         return 1;
     }
 
-    Lua_View* viewPtr = static_cast<Lua_View*>( LuaHelper::checkudata_WithError(L, 3, LUA_VIEW_METATABLENAME) );
+    Exported_View* viewPtr = static_cast<Exported_View*>( LuaHelper::checkudata_WithError(L, 3, LUA_VIEW_METATABLENAME) );
     Vector2Exporter::createVector(L, (*renderWindowPtr)->mapCoordsToPixel(*pointPtr, *viewPtr));
 
     return 1;
