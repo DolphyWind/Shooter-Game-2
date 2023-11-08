@@ -9,6 +9,15 @@ const char* InvalidFieldException::what() const noexcept
     return m_msg.c_str();
 }
 
+bool EntityData::operator==(const EntityData& other) const
+{
+    return this->name == other.name &&
+           this->file == other.file &&
+           this->one_instance_only == other.one_instance_only &&
+           this->spawn_if_not_exists == other.spawn_if_not_exists &&
+           this->hidden_in_mapmaker == other.hidden_in_mapmaker;
+}
+
 void EntityData::readFromJson(sfex::Multitype& jsonObj)
 {
     this->name = jsonObj["name"].as_string();

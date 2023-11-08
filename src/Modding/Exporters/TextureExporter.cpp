@@ -4,6 +4,7 @@
 #include <Modding/Exporters/Vector2Exporter.hpp>
 #include <Modding/Exporters/RenderWindowExporter.hpp>
 #include <Modding/LuaExporter.hpp>
+#include <Global.hpp>
 
 void TextureExporter::createTexture(lua_State* L, const Lua_Texture& texture)
 {

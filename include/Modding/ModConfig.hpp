@@ -21,6 +21,8 @@ struct EntityData
     EntityData(): name(), file(), hidden_in_mapmaker(false), one_instance_only(false), spawn_if_not_exists(false)
     {}
 
+    bool operator==(const EntityData& other) const;
+
     std::string name;
     std::string file;
     bool hidden_in_mapmaker;

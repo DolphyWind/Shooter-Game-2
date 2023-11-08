@@ -23,8 +23,6 @@ LuaEntity::LuaEntity(Game* parent, const std::string& modName, const std::string
     thisPtr = new LuaEntity*(this);
     LuaHelper::push(m_entityLuaState, thisPtr, sizeof(LuaEntity*), LUA_ENTITY_METATABLENAME);
     lua_setglobal(m_entityLuaState, "this");
-    lua_pushcfunction(m_entityLuaState, LuaHelper::InterpretLUdataAs);
-    lua_setglobal(m_entityLuaState, "InterpretLUdataAs");
 
     int status = luaL_dofile(m_entityLuaState, filename.c_str());
     if(status != LUA_OK)

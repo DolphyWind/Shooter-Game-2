@@ -179,14 +179,8 @@ Entity* GameManager::spawnEntity(const std::pair<Mod, EntityData>& entityData)
     // Maybe we can use unordered maps to reduce this code to O(1) time.
     if(eData.one_instance_only)
     {
-        for(auto& e : m_entities)
-        {
-            if(e->getName() == eData.name) return nullptr;
-        }
-        for(auto& e : m_newEntities)
-        {
-            if(e->getName() == eData.name) return nullptr;
-        }
+        if(m_spawnedSingleInstanceEntities.contains(eData)) return nullptr;
+        m_spawnedSingleInstanceEntities.insert(eData);
     }
 
     return addEntity<LuaEntity>(m_parent, mod.config.getModName(), eData.name, mod.entitiesFolderPath / eData.file, mod.assetsFolderPath);
