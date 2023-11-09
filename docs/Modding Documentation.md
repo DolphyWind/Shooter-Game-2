@@ -83,7 +83,7 @@ The Shooter Game 2 exports some of its features to Lua. Here's a list of the cla
 + [Mouse](./MouseDocumentation.md)
 + [Cursor](./CursorDocumentation.md)
 + [Joystick](./JoystickDocumentation.md)
-+ [SoundBuffer]()
++ [SoundBuffer](./SoundBufferDocumentation.md)
 + [Sound]()
 + [Music]()
 + [Image](./ImageDocumentation.md)
