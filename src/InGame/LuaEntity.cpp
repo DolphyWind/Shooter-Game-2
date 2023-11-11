@@ -66,7 +66,7 @@ void LuaEntity::update(const sf::Time& deltaTime)
 
 void LuaEntity::lateUpdate(const sf::Time& deltaTime)
 {
-    //m_lateUpdateFunction(deltaTime.asSeconds());
+    m_lateUpdateFunction(deltaTime.asSeconds());
 }
 
 void LuaEntity::onDestroy()

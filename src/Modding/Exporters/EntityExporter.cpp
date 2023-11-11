@@ -177,7 +177,7 @@ int EntityExporter::getCollider(lua_State* L)
 int EntityExporter::setCollider(lua_State* L)
 {
     Exported_Entity* entityPtr = static_cast<Exported_Entity*>( LuaHelper::checkudata_WithError(L, 1, LUA_ENTITY_METATABLENAME) );
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLLIDER_METATABLENAME) );
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>( LuaHelper::checkudata_WithError(L, 2, LUA_COLLIDER_METATABLENAME) );
 
     (*entityPtr)->setCollider(*colliderPtr);
 

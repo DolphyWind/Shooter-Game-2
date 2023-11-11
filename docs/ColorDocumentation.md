@@ -1,5 +1,5 @@
 # Color
-Color exports SFML's sf::Color API to lua. It represents rgba colors.
+Exports `sf::Color` API to lua. It represents rgba colors.
 
 ### Fields
 `r`: R component of the color.  

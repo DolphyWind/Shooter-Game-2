@@ -78,7 +78,7 @@ The Shooter Game 2 exports some of its features to Lua. Here's a list of the cla
 + [CircleShape](./CircleShapeDocumentation.md)
 + [ConvexShape](./ConvexShapeDocumentation.md)
 + [Entity]()
-+ [Collider]()
++ [Collider](./ColliderDocumentation.md)
 + [Keyboard](./KeyboardDocumentation.md)
 + [Mouse](./MouseDocumentation.md)
 + [Cursor](./CursorDocumentation.md)

@@ -4,12 +4,12 @@
 
 #define LUA_COLLIDER_CLASSNAME "Collider"
 #define LUA_COLLIDER_METATABLENAME LUA_COLLIDER_CLASSNAME"_metatable"
-typedef Collider Lua_Collider;
+typedef Collider Exported_Collider;
 
 class LuaExporter;
 struct ColliderExporter
 {
-    static void createCollider(lua_State* L, const Lua_Collider& collider);
+    static void createCollider(lua_State* L, const Exported_Collider& collider);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);

@@ -6,12 +6,12 @@
 
 #define LUA_SOUNDBUFFER_CLASSNAME "SoundBuffer"
 #define LUA_SOUNDBUFFER_METATABLENAME LUA_SOUNDBUFFER_CLASSNAME"_metatable"
-typedef sf::SoundBuffer Lua_SoundBuffer;
+typedef sf::SoundBuffer Exported_SoundBuffer;
 
 class LuaExporter;
 struct SoundBufferExporter
 {
-    static void createSoundBuffer(lua_State* L, const Lua_SoundBuffer& soundBuffer);
+    static void createSoundBuffer(lua_State* L, const Exported_SoundBuffer& soundBuffer);
     static int __new(lua_State* L);
     static int __destroy(lua_State* L);
     static int __index(lua_State* L);

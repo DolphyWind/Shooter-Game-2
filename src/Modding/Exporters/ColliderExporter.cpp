@@ -6,10 +6,10 @@
 #include <InGame/Entity.hpp>
 #include <InGame/LuaEntity.hpp>
 
-void ColliderExporter::createCollider(lua_State* L, const Lua_Collider& collider)
+void ColliderExporter::createCollider(lua_State* L, const Exported_Collider& collider)
 {
-    void* data = lua_newuserdata(L, sizeof(Lua_Collider));
-    new (data) Lua_Collider(collider);
+    void* data = lua_newuserdata(L, sizeof(Exported_Collider));
+    new (data) Exported_Collider(collider);
     luaL_getmetatable(L, LUA_COLLIDER_METATABLENAME);
     lua_setmetatable(L, -2);
 }
@@ -20,13 +20,13 @@ int ColliderExporter::__new(lua_State* L)
     Exported_Entity* entityPtr = nullptr;
     if(arg_count == 0)
     {
-        createCollider(L, Lua_Collider());
+        createCollider(L, Exported_Collider());
         return 1;
     }
     if(arg_count == 1 && lua_isuserdata(L, 1))
     {
         entityPtr = static_cast<Exported_Entity*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
-        createCollider(L, Lua_Collider( dynamic_cast<Entity*>(*entityPtr) ));
+        createCollider(L, Exported_Collider(dynamic_cast<Entity*>(*entityPtr) ));
         return 1;
     }
 
@@ -61,20 +61,20 @@ int ColliderExporter::__new(lua_State* L)
         entityPtr = static_cast<Exported_Entity*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     }
 
-    createCollider(L, Lua_Collider(points, isStatic, dynamic_cast<Entity*>(*entityPtr)));
+    createCollider(L, Exported_Collider(points, isStatic, dynamic_cast<Entity*>(*entityPtr)));
     return 1;
 }
 
 int ColliderExporter::__destroy(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>( LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME) );
-    colliderPtr->~Lua_Collider();
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>( LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME) );
+    colliderPtr->~Exported_Collider();
     return 0;
 }
 
 int ColliderExporter::__index(lua_State* L)
 {
-    Lua_Collider* fontPtr = static_cast<Lua_Collider*>( LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME) );
+    Exported_Collider* fontPtr = static_cast<Exported_Collider*>( LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME) );
     std::string indexStr = luaL_checkstring(L, 2);
 
     lua_getglobal(L, LUA_COLLIDER_CLASSNAME);
@@ -85,7 +85,7 @@ int ColliderExporter::__index(lua_State* L)
 
 int ColliderExporter::setPoints(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     std::vector<sfex::Vec2> points;
     if(!lua_istable(L, 2))
     {
@@ -112,7 +112,7 @@ int ColliderExporter::setPoints(lua_State* L)
 
 int ColliderExporter::setStatic(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     colliderPtr->setStatic(lua_toboolean(L, 2) );
 
     return 0;
@@ -120,7 +120,7 @@ int ColliderExporter::setStatic(lua_State* L)
 
 int ColliderExporter::setImmovable(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     colliderPtr->setImmovable(lua_toboolean(L, 2) );
 
     return 0;
@@ -128,7 +128,7 @@ int ColliderExporter::setImmovable(lua_State* L)
 
 int ColliderExporter::setEntity(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     Exported_Entity* entityPtr = static_cast<Exported_Entity*>(LuaHelper::checkudata_WithError(L, 2, LUA_ENTITY_METATABLENAME));
     colliderPtr->setEntity(*entityPtr);
 
@@ -137,7 +137,7 @@ int ColliderExporter::setEntity(lua_State* L)
 
 int ColliderExporter::getColliderCenter(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     Vector2Exporter::createVector(L, colliderPtr->getColliderCenter());
 
     return 1;
@@ -145,7 +145,7 @@ int ColliderExporter::getColliderCenter(lua_State* L)
 
 int ColliderExporter::getPoints(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     auto points = colliderPtr->getPoints();
     lua_newtable(L);
     int arrLen = points.size();
@@ -160,7 +160,7 @@ int ColliderExporter::getPoints(lua_State* L)
 
 int ColliderExporter::getInnerLines(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     auto innerLines = colliderPtr->getInnerLines();
     int arrLen = innerLines.size();
     lua_newtable(L);
@@ -180,7 +180,7 @@ int ColliderExporter::getInnerLines(lua_State* L)
 
 int ColliderExporter::getOuterLines(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     auto outerLines = colliderPtr->getOuterLines();
     int arrLen = outerLines.size();
     lua_newtable(L);
@@ -200,7 +200,7 @@ int ColliderExporter::getOuterLines(lua_State* L)
 
 int ColliderExporter::isStatic(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     lua_pushboolean(L, colliderPtr->isStatic());
 
     return 1;
@@ -208,7 +208,7 @@ int ColliderExporter::isStatic(lua_State* L)
 
 int ColliderExporter::isImmovable(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     lua_pushboolean(L, colliderPtr->isImmovable());
 
     return 1;
@@ -216,7 +216,7 @@ int ColliderExporter::isImmovable(lua_State* L)
 
 int ColliderExporter::getEntity(lua_State* L)
 {
-    Lua_Collider* colliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* colliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
     LuaHelper::push(L, (void*)colliderPtr->getEntity());
 
     return 1;
@@ -224,8 +224,8 @@ int ColliderExporter::getEntity(lua_State* L)
 
 int ColliderExporter::checkCollisions(lua_State* L)
 {
-    Lua_Collider* firstColliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
-    Lua_Collider* secondColliderPtr = static_cast<Lua_Collider*>(LuaHelper::checkudata_WithError(L, 2, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* firstColliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 1, LUA_COLLIDER_METATABLENAME));
+    Exported_Collider* secondColliderPtr = static_cast<Exported_Collider*>(LuaHelper::checkudata_WithError(L, 2, LUA_COLLIDER_METATABLENAME));
     lua_pushboolean(L, firstColliderPtr->checkCollisions(*secondColliderPtr));
 
     return 1;

@@ -1,4 +1,5 @@
 function start()
+    Entity.new("bad_apple_mod", "block", Vector2.new(700, 300))
 end
 
 function update(dt)

@@ -1,5 +1,5 @@
 # Glyph
-Export `sf::Glyph` API to Lua. `sf::Glyph` is a structure that describes a glyph.  
+Exports `sf::Glyph` API to Lua. `sf::Glyph` is a structure that describes a glyph.  
 
 ### Operators
 `==`: Checks whether the two glyphs are equal.  
