@@ -23,8 +23,8 @@ In entites folder, the code for LuaEntites are stored. The name of the entity ca
 ### "config.json" File
 It contains information about the mod in the JSON format. The structure of the file given down below.  
 
-**version**: The version of the mod. Eg. 1.2.3  
-**authors**: The authors of the mod. Must be a list. Eg. ["DolphyWind", "Herobrine"]  
+**version**: The version of the mod, e.g. 1.2.3  
+**authors**: The authors of the mod. Must be a list, E.g. ["DolphyWind", "Herobrine"]  
 **modname**: The name of the mod. Should be the name of the parent folder.  
 **title**: The title of the mod. Displayed in the mods menu or when selecting which mods to include on servers.  
 **description**: The description of the mod. Displayed in the mods menu or when selecting which mods to include on servers.  
@@ -65,10 +65,10 @@ As I've mentioned before, the lua entities has some special functions. Here are 
 
 **onCollisionExit(other)**: On Collision Exit is called when a collider of another object exits the collider of this object. The other object is passed as the `other` parameter.
 
-**onDeath()**: On Death function is called when the health of an entity is less than or equal to zero. Then the object gets destroyed. Keep in mind that the `onDestroy()` function is also getting called.
+**onDeath()**: On Death function is called when the health of an entity is less than or equal to zero. Then the object gets destroyed. Keep in mind that the `onDestroy()` function is also getting called, however if you manually destroy an object, only the `onDestroy()` function gets called.
 
 ## Modding API 
-The Shooter Game 2 exports some of its features to Lua. Here's a list of the classes that are exported with their documentations. In the documentations, please note that Lua has an `:` operator. `x:f()` passes x as the `f`'s first parameter. When you see this operator in the documentation, please interpret the variable on the left as an instance of that type. Also, I denoted the types of the some function arguments. If you see an argumat that isn't associated with a type, please assume that it is a number.  
+The Shooter Game 2 exports some of its features to Lua. Here's a list of the classes that are exported with their documentations. In the documentations, please note that Lua has an `:` operator. `x:f()` passes x as the `f`'s first parameter. When you see this operator in the documentation, please interpret the variable on the left as an instance of that type. Also, I denoted the types of the some function arguments. If you see an argument that isn't associated with a type, please assume that it is a number.  
 
 + [Vector2](./Vector2Documentation.md)
 + [Color](./ColorDocumentation.md)
