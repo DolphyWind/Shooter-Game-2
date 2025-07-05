@@ -30,3 +30,4 @@
 cmake-*/
 .cache/
 .vscode/
+assets/

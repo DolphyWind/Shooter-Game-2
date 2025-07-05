@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "authors": ["DolphyWind"],
+  "modname": "bad_apple_mod",
+  "title": "Bad apple mod v1.0.0",
+  "description": "Bad Apple mod",
+  "dependencies": ["coremod"],
+  "entities": [
+    {
+      "name": "bad_apple_player",
+      "file": "bad_apple_player.lua",
+      "hidden_in_mapmaker": false,
+      "one_instance_only": false,
+      "spawn_if_not_exists": false
+    },
+    {
+      "name": "block",
+      "file": "block.lua",
+      "hidden_in_mapmaker": false,
+      "one_instance_only": false,
+      "spawn_if_not_exists": false
+    },
+    {
+      "name": "texture_loader",
+      "file": "texture_loader.lua",
+      "hidden_in_mapmaker": true,
+      "one_instance_only": true,
+      "spawn_if_not_exists": true
+    }
+  ]
+}
