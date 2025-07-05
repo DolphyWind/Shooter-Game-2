@@ -6,3 +6,10 @@ The modding system is 95% done. But the other menus will be implemented in the f
 
 # Modding
 To understand how to mod the game, please read [Modding Documentation](./docs/Modding%20Documentation.md).
+
+# Compiling The Project
+Since the project is a bit old, the compilation process has some minor inconveniences. You need SFML 2.5.1 installed on your system, I tried fetch content but SFEX, my own library,
+do not compile properly and I am too lazy to address that at the moment.
+
+On Linux, you also need `libFLAC.so.12`. If you have the modern versions of `libFLAC` like me, you can use `ln` tool to get around that. Optionally you can install a `1.3.x` version of
+`flac`. I did not compile this project on Windows and macOS.

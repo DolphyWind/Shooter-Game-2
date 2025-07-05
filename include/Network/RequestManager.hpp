@@ -4,7 +4,7 @@
 #include <optional>
 #include <iostream>
 
-
+// TODO: Replace with something else
 // Simple response object containing response data, response code and response success state.
 // If the response is unsuccessfull, the error would be print out to data and response_code will set to zero.
 struct Response
